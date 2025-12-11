@@ -1,0 +1,101 @@
+{
+  "loginWelcome": "Welcome",
+  "loginSubtitle": "Log in to your account and evaluate your e-waste.",
+  "emailHint": "Email Address",
+  "passwordHint": "Password",
+  "forgotPassword": "Forgot Password?",
+  "loginButton": "Log In",
+  "orDivider": "or",
+  "noAccount": "Don't have an account?",
+  "registerButton": "Register",
+  "registerTitle": "Create Account",
+  "registerSubtitle": "Join us and be part of the recycling movement.",
+  "nameHint": "Full Name",
+  "passwordConfirmHint": "Confirm Password",
+  "haveAccount": "Already have an account?",
+  "navHome": "Home",
+  "navMap": "Map",
+  "navRewards": "Rewards",
+  "navSell": "Sell",
+  "homeTitle": "Sustainable Future",
+  "homeSubtitle": "Evaluate your e-waste, contribute to nature",
+  "whatToDo": "What do you want to do?",
+  "profileTitle": "Profile",
+  "settingsTitle": "Settings",
+  "mapTitle": "E-Waste Points",
+  "listButton": "List",
+  "rewardsTitle": "Rewards & Points",
+  "totalPoints": "My Total Points",
+  "sellTitle": "Sell & Marketplace",
+  "sellTitle": "Sell & Marketplace",
+  "sellSubtitle": "Sell or donate your e-waste",
+  "recycleTitle": "Recycle",
+  "recycleQuestion": "Which device to recycle?",
+  "recycleSubtitle": "Start by selecting device type",
+  "devicePhone": "Phone",
+  "deviceLaptop": "Laptop",
+  "deviceTablet": "Tablet",
+  "deviceOther": "Other",
+  "devicePhoneSub": "Smartphone, old phone",
+  "deviceLaptopSub": "Notebook, laptop",
+  "deviceTabletSub": "iPad, Android tablet",
+  "deviceOtherSub": "Printer, Monitor, etc.",
+
+  "discoverTitle": "Discover Page (Coming Soon)",
+
+  "notificationsTitle": "Notifications",
+  "eventsTab": "Events",
+  "educationTab": "Education",
+  "newLabel": "NEW",
+  "weeklyRecycleEvent": "Weekly Recycle Event",
+  "weeklyRecycleEventDesc": "Earn 2x points on Migros Recycling Day this week!",
+  "detailsButton": "Details",
+  "rewardProgramTitle": "Reward Program",
+  "rewardProgramDesc": "You reached 100 points! Ready to claim your reward?",
+  "claimRewardButton": "Claim Reward",
+  "communityEventTitle": "Community Event",
+  "communityEventDesc": "A cleaning event is organized in your neighborhood. Want to join?",
+  "joinButton": "Join",
+
+  "contactTitle": "Contact",
+  "contactUsHeader": "Contact Us",
+  "contactUsSub": "You can fill out the form below for your questions or suggestions.",
+  "nameLabel": "Name Surname",
+  "emailLabel": "Email",
+  "messageLabel": "Your Message",
+  "sendButton": "Send",
+  "messageSentSuccess": "Your message has been sent successfully!",
+
+  "repairTitle": "Repair",
+  "whatDeviceToRepair": "Which device do you want to repair?",
+  "deviceTypeSelectSub": "Select device type, let's find the nearest repair shop",
+  "catPhone": "Phone",
+  "catComputer": "Computer",
+  "catHeadphones": "Headphones",
+  "catTablet": "Tablet",
+  "catConsole": "Console",
+  "catTV": "TV",
+  "nearestShopsTitle": "Nearest Repair Shops",
+  "locationLabel": "Location",
+  "detailButton": "Detail",
+  "shopTechnologyCenter": "Technology Center",
+  "shopFastRepair": "Fast Repair",
+  "shopExpertService": "Expert Service",
+  "timeHoursAgo": "{hours} hours ago",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{days} days ago",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  }
+}
+
