@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/presentation/sell/create_listing/create_listing_screen.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class CreateListingCard extends StatelessWidget {
   const CreateListingCard({super.key});
@@ -37,7 +38,7 @@ class CreateListingCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Yeni İlan Ver',
+                    context.l10n.createNewListing,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16.sp,
@@ -46,7 +47,7 @@ class CreateListingCard extends StatelessWidget {
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    'Kullanmadığın parçaları sat',
+                    context.l10n.sellUnusedItems,
                     style: TextStyle(color: Colors.grey[400], fontSize: 14.sp),
                   ),
                 ],
@@ -73,7 +74,7 @@ class CreateListingCard extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'İlan Oluştur',
+                context.l10n.createListingButton,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.sp,

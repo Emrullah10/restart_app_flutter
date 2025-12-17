@@ -92,5 +92,163 @@
         "type": "int"
       }
     }
-  }
+  },
+  "viewAll": "Tümünü Gör",
+  "filter": "Filtrele",
+  "details": "Detaylar",
+  "searchHint": "Ara...",
+  "appTagline": "Teknolojiyi hayata döndür",
+  "recentActivities": "Son Aktiviteler",
+  "mapFilterAll": "Tümü",
+  "mapFilterRepair": "Onarım",
+  "mapFilterSell": "Satış",
+  "mapFilterRecycle": "Dönüştür",
+  "sustainabilityLevelTitle": "Sürdürülebilirlik Seviyem",
+  "sustainabilityLevelSubtitle": "Gezegenin büyümesini izle!",
+  "levelSilver": "Gümüş",
+  "levelGold": "Altın",
+  "levelBronze": "Bronz",
+  "pointsToNextLevel": "Altın seviyeye {points} puan kaldı",
+  "@pointsToNextLevel": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "pointsBreakdownRepair": "Onarım",
+  "pointsBreakdownSell": "Satış",
+  "pointsBreakdownRecycle": "Dönüştürme",
+  "brandCollaborations": "Marka İş Birlikleri",
+  "useButton": "Kullan",
+  "insufficientPoints": "Yetersiz puan",
+  "achievementsTitle": "Başarılarım",
+  "achievementFirstRepair": "İlk Onarım",
+  "achievementCompleted": "Tamamlandı",
+  "achievementEnvironmentalist": "Çevreci",
+  "achievementSuperSeller": "Süper Satıcı",
+  "achievementGoldLevel": "Altın Seviye",
+  "achievementReachPoints": "2000 puana ulaş",
+  "achievementTenRecycles": "10 dönüştürme",
+  "achievementFiftySales": "50 satış",
+  "marketplaceTitle": "Pazar Yeri",
+  "activeListingsTitle": "Aktif İlanlar",
+  "safeSellingTitle": "Güvenli Satış",
+  "safeSellingDesc": "Üniversiteler ve sertifikalı tamircilerle eşleşin",
+  "seeDetails": "Detayları Gör",
+  "statusActive": "Aktif",
+  "statusPending": "Bekliyor",
+  "statusSold": "Satıldı",
+  "createListingTitle": "İlan Ver",
+  "selectCategory": "Kategori Seçin",
+  "addPhoto": "Fotoğraf Ekle",
+  "photoLimitNote": "En az 1, en fazla 5 fotoğraf ekleyebilirsiniz",
+  "labelTitle": "Başlık",
+  "hintTitle": "Ürün başlığını yazın",
+  "labelDescription": "Açıklama",
+  "hintDescription": "Ürününüzün detaylarını açıklayın...",
+  "labelCondition": "Durum",
+  "conditionNew": "Sıfır",
+  "conditionUsed": "İkinci El",
+  "conditionRefurbished": "Yenilenmiş",
+  "labelPrice": "Fiyat",
+  "negotiable": "Pazarlık kabul ediyorum",
+  "contactInfo": "İletişim Bilgileri",
+  "labelPhone": "Telefon",
+  "labelCity": "Şehir",
+  "cityIstanbul": "İstanbul",
+  "cityAnkara": "Ankara",
+  "cityIzmir": "İzmir",
+  "publishButton": "İlanı Yayınla",
+  "categoryPart": "Parça",
+  "categoryDevice": "Cihaz",
+  "categoryCable": "Kablo",
+  "profileReviewCount": "({count} değerlendirme)",
+  "@profileReviewCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statTotalDevices": "Toplam Cihaz",
+  "statPointsEarned": "Kazanılan Puan",
+  "carbonSavingsTitle": "Karbon Tasarrufu",
+  "carbonSavingsUnit": "CO₂ azaltımı",
+  "leaderboardTitle": "Topluluk Sıralaması",
+  "leaderboardYou": "Sen",
+  "leaderboardThisWeek": "Bu hafta #{rank}",
+  "@leaderboardThisWeek": {
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeGalleryTitle": "Rozet Galerisi",
+  "badgeFirstRecycle": "İlk Cihazını\nDönüştürdün",
+  "badgeThreeRepairs": "3 Cihaz Onardın",
+  "badgeRecycleExpert": "Geri Dönüşüm\nUzmanı",
+  "badgeTenDayStreak": "10 Günlük Seri",
+  "badgeCommunityHelper": "Toplum\nYardımcısı",
+  "badgeLocked": "Kilidli",
+  "mockUserRole": "Çevre dostu teknisyen",
+  "recentActivityTitle": "Son Aktiviteler",
+  "mockActivityRepair": "iPhone 12 Pro onardın",
+  "mockActivityBadge": "Yeni rozet kazandın",
+  "mockActivitySavings": "5kg CO₂ tasarrufu",
+  "impactSavingsTitle": "Bu ay tasarruf ettiğin",
+  "nearbyServicesTitle": "Yakınındaki Hizmetler",
+  "viewOnMapButton": "Haritada Gör",
+  "distanceAway": "{distance} uzaklıkta",
+  "@distanceAway": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "leaderboardPoints": "{points} puan",
+  "@leaderboardPoints": {
+    "placeholders": {
+      "points": {
+        "type": "String"
+      }
+    }
+  },
+  "impactSummaryTitle": "Bu ay tasarruf ettiğin",
+  "environmentalImpactTitle": "Çevresel Etkinin",
+  "statRepairedDevices": "Onarılan Cihaz",
+  "statPreventedWaste": "Önlenen E-Atık",
+  "statTotalEarnings": "Toplam Kazanç",
+  "statLevel": "Level {level}",
+  "@statLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "statEcoWarrior": "Eco Warrior",
+  "mockServiceTechFix": "TechFix Onarım Merkezi",
+  "mockServiceEcoPoint": "EcoPoint Geri Dönüşüm",
+  "serviceTagsRepair": "Telefon, Laptop, Tablet",
+  "serviceTagsRecycle": "Tüm elektronik atıklar",
+  "actionContact": "İletişim",
+  "actionGetDirections": "Yol Tarifi",
+  "homeActionRepair": "Onar",
+  "homeActionRepairSub": "Cihazını\ntamir ettir",
+  "homeActionSell": "Sat",
+  "homeActionSellSub": "İkinci el\nsat",
+  "homeActionRecycle": "Dönüştür",
+  "homeActionRecycleSub": "Geri\ndönüştür",
+  "settingsAppearanceLanguage": "Görünüm ve Dil",
+  "themeTitle": "Tema",
+  "themeLight": "Açık Tema",
+  "themeDark": "Koyu Tema",
+  "themeSystem": "Sistem Varsayılanı",
+  "languageTitle": "Dil",
+  "createNewListing": "Yeni İlan Ver",
+  "sellUnusedItems": "Kullanmadığın parçaları sat",
+  "createListingButton": "İlan Oluştur"
 }

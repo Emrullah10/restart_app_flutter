@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class RewardsSection extends StatelessWidget {
   const RewardsSection({super.key});
@@ -13,7 +14,7 @@ class RewardsSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Hediye Çekleri',
+              context.l10n.rewardsTitle,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.sp,
@@ -21,7 +22,7 @@ class RewardsSection extends StatelessWidget {
               ),
             ),
             Text(
-              'Marka İş Birlikleri',
+              context.l10n.brandCollaborations,
               style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
             ),
           ],
@@ -34,7 +35,7 @@ class RewardsSection extends StatelessWidget {
           title: 'MediaMarkt',
           subtitle: '50₺ Hediye Çeki',
           points: '500 puan',
-          buttonText: 'Kullan',
+          buttonText: context.l10n.useButton,
           buttonColor: const Color(0xFF3B82F6),
         ),
         SizedBox(height: 12.h),
@@ -45,7 +46,7 @@ class RewardsSection extends StatelessWidget {
           title: 'Migros',
           subtitle: '100₺ Hediye Çeki',
           points: '800 puan',
-          buttonText: 'Kullan',
+          buttonText: context.l10n.useButton,
           buttonColor: const Color(0xFF3B82F6),
         ),
         SizedBox(height: 12.h),
@@ -56,7 +57,7 @@ class RewardsSection extends StatelessWidget {
           title: 'Starbucks',
           subtitle: '75₺ Hediye Çeki',
           points: '1,500 puan',
-          buttonText: 'Yetersiz puan',
+          buttonText: context.l10n.insufficientPoints,
           buttonColor: Colors.transparent,
           textColor: Colors.grey[500],
         ),

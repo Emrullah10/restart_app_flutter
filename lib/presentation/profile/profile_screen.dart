@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/presentation/profile/riverpod/profile_provider.dart';
 import 'package:mobile_flutter/presentation/profile/widgets/badge_gallery.dart';
 import 'package:mobile_flutter/presentation/profile/widgets/carbon_savings_card.dart';
 import 'package:mobile_flutter/presentation/profile/widgets/leaderboard_card.dart';
@@ -11,11 +13,21 @@ import 'package:mobile_flutter/presentation/profile/widgets/profile_stats_row.da
 import 'package:mobile_flutter/routes/routes.dart';
 import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileState = ref.watch(profileProvider);
+    final profile = profileState.profile;
+
+    if (profileState.isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(color: Color(0xFF10B981)),
+        ),
+      );
+    }
     return Scaffold(
       backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
@@ -51,11 +63,19 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 10.h),
-            const ProfileHeader(),
+            ProfileHeader(
+              fullName: profile?['fullName'] ?? 'User',
+              role: profile?['role'] ?? 'Member',
+            ),
             SizedBox(height: 32.h),
-            const ProfileStatsRow(),
+            ProfileStatsRow(
+              points: (profile?['totalPoints'] ?? 0).toString(),
+              recycleCount: (profile?['recycleCount'] ?? 0).toString(),
+            ),
             SizedBox(height: 32.h),
-            const CarbonSavingsCard(),
+            CarbonSavingsCard(
+              co2Saved: (profile?['co2Saved'] ?? '0.0').toString(),
+            ),
             SizedBox(height: 32.h),
             const LeaderboardCard(),
             SizedBox(height: 32.h),

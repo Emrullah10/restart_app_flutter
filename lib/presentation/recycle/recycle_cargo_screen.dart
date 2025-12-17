@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/presentation/recycle/recycle_success_screen.dart';
+import 'package:mobile_flutter/presentation/recycle/riverpod/recycle_provider.dart';
 import 'package:mobile_flutter/presentation/recycle/widgets/recycle_header.dart';
 
-class RecycleCargoScreen extends StatelessWidget {
+class RecycleCargoScreen extends ConsumerStatefulWidget {
   const RecycleCargoScreen({super.key});
 
   @override
+  ConsumerState<RecycleCargoScreen> createState() => _RecycleCargoScreenState();
+}
+
+class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
+  @override
   Widget build(BuildContext context) {
+    final recycleState = ref.watch(recycleProvider);
+    final notifier = ref.read(recycleProvider.notifier);
+
     return Scaffold(
       backgroundColor: const Color(0xFF111827),
       body: SafeArea(
@@ -15,11 +26,11 @@ class RecycleCargoScreen extends StatelessWidget {
           children: [
             const RecycleHeader(),
             Expanded(
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: EdgeInsets.all(24.w),
                 child: Column(
                   children: [
-                    SizedBox(height: 48.h),
+                    SizedBox(height: 24.h),
                     Text(
                       'Kargo QR Kodu',
                       style: TextStyle(
@@ -28,7 +39,7 @@ class RecycleCargoScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 32.h),
+                    SizedBox(height: 24.h),
 
                     // QR Code Placeholder
                     Container(
@@ -43,28 +54,49 @@ class RecycleCargoScreen extends StatelessWidget {
                         ),
                       ),
                       child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // Simple dot representation for QR
-                            Icon(
-                              Icons.qr_code,
-                              color: Colors.white,
-                              size: 100.sp,
-                            ),
-                          ],
+                        child: Icon(
+                          Icons.qr_code,
+                          color: Colors.white,
+                          size: 100.sp,
                         ),
                       ),
                     ),
 
-                    Text(
-                      'Bu QR kodu kargo görevlisine gösterin',
-                      style: TextStyle(
-                        color: Colors.grey[400],
-                        fontSize: 14.sp,
+                    // Transport Mode Selection
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Taşıma Yöntemi Seçin',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    SizedBox(height: 48.h),
+                    SizedBox(height: 12.h),
+                    _buildTransportOption(
+                      mode: TransportMode.standard,
+                      selectedMode: recycleState.selectedMode,
+                      title: 'Standart Kurye',
+                      subtitle: 'Normal puan kazanımı',
+                      icon: LucideIcons.truck,
+                      onTap: () =>
+                          notifier.setTransportMode(TransportMode.standard),
+                    ),
+                    SizedBox(height: 12.h),
+                    _buildTransportOption(
+                      mode: TransportMode.electric,
+                      selectedMode: recycleState.selectedMode,
+                      title: 'Elektrikli / Yeşil Kurye',
+                      subtitle: '%50 Daha Fazla Eko-Puan! 🌱',
+                      icon: LucideIcons.zap,
+                      isGreen: true,
+                      onTap: () =>
+                          notifier.setTransportMode(TransportMode.electric),
+                    ),
+
+                    SizedBox(height: 32.h),
 
                     // Cargo Info Card
                     Container(
@@ -90,25 +122,42 @@ class RecycleCargoScreen extends StatelessWidget {
                           _buildInfoRow('Takip No:', 'RCY123456789'),
                           SizedBox(height: 12.h),
                           _buildInfoRow('Tahmini Teslimat:', '2-3 iş günü'),
+                          SizedBox(height: 12.h),
+                          _buildInfoRow(
+                            'Kazanılacak Puan:',
+                            '${recycleState.estimatedPoints.toStringAsFixed(0)} Puan',
+                            isHighlight: true,
+                          ),
                         ],
                       ),
                     ),
 
-                    const Spacer(),
+                    SizedBox(height: 32.h),
 
                     // Success Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const RecycleSuccessScreen(),
-                            ),
-                          );
-                        },
+                        onPressed: recycleState.isLoading
+                            ? null
+                            : () async {
+                                // Mock data for now, would come from earlier screens
+                                final success = await notifier.submitRecycle(
+                                  'mock-user-id',
+                                  'mock-center-id',
+                                  'electronic',
+                                  1.0,
+                                );
+                                if (success && mounted) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RecycleSuccessScreen(),
+                                    ),
+                                  );
+                                }
+                              },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF10B981), // Green
                           padding: EdgeInsets.symmetric(vertical: 16.h),
@@ -116,14 +165,23 @@ class RecycleCargoScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12.r),
                           ),
                         ),
-                        child: Text(
-                          'Teslim Edildi',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: recycleState.isLoading
+                            ? SizedBox(
+                                height: 20.h,
+                                width: 20.h,
+                                child: const CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Text(
+                                'Teslim Edildi',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                       ),
                     ),
                     SizedBox(height: 24.h),
@@ -137,7 +195,73 @@ class RecycleCargoScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(String label, String value) {
+  Widget _buildTransportOption({
+    required TransportMode mode,
+    required TransportMode selectedMode,
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required VoidCallback onTap,
+    bool isGreen = false,
+  }) {
+    final bool isSelected = mode == selectedMode;
+    final Color activeColor = isGreen
+        ? const Color(0xFF10B981)
+        : const Color(0xFF3B82F6);
+    final Color borderColor = isSelected
+        ? activeColor
+        : Colors.white.withOpacity(0.1);
+    final Color iconColor = isSelected ? activeColor : Colors.grey;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: EdgeInsets.all(16.w),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? activeColor.withOpacity(0.1)
+              : const Color(0xFF1F2937),
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: borderColor, width: isSelected ? 2 : 1),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: iconColor, size: 24.sp),
+            SizedBox(width: 16.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      color: isGreen ? const Color(0xFF10B981) : Colors.grey,
+                      fontSize: 12.sp,
+                      fontWeight: isGreen ? FontWeight.w600 : FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (isSelected)
+              Icon(LucideIcons.checkCircle, color: activeColor, size: 20.sp),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value, {bool isHighlight = false}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -148,7 +272,7 @@ class RecycleCargoScreen extends StatelessWidget {
         Text(
           value,
           style: TextStyle(
-            color: Colors.white,
+            color: isHighlight ? const Color(0xFF10B981) : Colors.white,
             fontSize: 14.sp,
             fontWeight: FontWeight.bold,
           ),

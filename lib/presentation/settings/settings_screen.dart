@@ -20,7 +20,7 @@ class SettingsScreen extends ConsumerWidget {
       backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          'Ayarlar', // TODO: Add to L10n
+          context.l10n.settingsTitle,
           style: context.textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
             color: context.theme.brightness == Brightness.dark
@@ -41,18 +41,21 @@ class SettingsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionHeader(context, 'Görünüm ve Dil'),
+            _buildSectionHeader(
+              context,
+              context.l10n.settingsAppearanceLanguage,
+            ),
             SizedBox(height: 16.h),
 
             // Theme Setting
             _buildSettingsTile(
               context,
               icon: LucideIcons.moon,
-              title: 'Tema',
-              subtitle: _getThemeText(themeMode),
+              title: context.l10n.themeTitle,
+              subtitle: _getThemeText(context, themeMode),
               trailing: Switch(
                 value: themeMode == ThemeMode.dark,
-                activeColor: context.colorScheme.primary,
+                activeThumbColor: context.colorScheme.primary,
                 onChanged: (value) {
                   ref
                       .read(themeProvider.notifier)
@@ -67,11 +70,11 @@ class SettingsScreen extends ConsumerWidget {
             _buildSettingsTile(
               context,
               icon: LucideIcons.languages,
-              title: 'Dil / Language',
+              title: context.l10n.languageTitle,
               subtitle: locale.languageCode == 'tr' ? 'Türkçe' : 'English',
               trailing: Switch(
                 value: locale.languageCode == 'en',
-                activeColor: context.colorScheme.primary,
+                activeThumbColor: context.colorScheme.primary,
                 onChanged: (value) {
                   ref.read(localeProvider.notifier).toggleLocale();
                 },
@@ -83,14 +86,14 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  String _getThemeText(ThemeMode mode) {
+  String _getThemeText(BuildContext context, ThemeMode mode) {
     switch (mode) {
       case ThemeMode.light:
-        return 'Açık Tema';
+        return context.l10n.themeLight;
       case ThemeMode.dark:
-        return 'Koyu Tema';
+        return context.l10n.themeDark;
       case ThemeMode.system:
-        return 'Sistem Varsayılanı';
+        return context.l10n.themeSystem;
     }
   }
 

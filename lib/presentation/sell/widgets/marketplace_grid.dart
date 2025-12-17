@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class MarketplaceGrid extends StatelessWidget {
   const MarketplaceGrid({super.key});
@@ -15,7 +16,7 @@ class MarketplaceGrid extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Pazar Yeri',
+                context.l10n.marketplaceTitle,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18.sp,
@@ -23,7 +24,7 @@ class MarketplaceGrid extends StatelessWidget {
                 ),
               ),
               Text(
-                'Filtrele',
+                context.l10n.filter,
                 style: TextStyle(
                   color: const Color(0xFF3B82F6),
                   fontSize: 14.sp,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class PointsBreakdownRow extends StatelessWidget {
   const PointsBreakdownRow({super.key});
@@ -14,7 +15,7 @@ class PointsBreakdownRow extends StatelessWidget {
             icon: LucideIcons.wrench,
             color: const Color(0xFF3B82F6), // Blue
             points: '+10',
-            label: 'Onarım',
+            label: context.l10n.pointsBreakdownRepair,
           ),
         ),
         SizedBox(width: 12.w),
@@ -23,7 +24,7 @@ class PointsBreakdownRow extends StatelessWidget {
             icon: LucideIcons.tag,
             color: const Color(0xFF10B981), // Green
             points: '+5',
-            label: 'Satış',
+            label: context.l10n.pointsBreakdownSell,
           ),
         ),
         SizedBox(width: 12.w),
@@ -32,7 +33,7 @@ class PointsBreakdownRow extends StatelessWidget {
             icon: LucideIcons.recycle,
             color: const Color(0xFFF97316), // Orange
             points: '+8',
-            label: 'Dönüştürme',
+            label: context.l10n.pointsBreakdownRecycle,
           ),
         ),
       ],

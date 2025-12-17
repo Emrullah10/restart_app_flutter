@@ -64,7 +64,7 @@ class RepairHeader extends StatelessWidget {
                   ),
                 ),
                 Image.network(
-                  'https://images.unsplash.com/photo-1581092921461-eab62e97a782?auto=format&fit=crop&q=80',
+                  'https://picsum.photos/id/48/800/600',
                   width: 100.w,
                   height: 100.w,
                 ),

@@ -118,18 +118,8 @@ class _MapScreenState extends State<MapScreen> {
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.example.mobile_flutter',
-                // For dark mode, we might want to darken the tiles if possible,
-                // or just leave them standard.
+                // Always use standard OSM tiles (not affected by dark mode)
               ),
-              // CartoDB Dark Matter Layer (Shown only in dark mode or if requested)
-              if (context.theme.brightness == Brightness.dark)
-                TileLayer(
-                  urlTemplate:
-                      'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-                  userAgentPackageName: 'com.example.mobile_flutter',
-                  subdomains: const ['a', 'b', 'c', 'd'],
-                  retinaMode: RetinaMode.isHighDensity(context),
-                ),
               MarkerLayer(markers: _markers),
             ],
           ),

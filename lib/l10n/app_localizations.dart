@@ -571,6 +571,702 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{days} days ago'**
   String timeDaysAgo(int days);
+
+  /// No description provided for @viewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
+  /// No description provided for @filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filter;
+
+  /// No description provided for @details.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get details;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search...'**
+  String get searchHint;
+
+  /// No description provided for @appTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring technology back to life'**
+  String get appTagline;
+
+  /// No description provided for @recentActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Activities'**
+  String get recentActivities;
+
+  /// No description provided for @mapFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get mapFilterAll;
+
+  /// No description provided for @mapFilterRepair.
+  ///
+  /// In en, this message translates to:
+  /// **'Repair'**
+  String get mapFilterRepair;
+
+  /// No description provided for @mapFilterSell.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell'**
+  String get mapFilterSell;
+
+  /// No description provided for @mapFilterRecycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recycle'**
+  String get mapFilterRecycle;
+
+  /// No description provided for @sustainabilityLevelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Sustainability Level'**
+  String get sustainabilityLevelTitle;
+
+  /// No description provided for @sustainabilityLevelSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch the planet grow!'**
+  String get sustainabilityLevelSubtitle;
+
+  /// No description provided for @levelSilver.
+  ///
+  /// In en, this message translates to:
+  /// **'Silver'**
+  String get levelSilver;
+
+  /// No description provided for @levelGold.
+  ///
+  /// In en, this message translates to:
+  /// **'Gold'**
+  String get levelGold;
+
+  /// No description provided for @levelBronze.
+  ///
+  /// In en, this message translates to:
+  /// **'Bronze'**
+  String get levelBronze;
+
+  /// No description provided for @pointsToNextLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'{points} points left to Gold'**
+  String pointsToNextLevel(int points);
+
+  /// No description provided for @pointsBreakdownRepair.
+  ///
+  /// In en, this message translates to:
+  /// **'Repair'**
+  String get pointsBreakdownRepair;
+
+  /// No description provided for @pointsBreakdownSell.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell'**
+  String get pointsBreakdownSell;
+
+  /// No description provided for @pointsBreakdownRecycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recycle'**
+  String get pointsBreakdownRecycle;
+
+  /// No description provided for @brandCollaborations.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand Collaborations'**
+  String get brandCollaborations;
+
+  /// No description provided for @useButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Use'**
+  String get useButton;
+
+  /// No description provided for @insufficientPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient points'**
+  String get insufficientPoints;
+
+  /// No description provided for @achievementsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Achievements'**
+  String get achievementsTitle;
+
+  /// No description provided for @achievementFirstRepair.
+  ///
+  /// In en, this message translates to:
+  /// **'First Repair'**
+  String get achievementFirstRepair;
+
+  /// No description provided for @achievementCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get achievementCompleted;
+
+  /// No description provided for @achievementEnvironmentalist.
+  ///
+  /// In en, this message translates to:
+  /// **'Environmentalist'**
+  String get achievementEnvironmentalist;
+
+  /// No description provided for @achievementSuperSeller.
+  ///
+  /// In en, this message translates to:
+  /// **'Super Seller'**
+  String get achievementSuperSeller;
+
+  /// No description provided for @achievementGoldLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Gold Level'**
+  String get achievementGoldLevel;
+
+  /// No description provided for @achievementReachPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Reach 2000 points'**
+  String get achievementReachPoints;
+
+  /// No description provided for @achievementTenRecycles.
+  ///
+  /// In en, this message translates to:
+  /// **'10 recycles'**
+  String get achievementTenRecycles;
+
+  /// No description provided for @achievementFiftySales.
+  ///
+  /// In en, this message translates to:
+  /// **'50 sales'**
+  String get achievementFiftySales;
+
+  /// No description provided for @marketplaceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketplace'**
+  String get marketplaceTitle;
+
+  /// No description provided for @activeListingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Listings'**
+  String get activeListingsTitle;
+
+  /// No description provided for @safeSellingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Safe Selling'**
+  String get safeSellingTitle;
+
+  /// No description provided for @safeSellingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Match with universities and certified repairers'**
+  String get safeSellingDesc;
+
+  /// No description provided for @seeDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'See Details'**
+  String get seeDetails;
+
+  /// No description provided for @statusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get statusActive;
+
+  /// No description provided for @statusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get statusPending;
+
+  /// No description provided for @statusSold.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold'**
+  String get statusSold;
+
+  /// No description provided for @createListingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Listing'**
+  String get createListingTitle;
+
+  /// No description provided for @selectCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Category'**
+  String get selectCategory;
+
+  /// No description provided for @addPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Photo'**
+  String get addPhoto;
+
+  /// No description provided for @photoLimitNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You can add min 1, max 5 photos'**
+  String get photoLimitNote;
+
+  /// No description provided for @labelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get labelTitle;
+
+  /// No description provided for @hintTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter product title'**
+  String get hintTitle;
+
+  /// No description provided for @labelDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get labelDescription;
+
+  /// No description provided for @hintDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your product details...'**
+  String get hintDescription;
+
+  /// No description provided for @labelCondition.
+  ///
+  /// In en, this message translates to:
+  /// **'Condition'**
+  String get labelCondition;
+
+  /// No description provided for @conditionNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get conditionNew;
+
+  /// No description provided for @conditionUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Used'**
+  String get conditionUsed;
+
+  /// No description provided for @conditionRefurbished.
+  ///
+  /// In en, this message translates to:
+  /// **'Refurbished'**
+  String get conditionRefurbished;
+
+  /// No description provided for @labelPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get labelPrice;
+
+  /// No description provided for @negotiable.
+  ///
+  /// In en, this message translates to:
+  /// **'Negotiable'**
+  String get negotiable;
+
+  /// No description provided for @contactInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Info'**
+  String get contactInfo;
+
+  /// No description provided for @labelPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get labelPhone;
+
+  /// No description provided for @labelCity.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get labelCity;
+
+  /// No description provided for @cityIstanbul.
+  ///
+  /// In en, this message translates to:
+  /// **'Istanbul'**
+  String get cityIstanbul;
+
+  /// No description provided for @cityAnkara.
+  ///
+  /// In en, this message translates to:
+  /// **'Ankara'**
+  String get cityAnkara;
+
+  /// No description provided for @cityIzmir.
+  ///
+  /// In en, this message translates to:
+  /// **'Izmir'**
+  String get cityIzmir;
+
+  /// No description provided for @publishButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish Listing'**
+  String get publishButton;
+
+  /// No description provided for @categoryPart.
+  ///
+  /// In en, this message translates to:
+  /// **'Part'**
+  String get categoryPart;
+
+  /// No description provided for @categoryDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get categoryDevice;
+
+  /// No description provided for @categoryCable.
+  ///
+  /// In en, this message translates to:
+  /// **'Cable'**
+  String get categoryCable;
+
+  /// No description provided for @profileReviewCount.
+  ///
+  /// In en, this message translates to:
+  /// **'({count} reviews)'**
+  String profileReviewCount(int count);
+
+  /// No description provided for @statTotalDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Devices'**
+  String get statTotalDevices;
+
+  /// No description provided for @statPointsEarned.
+  ///
+  /// In en, this message translates to:
+  /// **'Points Earned'**
+  String get statPointsEarned;
+
+  /// No description provided for @carbonSavingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Carbon Savings'**
+  String get carbonSavingsTitle;
+
+  /// No description provided for @carbonSavingsUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'CO₂ reduction'**
+  String get carbonSavingsUnit;
+
+  /// No description provided for @leaderboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Community Leaderboard'**
+  String get leaderboardTitle;
+
+  /// No description provided for @leaderboardYou.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get leaderboardYou;
+
+  /// No description provided for @leaderboardThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week #{rank}'**
+  String leaderboardThisWeek(int rank);
+
+  /// No description provided for @badgeGalleryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Badge Gallery'**
+  String get badgeGalleryTitle;
+
+  /// No description provided for @badgeFirstRecycle.
+  ///
+  /// In en, this message translates to:
+  /// **'First Device\nRecycled'**
+  String get badgeFirstRecycle;
+
+  /// No description provided for @badgeThreeRepairs.
+  ///
+  /// In en, this message translates to:
+  /// **'Repaired 3 Devices'**
+  String get badgeThreeRepairs;
+
+  /// No description provided for @badgeRecycleExpert.
+  ///
+  /// In en, this message translates to:
+  /// **'Recycling\nExpert'**
+  String get badgeRecycleExpert;
+
+  /// No description provided for @badgeTenDayStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'10 Day Streak'**
+  String get badgeTenDayStreak;
+
+  /// No description provided for @badgeCommunityHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Community\nHelper'**
+  String get badgeCommunityHelper;
+
+  /// No description provided for @badgeLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked'**
+  String get badgeLocked;
+
+  /// No description provided for @mockUserRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Eco-friendly technician'**
+  String get mockUserRole;
+
+  /// No description provided for @recentActivityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Activities'**
+  String get recentActivityTitle;
+
+  /// No description provided for @mockActivityRepair.
+  ///
+  /// In en, this message translates to:
+  /// **'Repaired iPhone 12 Pro'**
+  String get mockActivityRepair;
+
+  /// No description provided for @mockActivityBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned new badge'**
+  String get mockActivityBadge;
+
+  /// No description provided for @mockActivitySavings.
+  ///
+  /// In en, this message translates to:
+  /// **'5kg CO₂ saved'**
+  String get mockActivitySavings;
+
+  /// No description provided for @impactSavingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your savings this month'**
+  String get impactSavingsTitle;
+
+  /// No description provided for @nearbyServicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby Services'**
+  String get nearbyServicesTitle;
+
+  /// No description provided for @viewOnMapButton.
+  ///
+  /// In en, this message translates to:
+  /// **'View on Map'**
+  String get viewOnMapButton;
+
+  /// No description provided for @distanceAway.
+  ///
+  /// In en, this message translates to:
+  /// **'{distance} away'**
+  String distanceAway(String distance);
+
+  /// No description provided for @leaderboardPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'{points} points'**
+  String leaderboardPoints(String points);
+
+  /// No description provided for @impactSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You saved this month'**
+  String get impactSummaryTitle;
+
+  /// No description provided for @environmentalImpactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Environmental Impact'**
+  String get environmentalImpactTitle;
+
+  /// No description provided for @statRepairedDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Repaired Devices'**
+  String get statRepairedDevices;
+
+  /// No description provided for @statPreventedWaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Prevented E-Waste'**
+  String get statPreventedWaste;
+
+  /// No description provided for @statTotalEarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Earnings'**
+  String get statTotalEarnings;
+
+  /// No description provided for @statLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level {level}'**
+  String statLevel(String level);
+
+  /// No description provided for @statEcoWarrior.
+  ///
+  /// In en, this message translates to:
+  /// **'Eco Warrior'**
+  String get statEcoWarrior;
+
+  /// No description provided for @mockServiceTechFix.
+  ///
+  /// In en, this message translates to:
+  /// **'TechFix Repair Center'**
+  String get mockServiceTechFix;
+
+  /// No description provided for @mockServiceEcoPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'EcoPoint Recycling'**
+  String get mockServiceEcoPoint;
+
+  /// No description provided for @serviceTagsRepair.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone, Laptop, Tablet'**
+  String get serviceTagsRepair;
+
+  /// No description provided for @serviceTagsRecycle.
+  ///
+  /// In en, this message translates to:
+  /// **'All electronic waste'**
+  String get serviceTagsRecycle;
+
+  /// No description provided for @actionContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get actionContact;
+
+  /// No description provided for @actionGetDirections.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Directions'**
+  String get actionGetDirections;
+
+  /// No description provided for @homeActionRepair.
+  ///
+  /// In en, this message translates to:
+  /// **'Repair'**
+  String get homeActionRepair;
+
+  /// No description provided for @homeActionRepairSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Repair your\ndevice'**
+  String get homeActionRepairSub;
+
+  /// No description provided for @homeActionSell.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell'**
+  String get homeActionSell;
+
+  /// No description provided for @homeActionSellSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell\nsecond hand'**
+  String get homeActionSellSub;
+
+  /// No description provided for @homeActionRecycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recycle'**
+  String get homeActionRecycle;
+
+  /// No description provided for @homeActionRecycleSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Recycle\nback'**
+  String get homeActionRecycleSub;
+
+  /// No description provided for @settingsAppearanceLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance and Language'**
+  String get settingsAppearanceLanguage;
+
+  /// No description provided for @themeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get themeTitle;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Theme'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Theme'**
+  String get themeDark;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System Default'**
+  String get themeSystem;
+
+  /// No description provided for @languageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageTitle;
+
+  /// No description provided for @createNewListing.
+  ///
+  /// In en, this message translates to:
+  /// **'List New Item'**
+  String get createNewListing;
+
+  /// No description provided for @sellUnusedItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell your unused parts'**
+  String get sellUnusedItems;
+
+  /// No description provided for @createListingButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Listing'**
+  String get createListingButton;
 }
 
 class _AppLocalizationsDelegate

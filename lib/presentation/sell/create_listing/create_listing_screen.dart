@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class CreateListingScreen extends StatefulWidget {
   const CreateListingScreen({super.key});
@@ -11,7 +12,7 @@ class CreateListingScreen extends StatefulWidget {
 
 class _CreateListingScreenState extends State<CreateListingScreen> {
   int _selectedCategoryIndex = 0;
-  final List<String> _categories = ['Parça', 'Cihaz', 'Kablo'];
+  late List<String> _categories;
   final List<IconData> _categoryIcons = [
     LucideIcons.cpu,
     LucideIcons.smartphone,
@@ -21,6 +22,21 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
   bool _isNegotiable = false;
   String _selectedCondition = 'Sıfır';
   String _selectedCity = 'İstanbul';
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _categories = [
+      context.l10n.categoryPart,
+      context.l10n.categoryDevice,
+      context.l10n.categoryCable,
+    ];
+    // Reset selected values to localized versions if needed, or better, use keys/enums.
+    // For now assuming the initial values match the first item of localized lists or logic handles it.
+    // However, _selectedCondition is initialized to 'Sıfır'. We should probably update it too.
+    _selectedCondition = context.l10n.conditionNew;
+    _selectedCity = context.l10n.cityIstanbul;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +51,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'İlan Ver',
+          context.l10n.createListingTitle,
           style: TextStyle(
             color: Colors.white,
             fontSize: 18.sp,
@@ -54,7 +70,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Kategori Seçin',
+                    context.l10n.selectCategory,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14.sp,
@@ -84,7 +100,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Fotoğraf Ekle',
+                    context.l10n.addPhoto,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14.sp,
@@ -102,7 +118,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    'En az 1, en fazla 5 fotoğraf ekleyebilirsiniz',
+                    context.l10n.photoLimitNote,
                     style: TextStyle(color: Colors.grey[500], fontSize: 12.sp),
                   ),
                 ],
@@ -117,26 +133,27 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildLabel('Başlık'),
-                  _buildTextField('Ürün başlığını yazın'),
+                  _buildLabel(context.l10n.labelTitle),
+                  _buildTextField(context.l10n.hintTitle),
                   SizedBox(height: 20.h),
 
-                  _buildLabel('Açıklama'),
-                  _buildTextField(
-                    'Ürününüzün detaylarını açıklayın...',
-                    maxLines: 4,
-                  ),
+                  _buildLabel(context.l10n.labelDescription),
+                  _buildTextField(context.l10n.hintDescription, maxLines: 4),
                   SizedBox(height: 20.h),
 
-                  _buildLabel('Durum'),
+                  _buildLabel(context.l10n.labelCondition),
                   _buildDropdown(
-                    ['Sıfır', 'İkinci El', 'Yenilenmiş'],
+                    [
+                      context.l10n.conditionNew,
+                      context.l10n.conditionUsed,
+                      context.l10n.conditionRefurbished,
+                    ],
                     _selectedCondition,
                     (val) => setState(() => _selectedCondition = val!),
                   ),
                   SizedBox(height: 20.h),
 
-                  _buildLabel('Fiyat'),
+                  _buildLabel(context.l10n.labelPrice),
                   Stack(
                     children: [
                       _buildTextField('0'),
@@ -176,7 +193,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                       ),
                       SizedBox(width: 8.w),
                       Text(
-                        'Pazarlık kabul ediyorum',
+                        context.l10n.negotiable,
                         style: TextStyle(color: Colors.white, fontSize: 14.sp),
                       ),
                     ],
@@ -250,7 +267,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'İletişim Bilgileri',
+                    context.l10n.contactInfo,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16.sp,
@@ -258,13 +275,17 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                     ),
                   ),
                   SizedBox(height: 16.h),
-                  _buildLabel('Telefon'),
+                  _buildLabel(context.l10n.labelPhone),
                   _buildTextField('+90 5XX XXX XX XX'),
                   SizedBox(height: 20.h),
 
-                  _buildLabel('Şehir'),
+                  _buildLabel(context.l10n.labelCity),
                   _buildDropdown(
-                    ['İstanbul', 'Ankara', 'İzmir'],
+                    [
+                      context.l10n.cityIstanbul,
+                      context.l10n.cityAnkara,
+                      context.l10n.cityIzmir,
+                    ],
                     _selectedCity,
                     (val) => setState(() => _selectedCity = val!),
                   ),
@@ -292,7 +313,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                       Icon(LucideIcons.send, color: Colors.white, size: 20.sp),
                       SizedBox(width: 8.w),
                       Text(
-                        'İlanı Yayınla',
+                        context.l10n.publishButton,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.sp,

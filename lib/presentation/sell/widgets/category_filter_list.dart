@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class CategoryFilterList extends StatefulWidget {
   const CategoryFilterList({super.key});
@@ -10,7 +11,18 @@ class CategoryFilterList extends StatefulWidget {
 
 class _CategoryFilterListState extends State<CategoryFilterList> {
   int _selectedIndex = 0;
-  final List<String> _categories = ['Tümü', 'Parça', 'Cihaz', 'Kablo'];
+  late List<String> _categories;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _categories = [
+      context.l10n.mapFilterAll,
+      context.l10n.categoryPart,
+      context.l10n.categoryDevice,
+      context.l10n.categoryCable,
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

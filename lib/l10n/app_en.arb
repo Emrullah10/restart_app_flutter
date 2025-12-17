@@ -96,6 +96,164 @@
         "type": "int"
       }
     }
-  }
+  },
+  "viewAll": "View All",
+  "filter": "Filter",
+  "details": "Details",
+  "searchHint": "Search...",
+  "appTagline": "Bring technology back to life",
+  "recentActivities": "Recent Activities",
+  "mapFilterAll": "All",
+  "mapFilterRepair": "Repair",
+  "mapFilterSell": "Sell",
+  "mapFilterRecycle": "Recycle",
+  "sustainabilityLevelTitle": "My Sustainability Level",
+  "sustainabilityLevelSubtitle": "Watch the planet grow!",
+  "levelSilver": "Silver",
+  "levelGold": "Gold",
+  "levelBronze": "Bronze",
+  "pointsToNextLevel": "{points} points left to Gold",
+  "@pointsToNextLevel": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "pointsBreakdownRepair": "Repair",
+  "pointsBreakdownSell": "Sell",
+  "pointsBreakdownRecycle": "Recycle",
+  "brandCollaborations": "Brand Collaborations",
+  "useButton": "Use",
+  "insufficientPoints": "Insufficient points",
+  "achievementsTitle": "My Achievements",
+  "achievementFirstRepair": "First Repair",
+  "achievementCompleted": "Completed",
+  "achievementEnvironmentalist": "Environmentalist",
+  "achievementSuperSeller": "Super Seller",
+  "achievementGoldLevel": "Gold Level",
+  "achievementReachPoints": "Reach 2000 points",
+  "achievementTenRecycles": "10 recycles",
+  "achievementFiftySales": "50 sales",
+  "marketplaceTitle": "Marketplace",
+  "activeListingsTitle": "Active Listings",
+  "safeSellingTitle": "Safe Selling",
+  "safeSellingDesc": "Match with universities and certified repairers",
+  "seeDetails": "See Details",
+  "statusActive": "Active",
+  "statusPending": "Pending",
+  "statusSold": "Sold",
+  "createListingTitle": "Create Listing",
+  "selectCategory": "Select Category",
+  "addPhoto": "Add Photo",
+  "photoLimitNote": "You can add min 1, max 5 photos",
+  "labelTitle": "Title",
+  "hintTitle": "Enter product title",
+  "labelDescription": "Description",
+  "hintDescription": "Describe your product details...",
+  "labelCondition": "Condition",
+  "conditionNew": "New",
+  "conditionUsed": "Used",
+  "conditionRefurbished": "Refurbished",
+  "labelPrice": "Price",
+  "negotiable": "Negotiable",
+  "contactInfo": "Contact Info",
+  "labelPhone": "Phone",
+  "labelCity": "City",
+  "cityIstanbul": "Istanbul",
+  "cityAnkara": "Ankara",
+  "cityIzmir": "Izmir",
+  "publishButton": "Publish Listing",
+  "categoryPart": "Part",
+  "categoryDevice": "Device",
+  "categoryCable": "Cable",
+  "profileReviewCount": "({count} reviews)",
+  "@profileReviewCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statTotalDevices": "Total Devices",
+  "statPointsEarned": "Points Earned",
+  "carbonSavingsTitle": "Carbon Savings",
+  "carbonSavingsUnit": "CO₂ reduction",
+  "leaderboardTitle": "Community Leaderboard",
+  "leaderboardYou": "You",
+  "leaderboardThisWeek": "This week #{rank}",
+  "@leaderboardThisWeek": {
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeGalleryTitle": "Badge Gallery",
+  "badgeFirstRecycle": "First Device\nRecycled",
+  "badgeThreeRepairs": "Repaired 3 Devices",
+  "badgeRecycleExpert": "Recycling\nExpert",
+  "badgeTenDayStreak": "10 Day Streak",
+  "badgeCommunityHelper": "Community\nHelper",
+  "badgeLocked": "Locked",
+  "mockUserRole": "Eco-friendly technician",
+  "recentActivityTitle": "Recent Activities",
+  "mockActivityRepair": "Repaired iPhone 12 Pro",
+  "mockActivityBadge": "Earned new badge",
+  "mockActivitySavings": "5kg CO₂ saved",
+  "impactSavingsTitle": "Your savings this month",
+  "nearbyServicesTitle": "Nearby Services",
+  "viewOnMapButton": "View on Map",
+  "distanceAway": "{distance} away",
+  "@distanceAway": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "leaderboardPoints": "{points} points",
+  "@leaderboardPoints": {
+    "placeholders": {
+      "points": {
+        "type": "String"
+      }
+    }
+  },
+  "impactSummaryTitle": "You saved this month",
+  "environmentalImpactTitle": "Environmental Impact",
+  "statRepairedDevices": "Repaired Devices",
+  "statPreventedWaste": "Prevented E-Waste",
+  "statTotalEarnings": "Total Earnings",
+  "statLevel": "Level {level}",
+  "@statLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "statEcoWarrior": "Eco Warrior",
+  "mockServiceTechFix": "TechFix Repair Center",
+  "mockServiceEcoPoint": "EcoPoint Recycling",
+  "serviceTagsRepair": "Phone, Laptop, Tablet",
+  "serviceTagsRecycle": "All electronic waste",
+  "actionContact": "Contact",
+  "actionGetDirections": "Get Directions",
+  "homeActionRepair": "Repair",
+  "homeActionRepairSub": "Repair your\ndevice",
+  "homeActionSell": "Sell",
+  "homeActionSellSub": "Sell\nsecond hand",
+  "homeActionRecycle": "Recycle",
+  "homeActionRecycleSub": "Recycle\nback",
+  "settingsAppearanceLanguage": "Appearance and Language",
+  "themeTitle": "Theme",
+  "themeLight": "Light Theme",
+  "themeDark": "Dark Theme",
+  "themeSystem": "System Default",
+  "languageTitle": "Language",
+  "createNewListing": "List New Item",
+  "sellUnusedItems": "Sell your unused parts",
+  "createListingButton": "Create Listing"
 }
 

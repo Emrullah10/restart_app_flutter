@@ -74,6 +74,7 @@ class RecycleScreen extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 120.h),
           ],
         ),
       ),

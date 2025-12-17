@@ -22,7 +22,7 @@ class Routes {
   static const String recycleSuccess = 'success'; // Sub-route
 
   // Sell flow routes
-  static const String createListing = 'create-listing'; // Sub-route
+  static const String createListing = '/create-listing'; // Absolute path
 }
 
 enum AppRoute { home, map, rewards, sell, profile, notifications, recycle }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class AchievementsSection extends StatelessWidget {
   const AchievementsSection({super.key});
@@ -11,7 +12,7 @@ class AchievementsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Başarılarım',
+          context.l10n.achievementsTitle,
           style: TextStyle(
             color: Colors.white,
             fontSize: 18.sp,
@@ -24,8 +25,8 @@ class AchievementsSection extends StatelessWidget {
             Expanded(
               child: _buildAchievementCard(
                 icon: LucideIcons.star,
-                title: 'İlk Onarım',
-                subtitle: 'Tamamlandı',
+                title: context.l10n.achievementFirstRepair,
+                subtitle: context.l10n.achievementCompleted,
                 isCompleted: true,
               ),
             ),
@@ -33,8 +34,8 @@ class AchievementsSection extends StatelessWidget {
             Expanded(
               child: _buildAchievementCard(
                 icon: LucideIcons.leaf,
-                title: 'Çevreci',
-                subtitle: '10 dönüştürme',
+                title: context.l10n.achievementEnvironmentalist,
+                subtitle: context.l10n.achievementTenRecycles,
                 isCompleted: true,
               ),
             ),
@@ -46,8 +47,8 @@ class AchievementsSection extends StatelessWidget {
             Expanded(
               child: _buildAchievementCard(
                 icon: LucideIcons.trophy,
-                title: 'Süper Satıcı',
-                subtitle: '50 satış (12/50)',
+                title: context.l10n.achievementSuperSeller,
+                subtitle: '${context.l10n.achievementFiftySales} (12/50)',
                 isCompleted: false,
               ),
             ),
@@ -55,8 +56,8 @@ class AchievementsSection extends StatelessWidget {
             Expanded(
               child: _buildAchievementCard(
                 icon: LucideIcons.crown,
-                title: 'Altın Seviye',
-                subtitle: '2000 puana ulaş',
+                title: context.l10n.achievementGoldLevel,
+                subtitle: context.l10n.achievementReachPoints,
                 isCompleted: false,
               ),
             ),

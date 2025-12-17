@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class MapFilterBar extends StatefulWidget {
   final int initialIndex;
@@ -28,21 +29,21 @@ class _MapFilterBarState extends State<MapFilterBar> {
         children: [
           _buildFilterChip(
             0,
-            'Tümü',
+            context.l10n.mapFilterAll,
             LucideIcons.mapPin,
             const Color(0xFF10B981),
           ),
           SizedBox(width: 8.w),
           _buildFilterChip(
             1,
-            'Onarım',
+            context.l10n.mapFilterRepair,
             LucideIcons.wrench,
             const Color(0xFF3B82F6),
           ),
           SizedBox(width: 8.w),
           _buildFilterChip(
             2,
-            'Satış',
+            context.l10n.mapFilterSell,
             LucideIcons.store,
             const Color(0xFFF97316),
           ), // Store/Shop icon

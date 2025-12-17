@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class ImpactSummaryCard extends StatelessWidget {
-  const ImpactSummaryCard({super.key});
+  final String co2Saved;
+
+  const ImpactSummaryCard({super.key, required this.co2Saved});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class ImpactSummaryCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Bu ay tasarruf ettiğin',
+                context.l10n.impactSummaryTitle,
                 style: TextStyle(color: Colors.grey[400], fontSize: 14.sp),
               ),
               SizedBox(height: 8.h),
@@ -41,7 +44,7 @@ class ImpactSummaryCard extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: '247 kg ',
+                      text: '$co2Saved kg ',
                       style: TextStyle(
                         fontFamily: 'Inter',
                         color: Colors.white,

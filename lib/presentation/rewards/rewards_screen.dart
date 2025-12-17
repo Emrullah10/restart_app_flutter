@@ -68,7 +68,7 @@ class RewardsScreen extends StatelessWidget {
               SizedBox(height: 32.h),
               const AchievementsSection(),
               SizedBox(
-                height: 80.h,
+                height: 120.h,
               ), // Bottom padding for scrolling over nav bar
             ],
           ),

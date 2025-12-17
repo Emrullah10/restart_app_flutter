@@ -29,7 +29,7 @@ class SellScreen extends StatelessWidget {
               const ActiveListingsList(),
               SizedBox(height: 32.h),
               const MarketplaceGrid(),
-              SizedBox(height: 32.h),
+              SizedBox(height: 120.h),
             ],
           ),
         ),

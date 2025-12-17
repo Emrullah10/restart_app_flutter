@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class CarbonSavingsCard extends StatelessWidget {
-  const CarbonSavingsCard({super.key});
+  final String co2Saved;
+
+  const CarbonSavingsCard({super.key, required this.co2Saved});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,7 @@ class CarbonSavingsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Karbon Tasarrufu',
+            context.l10n.carbonSavingsTitle,
             style: TextStyle(
               color: Colors.white,
               fontSize: 16.sp,
@@ -37,7 +40,7 @@ class CarbonSavingsCard extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: '184 kg\n',
+                            text: '$co2Saved kg\n',
                             style: TextStyle(
                               fontFamily: 'Inter',
                               color: Colors.white,
@@ -47,7 +50,7 @@ class CarbonSavingsCard extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: 'CO₂ azaltımı',
+                            text: context.l10n.carbonSavingsUnit,
                             style: TextStyle(
                               fontFamily: 'Inter',
                               color: Colors.grey[400],

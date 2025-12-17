@@ -17,8 +17,7 @@ class RepairShopList extends StatelessWidget {
         'distance': '1.2 km',
         'price': '₺₺',
         'tag': context.l10n.shopTechnologyCenter,
-        'image':
-            'https://images.unsplash.com/photo-1597872250977-01050a9761df?auto=format&fit=crop&q=80',
+        'image': 'https://picsum.photos/id/1/800/600',
       },
       {
         'name': 'Mobil Servis Point',
@@ -27,8 +26,7 @@ class RepairShopList extends StatelessWidget {
         'distance': '2.5 km',
         'price': '₺',
         'tag': context.l10n.shopFastRepair,
-        'image':
-            'https://images.unsplash.com/photo-1588508065123-287b28e013da?auto=format&fit=crop&q=80',
+        'image': 'https://picsum.photos/id/4/800/600',
       },
     ];
 
@@ -44,7 +42,7 @@ class RepairShopList extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
-                  color: context.theme.colorScheme.onBackground,
+                  color: context.theme.colorScheme.onSurface,
                 ),
               ),
               Text(
@@ -125,10 +123,8 @@ class RepairShopList extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.bold,
-                                      color: context
-                                          .theme
-                                          .colorScheme
-                                          .onBackground,
+                                      color:
+                                          context.theme.colorScheme.onSurface,
                                     ),
                                   ),
                                 ],
@@ -141,7 +137,7 @@ class RepairShopList extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
-                              color: context.theme.colorScheme.onBackground,
+                              color: context.theme.colorScheme.onSurface,
                             ),
                           ),
                           SizedBox(height: 8.h),

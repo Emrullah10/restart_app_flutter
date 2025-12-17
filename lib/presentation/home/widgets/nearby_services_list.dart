@@ -1,12 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/presentation/home/riverpod/services_provider.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
-class NearbyServicesList extends StatelessWidget {
+class NearbyServicesList extends ConsumerWidget {
   const NearbyServicesList({super.key});
 
+  IconData _getIconForType(String? type) {
+    switch (type) {
+      case 'repair':
+        return LucideIcons.wrench;
+      case 'recycle':
+        return LucideIcons.recycle;
+      case 'sell':
+        return LucideIcons.store;
+      default:
+        return LucideIcons.mapPin;
+    }
+  }
+
+  Color _getColorForType(String? type) {
+    switch (type) {
+      case 'repair':
+        return const Color(0xFF3B82F6);
+      case 'recycle':
+        return const Color(0xFF22C55E);
+      case 'sell':
+        return const Color(0xFFF97316);
+      default:
+        return const Color(0xFF6B7280);
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final servicesState = ref.watch(servicesProvider);
+    final services = servicesState.services;
+
     return Column(
       children: [
         Padding(
@@ -15,7 +48,7 @@ class NearbyServicesList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Yakınındaki Hizmetler',
+                context.l10n.nearbyServicesTitle,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18.sp,
@@ -23,9 +56,12 @@ class NearbyServicesList extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Navigate to map screen
+                  GoRouter.of(context).go('/map');
+                },
                 child: Text(
-                  'Haritada Gör',
+                  context.l10n.viewOnMapButton,
                   style: TextStyle(
                     color: const Color(0xFF22C55E),
                     fontSize: 14.sp,
@@ -36,25 +72,53 @@ class NearbyServicesList extends StatelessWidget {
           ),
         ),
         SizedBox(height: 8.h),
-        _buildServiceItem(
-          icon: LucideIcons.wrench,
-          title: 'TechFix Onarım Merkezi',
-          distance: '850m uzaklıkta',
-          rating: 4.8,
-          tags: 'Telefon, Laptop, Tablet',
-          actionText: 'İletişim',
-          color: const Color(0xFF3B82F6),
-        ),
-        SizedBox(height: 12.h),
-        _buildServiceItem(
-          icon: LucideIcons.recycle,
-          title: 'EcoPoint Geri Dönüşüm',
-          distance: '1.2km uzaklıkta',
-          rating: 4.9,
-          tags: 'Tüm elektronik atıklar',
-          actionText: 'Yol Tarifi',
-          color: const Color(0xFF22C55E),
-        ),
+        if (servicesState.isLoading)
+          Padding(
+            padding: EdgeInsets.all(24.w),
+            child: const CircularProgressIndicator(color: Color(0xFF22C55E)),
+          )
+        else if (servicesState.error != null)
+          Padding(
+            padding: EdgeInsets.all(24.w),
+            child: Text(
+              'Hata: ${servicesState.error}',
+              style: TextStyle(color: Colors.red[400], fontSize: 12.sp),
+            ),
+          )
+        else if (services.isEmpty)
+          Padding(
+            padding: EdgeInsets.all(24.w),
+            child: Text(
+              'Yakında servis bulunamadı',
+              style: TextStyle(color: Colors.grey[500], fontSize: 14.sp),
+            ),
+          )
+        else
+          ...services.take(3).map((service) {
+            final type = service['type'] as String?;
+            final name = service['name'] ?? '';
+            final rating = (service['rating'] ?? 0.0);
+            final ratingDouble = rating is double
+                ? rating
+                : double.tryParse(rating.toString()) ?? 0.0;
+            final tags = service['tags'] ?? '';
+            final address = service['address'] ?? '';
+
+            return Padding(
+              padding: EdgeInsets.only(bottom: 12.h),
+              child: _buildServiceItem(
+                icon: _getIconForType(type),
+                title: name,
+                distance: address,
+                rating: ratingDouble,
+                tags: tags,
+                actionText: type == 'repair'
+                    ? context.l10n.actionContact
+                    : context.l10n.actionGetDirections,
+                color: _getColorForType(type),
+              ),
+            );
+          }),
       ],
     );
   }

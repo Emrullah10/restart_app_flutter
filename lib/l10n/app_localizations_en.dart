@@ -255,4 +255,365 @@ class AppLocalizationsEn extends AppLocalizations {
   String timeDaysAgo(int days) {
     return '$days days ago';
   }
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
+  String get filter => 'Filter';
+
+  @override
+  String get details => 'Details';
+
+  @override
+  String get searchHint => 'Search...';
+
+  @override
+  String get appTagline => 'Bring technology back to life';
+
+  @override
+  String get recentActivities => 'Recent Activities';
+
+  @override
+  String get mapFilterAll => 'All';
+
+  @override
+  String get mapFilterRepair => 'Repair';
+
+  @override
+  String get mapFilterSell => 'Sell';
+
+  @override
+  String get mapFilterRecycle => 'Recycle';
+
+  @override
+  String get sustainabilityLevelTitle => 'My Sustainability Level';
+
+  @override
+  String get sustainabilityLevelSubtitle => 'Watch the planet grow!';
+
+  @override
+  String get levelSilver => 'Silver';
+
+  @override
+  String get levelGold => 'Gold';
+
+  @override
+  String get levelBronze => 'Bronze';
+
+  @override
+  String pointsToNextLevel(int points) {
+    return '$points points left to Gold';
+  }
+
+  @override
+  String get pointsBreakdownRepair => 'Repair';
+
+  @override
+  String get pointsBreakdownSell => 'Sell';
+
+  @override
+  String get pointsBreakdownRecycle => 'Recycle';
+
+  @override
+  String get brandCollaborations => 'Brand Collaborations';
+
+  @override
+  String get useButton => 'Use';
+
+  @override
+  String get insufficientPoints => 'Insufficient points';
+
+  @override
+  String get achievementsTitle => 'My Achievements';
+
+  @override
+  String get achievementFirstRepair => 'First Repair';
+
+  @override
+  String get achievementCompleted => 'Completed';
+
+  @override
+  String get achievementEnvironmentalist => 'Environmentalist';
+
+  @override
+  String get achievementSuperSeller => 'Super Seller';
+
+  @override
+  String get achievementGoldLevel => 'Gold Level';
+
+  @override
+  String get achievementReachPoints => 'Reach 2000 points';
+
+  @override
+  String get achievementTenRecycles => '10 recycles';
+
+  @override
+  String get achievementFiftySales => '50 sales';
+
+  @override
+  String get marketplaceTitle => 'Marketplace';
+
+  @override
+  String get activeListingsTitle => 'Active Listings';
+
+  @override
+  String get safeSellingTitle => 'Safe Selling';
+
+  @override
+  String get safeSellingDesc =>
+      'Match with universities and certified repairers';
+
+  @override
+  String get seeDetails => 'See Details';
+
+  @override
+  String get statusActive => 'Active';
+
+  @override
+  String get statusPending => 'Pending';
+
+  @override
+  String get statusSold => 'Sold';
+
+  @override
+  String get createListingTitle => 'Create Listing';
+
+  @override
+  String get selectCategory => 'Select Category';
+
+  @override
+  String get addPhoto => 'Add Photo';
+
+  @override
+  String get photoLimitNote => 'You can add min 1, max 5 photos';
+
+  @override
+  String get labelTitle => 'Title';
+
+  @override
+  String get hintTitle => 'Enter product title';
+
+  @override
+  String get labelDescription => 'Description';
+
+  @override
+  String get hintDescription => 'Describe your product details...';
+
+  @override
+  String get labelCondition => 'Condition';
+
+  @override
+  String get conditionNew => 'New';
+
+  @override
+  String get conditionUsed => 'Used';
+
+  @override
+  String get conditionRefurbished => 'Refurbished';
+
+  @override
+  String get labelPrice => 'Price';
+
+  @override
+  String get negotiable => 'Negotiable';
+
+  @override
+  String get contactInfo => 'Contact Info';
+
+  @override
+  String get labelPhone => 'Phone';
+
+  @override
+  String get labelCity => 'City';
+
+  @override
+  String get cityIstanbul => 'Istanbul';
+
+  @override
+  String get cityAnkara => 'Ankara';
+
+  @override
+  String get cityIzmir => 'Izmir';
+
+  @override
+  String get publishButton => 'Publish Listing';
+
+  @override
+  String get categoryPart => 'Part';
+
+  @override
+  String get categoryDevice => 'Device';
+
+  @override
+  String get categoryCable => 'Cable';
+
+  @override
+  String profileReviewCount(int count) {
+    return '($count reviews)';
+  }
+
+  @override
+  String get statTotalDevices => 'Total Devices';
+
+  @override
+  String get statPointsEarned => 'Points Earned';
+
+  @override
+  String get carbonSavingsTitle => 'Carbon Savings';
+
+  @override
+  String get carbonSavingsUnit => 'CO₂ reduction';
+
+  @override
+  String get leaderboardTitle => 'Community Leaderboard';
+
+  @override
+  String get leaderboardYou => 'You';
+
+  @override
+  String leaderboardThisWeek(int rank) {
+    return 'This week #$rank';
+  }
+
+  @override
+  String get badgeGalleryTitle => 'Badge Gallery';
+
+  @override
+  String get badgeFirstRecycle => 'First Device\nRecycled';
+
+  @override
+  String get badgeThreeRepairs => 'Repaired 3 Devices';
+
+  @override
+  String get badgeRecycleExpert => 'Recycling\nExpert';
+
+  @override
+  String get badgeTenDayStreak => '10 Day Streak';
+
+  @override
+  String get badgeCommunityHelper => 'Community\nHelper';
+
+  @override
+  String get badgeLocked => 'Locked';
+
+  @override
+  String get mockUserRole => 'Eco-friendly technician';
+
+  @override
+  String get recentActivityTitle => 'Recent Activities';
+
+  @override
+  String get mockActivityRepair => 'Repaired iPhone 12 Pro';
+
+  @override
+  String get mockActivityBadge => 'Earned new badge';
+
+  @override
+  String get mockActivitySavings => '5kg CO₂ saved';
+
+  @override
+  String get impactSavingsTitle => 'Your savings this month';
+
+  @override
+  String get nearbyServicesTitle => 'Nearby Services';
+
+  @override
+  String get viewOnMapButton => 'View on Map';
+
+  @override
+  String distanceAway(String distance) {
+    return '$distance away';
+  }
+
+  @override
+  String leaderboardPoints(String points) {
+    return '$points points';
+  }
+
+  @override
+  String get impactSummaryTitle => 'You saved this month';
+
+  @override
+  String get environmentalImpactTitle => 'Environmental Impact';
+
+  @override
+  String get statRepairedDevices => 'Repaired Devices';
+
+  @override
+  String get statPreventedWaste => 'Prevented E-Waste';
+
+  @override
+  String get statTotalEarnings => 'Total Earnings';
+
+  @override
+  String statLevel(String level) {
+    return 'Level $level';
+  }
+
+  @override
+  String get statEcoWarrior => 'Eco Warrior';
+
+  @override
+  String get mockServiceTechFix => 'TechFix Repair Center';
+
+  @override
+  String get mockServiceEcoPoint => 'EcoPoint Recycling';
+
+  @override
+  String get serviceTagsRepair => 'Phone, Laptop, Tablet';
+
+  @override
+  String get serviceTagsRecycle => 'All electronic waste';
+
+  @override
+  String get actionContact => 'Contact';
+
+  @override
+  String get actionGetDirections => 'Get Directions';
+
+  @override
+  String get homeActionRepair => 'Repair';
+
+  @override
+  String get homeActionRepairSub => 'Repair your\ndevice';
+
+  @override
+  String get homeActionSell => 'Sell';
+
+  @override
+  String get homeActionSellSub => 'Sell\nsecond hand';
+
+  @override
+  String get homeActionRecycle => 'Recycle';
+
+  @override
+  String get homeActionRecycleSub => 'Recycle\nback';
+
+  @override
+  String get settingsAppearanceLanguage => 'Appearance and Language';
+
+  @override
+  String get themeTitle => 'Theme';
+
+  @override
+  String get themeLight => 'Light Theme';
+
+  @override
+  String get themeDark => 'Dark Theme';
+
+  @override
+  String get themeSystem => 'System Default';
+
+  @override
+  String get languageTitle => 'Language';
+
+  @override
+  String get createNewListing => 'List New Item';
+
+  @override
+  String get sellUnusedItems => 'Sell your unused parts';
+
+  @override
+  String get createListingButton => 'Create Listing';
 }

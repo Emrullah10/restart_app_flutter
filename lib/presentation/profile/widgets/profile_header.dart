@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key});
+  final String fullName;
+  final String role;
+
+  const ProfileHeader({super.key, required this.fullName, required this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +68,7 @@ class ProfileHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Ayşe Yılmaz',
+                  fullName,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20.sp,
@@ -73,7 +77,7 @@ class ProfileHeader extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'Çevre dostu teknisyen',
+                  role,
                   style: TextStyle(color: Colors.grey[400], fontSize: 14.sp),
                 ),
                 SizedBox(height: 8.h),
@@ -95,7 +99,7 @@ class ProfileHeader extends StatelessWidget {
                     ),
                     SizedBox(width: 4.w),
                     Text(
-                      '(127 değerlendirme)',
+                      context.l10n.profileReviewCount(127),
                       style: TextStyle(
                         color: Colors.grey[500],
                         fontSize: 12.sp,

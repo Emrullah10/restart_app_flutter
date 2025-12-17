@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 import 'package:mobile_flutter/utils/extensions/padding_extensions.dart';
 
 class SafeSellingBanner extends StatelessWidget {
@@ -36,7 +37,7 @@ class SafeSellingBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Güvenli Satış',
+                  context.l10n.safeSellingTitle,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.sp,
@@ -45,7 +46,7 @@ class SafeSellingBanner extends StatelessWidget {
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  'Üniversiteler ve sertifikalı tamircilerle eşleşin',
+                  context.l10n.safeSellingDesc,
                   style: TextStyle(
                     color: Colors.grey[400],
                     fontSize: 12.sp,

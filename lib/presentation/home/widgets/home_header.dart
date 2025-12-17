@@ -3,10 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/presentation/notifications/notifications_screen.dart';
 import 'package:mobile_flutter/presentation/profile/profile_screen.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 import 'package:mobile_flutter/utils/extensions/padding_extensions.dart';
 
 class HomeHeader extends StatelessWidget {
-  const HomeHeader({super.key});
+  final String fullName;
+  final String? avatarUrl;
+
+  const HomeHeader({super.key, required this.fullName, this.avatarUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,9 @@ class HomeHeader extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Teknolojiyi hayata döndür',
+                  fullName.isNotEmpty
+                      ? 'Merhaba, $fullName'
+                      : context.l10n.appTagline,
                   style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
                 ),
               ],
@@ -96,9 +102,10 @@ class HomeHeader extends StatelessWidget {
                   color: Colors.white.withOpacity(0.2),
                   width: 2.w,
                 ),
-                image: const DecorationImage(
+                image: DecorationImage(
                   image: NetworkImage(
-                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80',
+                    avatarUrl ??
+                        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80',
                   ),
                   fit: BoxFit.cover,
                 ),

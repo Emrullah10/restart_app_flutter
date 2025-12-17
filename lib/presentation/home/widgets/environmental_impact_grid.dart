@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mobile_flutter/presentation/profile/riverpod/profile_provider.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
-class EnvironmentalImpactGrid extends StatelessWidget {
+class EnvironmentalImpactGrid extends ConsumerWidget {
   const EnvironmentalImpactGrid({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileState = ref.watch(profileProvider);
+    final profile = profileState.profile;
+
+    // Extract values with fallbacks
+    final repairedCount = (profile?['repairedCount'] ?? 0).toString();
+    final preventedWasteKg =
+        '${(profile?['preventedWasteKg'] ?? 0.0).toStringAsFixed(1)}kg';
+    final totalEarnings =
+        '₺${(profile?['totalEarnings'] ?? 0).toStringAsFixed(0)}';
+    final level = (profile?['level'] ?? 1).toString();
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Çevresel Etkinin',
+            context.l10n.environmentalImpactTitle,
             style: TextStyle(
               color: Colors.white,
               fontSize: 18.sp,
@@ -22,17 +36,37 @@ class EnvironmentalImpactGrid extends StatelessWidget {
           SizedBox(height: 16.h),
           Row(
             children: [
-              Expanded(child: _buildStatCard('12', 'Onarılan Cihaz')),
+              Expanded(
+                child: _buildStatCard(
+                  repairedCount,
+                  context.l10n.statRepairedDevices,
+                ),
+              ),
               SizedBox(width: 16.w),
-              Expanded(child: _buildStatCard('8.5kg', 'Önlenen E-Atık')),
+              Expanded(
+                child: _buildStatCard(
+                  preventedWasteKg,
+                  context.l10n.statPreventedWaste,
+                ),
+              ),
             ],
           ),
           SizedBox(height: 16.h),
           Row(
             children: [
-              Expanded(child: _buildStatCard('₺1,250', 'Toplam Kazanç')),
+              Expanded(
+                child: _buildStatCard(
+                  totalEarnings,
+                  context.l10n.statTotalEarnings,
+                ),
+              ),
               SizedBox(width: 16.w),
-              Expanded(child: _buildStatCard('Level 4', 'Eco Warrior')),
+              Expanded(
+                child: _buildStatCard(
+                  context.l10n.statLevel(level),
+                  context.l10n.statEcoWarrior,
+                ),
+              ),
             ],
           ),
         ],

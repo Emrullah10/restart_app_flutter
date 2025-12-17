@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class ProfileStatsRow extends StatelessWidget {
-  const ProfileStatsRow({super.key});
+  final String points;
+  final String recycleCount;
+
+  const ProfileStatsRow({
+    super.key,
+    required this.points,
+    required this.recycleCount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +22,8 @@ class ProfileStatsRow extends StatelessWidget {
           Expanded(
             child: _buildStatCard(
               icon: LucideIcons.smartphone,
-              value: '47',
-              label: 'Toplam Cihaz',
+              value: recycleCount,
+              label: context.l10n.statTotalDevices,
               color: const Color(0xFF3B82F6), // Blue
             ),
           ),
@@ -23,8 +31,8 @@ class ProfileStatsRow extends StatelessWidget {
           Expanded(
             child: _buildStatCard(
               icon: LucideIcons.coins,
-              value: '2,340',
-              label: 'Kazanılan Puan',
+              value: points,
+              label: context.l10n.statPointsEarned,
               color: const Color(0xFF22C55E), // Green
             ),
           ),

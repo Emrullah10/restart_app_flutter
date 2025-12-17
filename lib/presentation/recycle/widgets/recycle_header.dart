@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class RecycleHeader extends StatelessWidget {
@@ -13,14 +12,8 @@ class RecycleHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButton(
-            icon: Icon(
-              LucideIcons.arrowLeft,
-              color: Colors.grey[400],
-              size: 24.sp,
-            ),
-            onPressed: () => Navigator.pop(context),
-          ),
+          // Back button removed as this is a main tab
+          SizedBox(width: 48.w),
           Text(
             context.l10n.recycleTitle,
             style: context.textTheme.headlineSmall?.copyWith(

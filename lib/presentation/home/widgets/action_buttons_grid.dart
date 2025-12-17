@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/routes/routes.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 import 'package:mobile_flutter/utils/extensions/padding_extensions.dart';
 
 class ActionButtonsGrid extends StatelessWidget {
@@ -17,22 +18,17 @@ class ActionButtonsGrid extends StatelessWidget {
         children: [
           _buildActionCard(
             icon: LucideIcons.wrench,
-            title: 'Onar',
-            subtitle: 'Cihazını\ntamir ettir',
+            title: context.l10n.homeActionRepair,
+            subtitle: context.l10n.homeActionRepairSub,
             color: const Color(0xFF3B82F6), // Blue
             onTap: () {
-              context.go(
-                Uri(
-                  path: Routes.map,
-                  queryParameters: {'filter': 'repair'},
-                ).toString(),
-              );
+              context.push(Routes.repair);
             },
           ),
           _buildActionCard(
             icon: LucideIcons.tag,
-            title: 'Sat',
-            subtitle: 'İkinci el\nsat',
+            title: context.l10n.homeActionSell,
+            subtitle: context.l10n.homeActionSellSub,
             color: const Color(0xFFF59E0B), // Amber
             onTap: () {
               context.go(Routes.sell);
@@ -40,11 +36,11 @@ class ActionButtonsGrid extends StatelessWidget {
           ),
           _buildActionCard(
             icon: LucideIcons.recycle,
-            title: 'Dönüştür',
-            subtitle: 'Geri\ndönüştür',
+            title: context.l10n.homeActionRecycle,
+            subtitle: context.l10n.homeActionRecycleSub,
             color: const Color(0xFF22C55E), // Green
             onTap: () {
-              context.push(Routes.recycle);
+              context.go(Routes.recycle);
             },
           ),
         ],

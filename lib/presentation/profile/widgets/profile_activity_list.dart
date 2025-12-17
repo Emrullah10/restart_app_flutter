@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class ProfileActivityList extends StatelessWidget {
   const ProfileActivityList({super.key});
@@ -18,7 +19,7 @@ class ProfileActivityList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Son Aktiviteler',
+            context.l10n.recentActivityTitle,
             style: TextStyle(
               color: Colors.white,
               fontSize: 18.sp,
@@ -28,21 +29,21 @@ class ProfileActivityList extends StatelessWidget {
           SizedBox(height: 24.h),
           _buildActivityItem(
             icon: LucideIcons.smartphone,
-            title: 'iPhone 12 Pro onardın',
+            title: context.l10n.mockActivityRepair,
             subtitle: '2 saat önce • +50 puan',
             color: const Color(0xFF059669), // Greenish
           ),
           SizedBox(height: 24.h),
           _buildActivityItem(
             icon: LucideIcons.trophy,
-            title: 'Yeni rozet kazandın',
+            title: context.l10n.mockActivityBadge,
             subtitle: '1 gün önce',
             color: const Color(0xFF2563EB), // Blue
           ),
           SizedBox(height: 24.h),
           _buildActivityItem(
             icon: LucideIcons.leaf,
-            title: '5kg CO₂ tasarrufu',
+            title: context.l10n.mockActivitySavings,
             subtitle: '2 gün önce',
             color: const Color(0xFF10B981), // Emerald
           ),

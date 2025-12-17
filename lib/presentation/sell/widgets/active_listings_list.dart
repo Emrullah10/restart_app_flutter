@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class ActiveListingsList extends StatelessWidget {
   const ActiveListingsList({super.key});
@@ -15,7 +16,7 @@ class ActiveListingsList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Aktif İlanlar',
+                context.l10n.activeListingsTitle,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18.sp,
@@ -23,7 +24,7 @@ class ActiveListingsList extends StatelessWidget {
                 ),
               ),
               Text(
-                'Tümünü Gör',
+                context.l10n.viewAll,
                 style: TextStyle(
                   color: const Color(0xFF3B82F6),
                   fontSize: 14.sp,
@@ -38,7 +39,7 @@ class ActiveListingsList extends StatelessWidget {
             title: 'iPhone 12 Ekran',
             subtitle: 'Orijinal, çalışır durumda',
             price: '₺850',
-            status: 'Aktif',
+            status: context.l10n.statusActive,
             statusColor: const Color(0xFF10B981), // Green
           ),
           SizedBox(height: 16.h),
@@ -47,7 +48,7 @@ class ActiveListingsList extends StatelessWidget {
             title: 'Samsung Batarya',
             subtitle: 'Galaxy S21, %85 sağlık',
             price: '₺320',
-            status: 'Bekliyor',
+            status: context.l10n.statusPending,
             statusColor: const Color(0xFFF59E0B), // Amber
           ),
           SizedBox(height: 16.h),
@@ -56,7 +57,7 @@ class ActiveListingsList extends StatelessWidget {
             title: 'Lightning Kablo Seti',
             subtitle: 'Orijinal Apple, 3 adet',
             price: '₺180',
-            status: 'Satıldı',
+            status: context.l10n.statusSold,
             statusColor: Colors.grey[600]!, // Gray
           ),
         ],

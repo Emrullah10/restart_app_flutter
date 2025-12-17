@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class SustainabilityLevelCard extends StatelessWidget {
   const SustainabilityLevelCard({super.key});
@@ -19,7 +20,7 @@ class SustainabilityLevelCard extends StatelessWidget {
             border: Border.all(color: const Color(0xFFEAB308).withOpacity(0.5)),
           ),
           child: Text(
-            'Gümüş',
+            context.l10n.levelSilver,
             style: TextStyle(
               color: const Color(0xFFEAB308),
               fontSize: 14.sp,
@@ -29,7 +30,7 @@ class SustainabilityLevelCard extends StatelessWidget {
         ),
         SizedBox(height: 12.h),
         Text(
-          'Sürdürülebilirlik Seviyem',
+          context.l10n.sustainabilityLevelTitle,
           style: TextStyle(
             color: Colors.white,
             fontSize: 20.sp,
@@ -38,7 +39,7 @@ class SustainabilityLevelCard extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         Text(
-          'Gezegenin büyümesini izle!',
+          context.l10n.sustainabilityLevelSubtitle,
           style: TextStyle(color: Colors.grey[400], fontSize: 14.sp),
         ),
         SizedBox(height: 24.h),
@@ -50,7 +51,7 @@ class SustainabilityLevelCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Bronz',
+                    context.l10n.levelBronze,
                     style: TextStyle(color: Colors.white, fontSize: 12.sp),
                   ),
                   Text(
@@ -62,7 +63,7 @@ class SustainabilityLevelCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Altın',
+                    context.l10n.levelGold,
                     style: TextStyle(color: Colors.white, fontSize: 12.sp),
                   ),
                 ],
@@ -81,7 +82,7 @@ class SustainabilityLevelCard extends StatelessWidget {
               ),
               SizedBox(height: 8.h),
               Text(
-                'Altın seviyeye 750 puan kaldı',
+                context.l10n.pointsToNextLevel(750),
                 style: TextStyle(color: Colors.grey[500], fontSize: 12.sp),
               ),
             ],
