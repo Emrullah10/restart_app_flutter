@@ -1,13 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/presentation/sell/riverpod/marketplace_provider.dart';
 import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
-class MarketplaceGrid extends StatelessWidget {
+class MarketplaceGrid extends ConsumerWidget {
   const MarketplaceGrid({super.key});
 
+  IconData _getIconForCategory(String? category) {
+    switch (category?.toLowerCase()) {
+      case 'camera':
+      case 'kamera':
+        return LucideIcons.camera;
+      case 'tools':
+      case 'alet':
+        return LucideIcons.wrench;
+      case 'cable':
+      case 'kablo':
+        return LucideIcons.plug;
+      case 'audio':
+      case 'ses':
+        return LucideIcons.headphones;
+      case 'phone':
+      case 'telefon':
+        return LucideIcons.smartphone;
+      default:
+        return LucideIcons.package;
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productsState = ref.watch(productsProvider);
+    final products = productsState.products;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Column(
@@ -34,48 +61,53 @@ class MarketplaceGrid extends StatelessWidget {
             ],
           ),
           SizedBox(height: 16.h),
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 16.h,
-            crossAxisSpacing: 16.w,
-            childAspectRatio: 0.75,
-            children: [
-              _buildMarketItem(
-                icon: LucideIcons.smartphone,
-                title: 'iPhone 13 Kamera',
-                subtitle: 'Arka kamera modülü',
-                price: '₺1,200',
-                rating: 4.8,
-                location: 'Ankara',
+          if (productsState.isLoading)
+            const Center(
+              child: CircularProgressIndicator(color: Color(0xFF22C55E)),
+            )
+          else if (productsState.error != null)
+            Text(
+              'Hata: ${productsState.error}',
+              style: TextStyle(color: Colors.red[400], fontSize: 12.sp),
+            )
+          else if (products.isEmpty)
+            Container(
+              padding: EdgeInsets.all(24.w),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1F2937),
+                borderRadius: BorderRadius.circular(16.r),
               ),
-              _buildMarketItem(
-                icon: LucideIcons.wrench,
-                title: 'Tamir Kit Seti',
-                subtitle: 'Profesyonel 32 parça',
-                price: '₺95',
-                rating: 4.9,
-                location: 'İstanbul',
+              child: Text(
+                'Henüz ürün yok',
+                style: TextStyle(color: Colors.grey[500], fontSize: 14.sp),
               ),
-              _buildMarketItem(
-                icon: LucideIcons.plug,
-                title: 'USB-C Hub',
-                subtitle: '7-in-1 çoklu port',
-                price: '₺240',
-                rating: 4.6,
-                location: 'İzmir',
-              ),
-              _buildMarketItem(
-                icon: LucideIcons.headphones,
-                title: 'AirPods Pro',
-                subtitle: '2. nesil, kutulu',
-                price: '₺2,100',
-                rating: 5.0,
-                location: 'Bursa',
-              ),
-            ],
-          ),
+            )
+          else
+            GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              mainAxisSpacing: 16.h,
+              crossAxisSpacing: 16.w,
+              childAspectRatio: 0.75,
+              children: products.take(4).map((product) {
+                final category = product.category;
+                final title = product.title;
+                final description = product.description;
+                final price = product.price;
+                final rating = product.rating;
+                final location = product.location;
+
+                return _buildMarketItem(
+                  icon: _getIconForCategory(category),
+                  title: title,
+                  subtitle: description,
+                  price: '₺${price.toString()}',
+                  rating: rating,
+                  location: location,
+                );
+              }).toList(),
+            ),
         ],
       ),
     );

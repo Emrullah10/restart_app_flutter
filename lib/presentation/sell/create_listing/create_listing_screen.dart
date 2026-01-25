@@ -59,276 +59,291 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Category Selection
-            Padding(
-              padding: EdgeInsets.all(20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.l10n.selectCategory,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  Row(
-                    children: List.generate(
-                      _categories.length,
-                      (index) => Padding(
-                        padding: EdgeInsets.only(right: 12.w),
-                        child: _buildCategoryChip(index),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            Divider(color: Colors.white.withOpacity(0.1), height: 1),
-
-            // Photo Upload Section
-            Padding(
-              padding: EdgeInsets.all(20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.l10n.addPhoto,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildPhotoBox(isCamera: true),
-                      _buildPhotoBox(),
-                      _buildPhotoBox(),
-                    ],
-                  ),
-                  SizedBox(height: 8.h),
-                  Text(
-                    context.l10n.photoLimitNote,
-                    style: TextStyle(color: Colors.grey[500], fontSize: 12.sp),
-                  ),
-                ],
-              ),
-            ),
-
-            Divider(color: Colors.white.withOpacity(0.1), height: 1),
-
-            // Form Fields
-            Padding(
-              padding: EdgeInsets.all(20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildLabel(context.l10n.labelTitle),
-                  _buildTextField(context.l10n.hintTitle),
-                  SizedBox(height: 20.h),
-
-                  _buildLabel(context.l10n.labelDescription),
-                  _buildTextField(context.l10n.hintDescription, maxLines: 4),
-                  SizedBox(height: 20.h),
-
-                  _buildLabel(context.l10n.labelCondition),
-                  _buildDropdown(
-                    [
-                      context.l10n.conditionNew,
-                      context.l10n.conditionUsed,
-                      context.l10n.conditionRefurbished,
-                    ],
-                    _selectedCondition,
-                    (val) => setState(() => _selectedCondition = val!),
-                  ),
-                  SizedBox(height: 20.h),
-
-                  _buildLabel(context.l10n.labelPrice),
-                  Stack(
-                    children: [
-                      _buildTextField('0'),
-                      Positioned(
-                        right: 16.w,
-                        top: 0,
-                        bottom: 0,
-                        child: Center(
-                          child: Text(
-                            '₺',
-                            style: TextStyle(
-                              color: Colors.grey[400],
-                              fontSize: 16.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 12.h),
-
-                  Row(
-                    children: [
-                      SizedBox(
-                        height: 24.h,
-                        width: 24.w,
-                        child: Checkbox(
-                          value: _isNegotiable,
-                          onChanged: (val) =>
-                              setState(() => _isNegotiable = val!),
-                          activeColor: const Color(0xFF0F50C1),
-                          side: BorderSide(color: Colors.grey[600]!, width: 2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4.r),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        context.l10n.negotiable,
-                        style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            Divider(color: Colors.white.withOpacity(0.1), height: 1),
-
-            // Safe Selling Info
-            Padding(
-              padding: EdgeInsets.all(20.w),
-              child: Container(
-                padding: EdgeInsets.all(16.w),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1F2937),
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(color: Colors.white.withOpacity(0.05)),
-                ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Category Selection
+              Padding(
+                padding: EdgeInsets.all(20.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Icon(
-                          LucideIcons.shieldCheck,
-                          color: const Color(0xFF3B82F6),
-                          size: 20.sp,
-                        ),
-                        SizedBox(width: 8.w),
-                        Text(
-                          'Güvenli Satış',
-                          style: TextStyle(
-                            color: const Color(0xFF3B82F6),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8.h),
                     Text(
-                      'Üniversiteler ve sertifikalı tamircilerle eşleştirme yapıyoruz. Güvenli ödeme ve teslimat garantisi.',
+                      context.l10n.selectCategory,
                       style: TextStyle(
-                        color: Colors.grey[400],
-                        fontSize: 12.sp,
-                        height: 1.4,
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      'Detayları Gör',
-                      style: TextStyle(
-                        color: const Color(0xFF3B82F6),
-                        fontSize: 12.sp,
-                        decoration: TextDecoration.underline,
+                    SizedBox(height: 12.h),
+                    Row(
+                      children: List.generate(
+                        _categories.length,
+                        (index) => Padding(
+                          padding: EdgeInsets.only(right: 12.w),
+                          child: _buildCategoryChip(index),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
 
-            Divider(color: Colors.white.withOpacity(0.1), height: 1),
+              Divider(color: Colors.white.withOpacity(0.1), height: 1),
 
-            // Contact Info
-            Padding(
-              padding: EdgeInsets.all(20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.l10n.contactInfo,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
+              // Photo Upload Section
+              Padding(
+                padding: EdgeInsets.all(20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.l10n.addPhoto,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 16.h),
-                  _buildLabel(context.l10n.labelPhone),
-                  _buildTextField('+90 5XX XXX XX XX'),
-                  SizedBox(height: 20.h),
-
-                  _buildLabel(context.l10n.labelCity),
-                  _buildDropdown(
-                    [
-                      context.l10n.cityIstanbul,
-                      context.l10n.cityAnkara,
-                      context.l10n.cityIzmir,
-                    ],
-                    _selectedCity,
-                    (val) => setState(() => _selectedCity = val!),
-                  ),
-                ],
+                    SizedBox(height: 12.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _buildPhotoBox(isCamera: true),
+                        _buildPhotoBox(),
+                        _buildPhotoBox(),
+                      ],
+                    ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      context.l10n.photoLimitNote,
+                      style: TextStyle(
+                        color: Colors.grey[500],
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
 
-            // Publish Button
-            Padding(
-              padding: EdgeInsets.all(20.w),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0F50C1), // Strong Blue
-                    padding: EdgeInsets.symmetric(vertical: 16.h),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
+              Divider(color: Colors.white.withOpacity(0.1), height: 1),
+
+              // Form Fields
+              Padding(
+                padding: EdgeInsets.all(20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildLabel(context.l10n.labelTitle),
+                    _buildTextField(context.l10n.hintTitle),
+                    SizedBox(height: 20.h),
+
+                    _buildLabel(context.l10n.labelDescription),
+                    _buildTextField(context.l10n.hintDescription, maxLines: 4),
+                    SizedBox(height: 20.h),
+
+                    _buildLabel(context.l10n.labelCondition),
+                    _buildDropdown(
+                      [
+                        context.l10n.conditionNew,
+                        context.l10n.conditionUsed,
+                        context.l10n.conditionRefurbished,
+                      ],
+                      _selectedCondition,
+                      (val) => setState(() => _selectedCondition = val!),
                     ),
+                    SizedBox(height: 20.h),
+
+                    _buildLabel(context.l10n.labelPrice),
+                    Stack(
+                      children: [
+                        _buildTextField('0'),
+                        Positioned(
+                          right: 16.w,
+                          top: 0,
+                          bottom: 0,
+                          child: Center(
+                            child: Text(
+                              '₺',
+                              style: TextStyle(
+                                color: Colors.grey[400],
+                                fontSize: 16.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 12.h),
+
+                    Row(
+                      children: [
+                        SizedBox(
+                          height: 24.h,
+                          width: 24.w,
+                          child: Checkbox(
+                            value: _isNegotiable,
+                            onChanged: (val) =>
+                                setState(() => _isNegotiable = val!),
+                            activeColor: const Color(0xFF0F50C1),
+                            side: BorderSide(
+                              color: Colors.grey[600]!,
+                              width: 2,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4.r),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 8.w),
+                        Text(
+                          context.l10n.negotiable,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              Divider(color: Colors.white.withOpacity(0.1), height: 1),
+
+              // Safe Selling Info
+              Padding(
+                padding: EdgeInsets.all(20.w),
+                child: Container(
+                  padding: EdgeInsets.all(16.w),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1F2937),
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: Colors.white.withOpacity(0.05)),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(LucideIcons.send, color: Colors.white, size: 20.sp),
-                      SizedBox(width: 8.w),
+                      Row(
+                        children: [
+                          Icon(
+                            LucideIcons.shieldCheck,
+                            color: const Color(0xFF3B82F6),
+                            size: 20.sp,
+                          ),
+                          SizedBox(width: 8.w),
+                          Text(
+                            'Güvenli Satış',
+                            style: TextStyle(
+                              color: const Color(0xFF3B82F6),
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8.h),
                       Text(
-                        context.l10n.publishButton,
+                        'Üniversiteler ve sertifikalı tamircilerle eşleştirme yapıyoruz. Güvenli ödeme ve teslimat garantisi.',
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
+                          color: Colors.grey[400],
+                          fontSize: 12.sp,
+                          height: 1.4,
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      Text(
+                        'Detayları Gör',
+                        style: TextStyle(
+                          color: const Color(0xFF3B82F6),
+                          fontSize: 12.sp,
+                          decoration: TextDecoration.underline,
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
 
-            // Keyboard padding
-            SizedBox(height: MediaQuery.of(context).viewInsets.bottom + 20.h),
-          ],
+              Divider(color: Colors.white.withOpacity(0.1), height: 1),
+
+              // Contact Info
+              Padding(
+                padding: EdgeInsets.all(20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.l10n.contactInfo,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    _buildLabel(context.l10n.labelPhone),
+                    _buildTextField('+90 5XX XXX XX XX'),
+                    SizedBox(height: 20.h),
+
+                    _buildLabel(context.l10n.labelCity),
+                    _buildDropdown(
+                      [
+                        context.l10n.cityIstanbul,
+                        context.l10n.cityAnkara,
+                        context.l10n.cityIzmir,
+                      ],
+                      _selectedCity,
+                      (val) => setState(() => _selectedCity = val!),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Publish Button
+              Padding(
+                padding: EdgeInsets.all(20.w),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF0F50C1), // Strong Blue
+                      padding: EdgeInsets.symmetric(vertical: 16.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          LucideIcons.send,
+                          color: Colors.white,
+                          size: 20.sp,
+                        ),
+                        SizedBox(width: 8.w),
+                        Text(
+                          context.l10n.publishButton,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              // Keyboard and Bottom Navigation padding
+              SizedBox(height: MediaQuery.of(context).viewInsets.bottom + 80.h),
+            ],
+          ),
         ),
       ),
     );

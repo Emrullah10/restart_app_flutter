@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/presentation/rewards/riverpod/gamification_provider.dart';
 import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
-class AchievementsSection extends StatelessWidget {
+class AchievementsSection extends ConsumerWidget {
   const AchievementsSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final gamificationState = ref.watch(gamificationProvider);
+    final badges = gamificationState.badges;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -20,51 +25,47 @@ class AchievementsSection extends StatelessWidget {
           ),
         ),
         SizedBox(height: 16.h),
-        Row(
-          children: [
-            Expanded(
-              child: _buildAchievementCard(
-                icon: LucideIcons.star,
-                title: context.l10n.achievementFirstRepair,
-                subtitle: context.l10n.achievementCompleted,
-                isCompleted: true,
-              ),
+        if (gamificationState.isLoading)
+          const Center(child: CircularProgressIndicator())
+        else if (badges.isEmpty)
+          Center(
+            child: Text(
+              'Henüz başarı kazanılmadı.',
+              style: TextStyle(color: Colors.grey[500], fontSize: 14.sp),
             ),
-            SizedBox(width: 16.w),
-            Expanded(
-              child: _buildAchievementCard(
-                icon: LucideIcons.leaf,
-                title: context.l10n.achievementEnvironmentalist,
-                subtitle: context.l10n.achievementTenRecycles,
-                isCompleted: true,
-              ),
+          )
+        else
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 16.w,
+              mainAxisSpacing: 16.h,
+              childAspectRatio: 0.85,
             ),
-          ],
-        ),
-        SizedBox(height: 16.h),
-        Row(
-          children: [
-            Expanded(
-              child: _buildAchievementCard(
-                icon: LucideIcons.trophy,
-                title: context.l10n.achievementSuperSeller,
-                subtitle: '${context.l10n.achievementFiftySales} (12/50)',
-                isCompleted: false,
-              ),
-            ),
-            SizedBox(width: 16.w),
-            Expanded(
-              child: _buildAchievementCard(
-                icon: LucideIcons.crown,
-                title: context.l10n.achievementGoldLevel,
-                subtitle: context.l10n.achievementReachPoints,
-                isCompleted: false,
-              ),
-            ),
-          ],
-        ),
+            itemCount: badges.length,
+            itemBuilder: (context, index) {
+              final badge = badges[index];
+              return _buildAchievementCard(
+                icon: _getIconForBadge(badge.name),
+                title: badge.name,
+                subtitle: badge.description,
+                isCompleted: badge.isUnlocked,
+              );
+            },
+          ),
       ],
     );
+  }
+
+  IconData _getIconForBadge(String badgeName) {
+    final name = badgeName.toLowerCase();
+    if (name.contains('tamir')) return LucideIcons.star;
+    if (name.contains('çevreci')) return LucideIcons.leaf;
+    if (name.contains('satıcı')) return LucideIcons.trophy;
+    if (name.contains('altın')) return LucideIcons.crown;
+    return LucideIcons.award;
   }
 
   Widget _buildAchievementCard({
@@ -74,7 +75,7 @@ class AchievementsSection extends StatelessWidget {
     required bool isCompleted,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 24.h),
+      padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 12.w),
       decoration: BoxDecoration(
         color: const Color(0xFF1F2937),
         borderRadius: BorderRadius.circular(16.r),
@@ -85,25 +86,32 @@ class AchievementsSection extends StatelessWidget {
         ),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             icon,
-            color: isCompleted ? Colors.white : Colors.grey[600],
+            color: isCompleted ? const Color(0xFF10B981) : Colors.grey[600],
             size: 32.sp,
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 12.h),
           Text(
             title,
             style: TextStyle(
               color: isCompleted ? Colors.white : Colors.grey[400],
-              fontSize: 16.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.bold,
             ),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           SizedBox(height: 4.h),
           Text(
             subtitle,
-            style: TextStyle(color: Colors.grey[500], fontSize: 12.sp),
+            style: TextStyle(color: Colors.grey[500], fontSize: 11.sp),
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

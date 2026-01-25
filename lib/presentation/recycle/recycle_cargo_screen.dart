@@ -125,7 +125,7 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                           SizedBox(height: 12.h),
                           _buildInfoRow(
                             'Kazanılacak Puan:',
-                            '${recycleState.estimatedPoints.toStringAsFixed(0)} Puan',
+                            '${recycleState.totalPoints} Puan',
                             isHighlight: true,
                           ),
                         ],
@@ -142,11 +142,9 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                             ? null
                             : () async {
                                 // Mock data for now, would come from earlier screens
+                                // TODO: Gerçek userId auth'dan alınmalı
                                 final success = await notifier.submitRecycle(
                                   'mock-user-id',
-                                  'mock-center-id',
-                                  'electronic',
-                                  1.0,
                                 );
                                 if (success && mounted) {
                                   Navigator.push(

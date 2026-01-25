@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_flutter/data/models/models.dart';
 import 'package:mobile_flutter/data/services/api_service.dart';
 import 'package:mobile_flutter/data/services/i_api_service.dart';
 import 'package:mobile_flutter/presentation/auth/riverpod/auth_provider.dart';
@@ -7,14 +8,14 @@ import 'package:mobile_flutter/presentation/auth/riverpod/auth_provider.dart';
 class ListingsState {
   final bool isLoading;
   final String? error;
-  final List<dynamic> listings;
+  final List<ListingModel> listings;
 
   ListingsState({this.isLoading = false, this.error, this.listings = const []});
 
   ListingsState copyWith({
     bool? isLoading,
     String? error,
-    List<dynamic>? listings,
+    List<ListingModel>? listings,
   }) {
     return ListingsState(
       isLoading: isLoading ?? this.isLoading,
@@ -60,14 +61,14 @@ final listingsProvider =
 class ProductsState {
   final bool isLoading;
   final String? error;
-  final List<dynamic> products;
+  final List<ProductModel> products;
 
   ProductsState({this.isLoading = false, this.error, this.products = const []});
 
   ProductsState copyWith({
     bool? isLoading,
     String? error,
-    List<dynamic>? products,
+    List<ProductModel>? products,
   }) {
     return ProductsState(
       isLoading: isLoading ?? this.isLoading,

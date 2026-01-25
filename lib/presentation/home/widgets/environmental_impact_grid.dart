@@ -12,13 +12,13 @@ class EnvironmentalImpactGrid extends ConsumerWidget {
     final profileState = ref.watch(profileProvider);
     final profile = profileState.profile;
 
-    // Extract values with fallbacks
-    final repairedCount = (profile?['repairedCount'] ?? 0).toString();
+    // Extract values with and without fallbacks from model
+    final repairedCount = (profile?.repairedCount ?? 0).toString();
     final preventedWasteKg =
-        '${(profile?['preventedWasteKg'] ?? 0.0).toStringAsFixed(1)}kg';
+        '${(profile?.preventedWasteKg ?? 0.0).toStringAsFixed(1)}kg';
     final totalEarnings =
-        '₺${(profile?['totalEarnings'] ?? 0).toStringAsFixed(0)}';
-    final level = (profile?['level'] ?? 1).toString();
+        '₺${(profile?.totalEarnings ?? 0.0).toStringAsFixed(0)}';
+    final level = (profile?.level ?? 1).toString();
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),

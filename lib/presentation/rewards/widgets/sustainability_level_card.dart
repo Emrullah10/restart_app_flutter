@@ -1,13 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/presentation/profile/riverpod/profile_provider.dart';
 import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
-class SustainabilityLevelCard extends StatelessWidget {
+class SustainabilityLevelCard extends ConsumerWidget {
   const SustainabilityLevelCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileState = ref.watch(profileProvider);
+    final profile = profileState.profile;
+
+    final points = profile?.totalPoints ?? 0;
+    final level = profile?.level ?? 1;
+
+    // Logic for next level (Simplified for now)
+    final pointsToNext = level * 1000;
+    final progress = points / pointsToNext;
+    final remaining = pointsToNext - points > 0 ? pointsToNext - points : 0;
+
+    String levelName = context.l10n.levelBronze;
+    Color levelColor = const Color(0xFFCD7F32); // Bronze
+    if (level == 2) {
+      levelName = context.l10n.levelSilver;
+      levelColor = Colors.grey[400]!;
+    } else if (level >= 3) {
+      levelName = context.l10n.levelGold;
+      levelColor = const Color(0xFFEAB308);
+    }
+
     return Column(
       children: [
         Icon(LucideIcons.sprout, color: Colors.white, size: 48.sp),
@@ -15,14 +38,14 @@ class SustainabilityLevelCard extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
           decoration: BoxDecoration(
-            color: const Color(0xFFEAB308).withOpacity(0.2), // Yellow/Gold
+            color: levelColor.withOpacity(0.2),
             borderRadius: BorderRadius.circular(20.r),
-            border: Border.all(color: const Color(0xFFEAB308).withOpacity(0.5)),
+            border: Border.all(color: levelColor.withOpacity(0.5)),
           ),
           child: Text(
-            context.l10n.levelSilver,
+            levelName,
             style: TextStyle(
-              color: const Color(0xFFEAB308),
+              color: levelColor,
               fontSize: 14.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -55,7 +78,7 @@ class SustainabilityLevelCard extends StatelessWidget {
                     style: TextStyle(color: Colors.white, fontSize: 12.sp),
                   ),
                   Text(
-                    '1,250 / 2,000',
+                    '${points.toString()} / ${pointsToNext.toString()}',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16.sp,
@@ -72,17 +95,15 @@ class SustainabilityLevelCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10.r),
                 child: LinearProgressIndicator(
-                  value: 1250 / 2000,
+                  value: progress > 1.0 ? 1.0 : progress,
                   backgroundColor: const Color(0xFF374151),
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                    Color(0xFFEAB308),
-                  ),
+                  valueColor: AlwaysStoppedAnimation<Color>(levelColor),
                   minHeight: 8.h,
                 ),
               ),
               SizedBox(height: 8.h),
               Text(
-                context.l10n.pointsToNextLevel(750),
+                context.l10n.pointsToNextLevel(remaining),
                 style: TextStyle(color: Colors.grey[500], fontSize: 12.sp),
               ),
             ],

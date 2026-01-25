@@ -1,34 +1,20 @@
-/// Badge model for gamification
-class BadgeModel {
-  final int id;
-  final String name;
-  final String description;
-  final String icon;
-  final String color;
-  final bool isUnlocked;
-  final DateTime? unlockedAt;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  BadgeModel({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.icon,
-    required this.color,
-    required this.isUnlocked,
-    this.unlockedAt,
-  });
+part 'badge_model.freezed.dart';
+part 'badge_model.g.dart';
 
-  factory BadgeModel.fromJson(Map<String, dynamic> json) {
-    return BadgeModel(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? '',
-      description: json['description'] ?? '',
-      icon: json['icon'] ?? 'award',
-      color: json['color'] ?? '#10B981',
-      isUnlocked: json['isUnlocked'] ?? false,
-      unlockedAt: json['unlockedAt'] != null
-          ? DateTime.tryParse(json['unlockedAt'])
-          : null,
-    );
-  }
+@freezed
+abstract class BadgeModel with _$BadgeModel {
+  const factory BadgeModel({
+    required String id,
+    required String name,
+    required String description,
+    required String icon,
+    required String color,
+    required bool isUnlocked,
+    DateTime? unlockedAt,
+  }) = _BadgeModel;
+
+  factory BadgeModel.fromJson(Map<String, dynamic> json) =>
+      _$BadgeModelFromJson(json);
 }

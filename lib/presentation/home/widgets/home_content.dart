@@ -58,9 +58,7 @@ class HomeContent extends ConsumerWidget {
             ),
 
             SizedBox(height: 24.h),
-            ImpactSummaryCard(
-              co2Saved: (profile?['co2Saved'] ?? '0.0').toString(),
-            ),
+            ImpactSummaryCard(co2Saved: (profile?.co2Saved ?? '0.0')),
 
             SizedBox(height: 32.h),
             Padding(

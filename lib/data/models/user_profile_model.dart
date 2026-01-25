@@ -1,54 +1,49 @@
-/// User profile model
-class UserProfileModel {
-  final String id;
-  final String email;
-  final String fullName;
-  final String? avatarUrl;
-  final String role;
-  final int totalPoints;
-  final int recycleCount;
-  final int level;
-  final double totalEarnings;
-  final int repairedCount;
-  final double preventedWasteKg;
-  final String co2Saved;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  UserProfileModel({
-    required this.id,
-    required this.email,
-    required this.fullName,
-    this.avatarUrl,
-    required this.role,
-    required this.totalPoints,
-    required this.recycleCount,
-    required this.level,
-    required this.totalEarnings,
-    required this.repairedCount,
-    required this.preventedWasteKg,
-    required this.co2Saved,
-  });
+part 'user_profile_model.freezed.dart';
+part 'user_profile_model.g.dart';
 
-  factory UserProfileModel.fromJson(Map<String, dynamic> json) {
-    return UserProfileModel(
-      id: json['id']?.toString() ?? '',
-      email: json['email'] ?? '',
-      fullName: json['fullName'] ?? '',
-      avatarUrl: json['avatarUrl'],
-      role: json['role'] ?? 'user',
-      totalPoints: json['totalPoints'] ?? 0,
-      recycleCount: json['recycleCount'] ?? 0,
-      level: json['level'] ?? 1,
-      totalEarnings: _parseDouble(json['totalEarnings']),
-      repairedCount: json['repairedCount'] ?? 0,
-      preventedWasteKg: _parseDouble(json['preventedWasteKg']),
-      co2Saved: json['co2Saved']?.toString() ?? '0.0',
-    );
-  }
+// Manuel okuma fonksiyonları build_runner'ın tanıması için global olmalı
+Object? _readTotalPoints(Map json, String key) =>
+    _readStats(json, 'totalPoints');
+Object? _readRecycleCount(Map json, String key) =>
+    _readStats(json, 'recycleCount');
+Object? _readLevel(Map json, String key) => _readStats(json, 'level');
+Object? _readTotalEarnings(Map json, String key) =>
+    _readStats(json, 'totalEarnings');
+Object? _readRepairedCount(Map json, String key) =>
+    _readStats(json, 'repairedCount');
+Object? _readPreventedWasteKg(Map json, String key) =>
+    _readStats(json, 'preventedWasteKg');
+Object? _readCo2Saved(Map json, String key) => _readStats(json, 'co2Saved');
 
-  static double _parseDouble(dynamic value) {
-    if (value == null) return 0.0;
-    if (value is double) return value;
-    if (value is int) return value.toDouble();
-    return double.tryParse(value.toString()) ?? 0.0;
-  }
+Object? _readStats(Map json, String key) {
+  final stats = json['stats'] as Map<String, dynamic>?;
+  return stats?[key] ?? json[key];
+}
+
+@freezed
+abstract class UserProfileModel with _$UserProfileModel {
+  const factory UserProfileModel({
+    required String id,
+    required String email,
+    required String fullName,
+    String? avatarUrl,
+    @Default('user') String role,
+    @JsonKey(readValue: _readTotalPoints) @Default(0) int totalPoints,
+    @JsonKey(readValue: _readRecycleCount) @Default(0) int recycleCount,
+    @JsonKey(readValue: _readLevel) @Default(1) int level,
+    @JsonKey(readValue: _readTotalEarnings) @Default(0.0) double totalEarnings,
+    @JsonKey(readValue: _readRepairedCount) @Default(0) int repairedCount,
+    @JsonKey(readValue: _readPreventedWasteKg)
+    @Default(0.0)
+    double preventedWasteKg,
+    @JsonKey(readValue: _readCo2Saved) @Default('0.0') String co2Saved,
+    @Default(0) int rank,
+    @Default(0.0) double averageRating,
+    @Default(0) int reviewCount,
+  }) = _UserProfileModel;
+
+  factory UserProfileModel.fromJson(Map<String, dynamic> json) =>
+      _$UserProfileModelFromJson(json);
 }

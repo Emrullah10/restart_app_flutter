@@ -1,39 +1,21 @@
-/// Activity model for user activities
-class ActivityModel {
-  final String id;
-  final String type;
-  final String title;
-  final String description;
-  final int pointsEarned;
-  final double amountEarned;
-  final DateTime createdAt;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  ActivityModel({
-    required this.id,
-    required this.type,
-    required this.title,
-    required this.description,
-    required this.pointsEarned,
-    required this.amountEarned,
-    required this.createdAt,
-  });
+part 'activity_model.freezed.dart';
+part 'activity_model.g.dart';
 
-  factory ActivityModel.fromJson(Map<String, dynamic> json) {
-    return ActivityModel(
-      id: json['id']?.toString() ?? '',
-      type: json['type'] ?? '',
-      title: json['title'] ?? '',
-      description: json['description'] ?? '',
-      pointsEarned: json['pointsEarned'] ?? 0,
-      amountEarned: _parseDouble(json['amountEarned']),
-      createdAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
-    );
-  }
+@freezed
+abstract class ActivityModel with _$ActivityModel {
+  const factory ActivityModel({
+    required String id,
+    @JsonKey(name: 'activityType') required String type,
+    required String title,
+    required String description,
+    @Default(0) int pointsEarned,
+    @Default(0.0) double amountEarned,
+    required DateTime createdAt,
+    String? userId,
+  }) = _ActivityModel;
 
-  static double _parseDouble(dynamic value) {
-    if (value == null) return 0.0;
-    if (value is double) return value;
-    if (value is int) return value.toDouble();
-    return double.tryParse(value.toString()) ?? 0.0;
-  }
+  factory ActivityModel.fromJson(Map<String, dynamic> json) =>
+      _$ActivityModelFromJson(json);
 }

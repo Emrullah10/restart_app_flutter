@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:mobile_flutter/presentation/profile/riverpod/gamification_provider.dart';
+import 'package:mobile_flutter/presentation/rewards/riverpod/gamification_provider.dart';
 import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class BadgeGallery extends ConsumerWidget {
   const BadgeGallery({super.key});
 
   IconData _getIconForBadge(String? iconName) {
-    switch (iconName) {
+    switch (iconName?.toLowerCase()) {
       case 'star':
         return Icons.star;
       case 'wrench':
@@ -32,9 +32,11 @@ class BadgeGallery extends ConsumerWidget {
   }
 
   Color _getColorForBadge(String? colorHex) {
-    if (colorHex == null) return const Color(0xFF10B981);
+    if (colorHex == null || colorHex.isEmpty) return const Color(0xFF10B981);
     try {
-      return Color(int.parse(colorHex.replaceFirst('#', '0xFF')));
+      String hex = colorHex.replaceFirst('#', '0xFF');
+      if (hex.length == 8) hex = hex.replaceFirst('0x', '0xFF');
+      return Color(int.parse(hex));
     } catch (_) {
       return const Color(0xFF10B981);
     }
@@ -73,17 +75,16 @@ class BadgeGallery extends ConsumerWidget {
               spacing: 16.w,
               runSpacing: 24.h,
               children: badges.take(6).map((badge) {
-                final isUnlocked = badge['isUnlocked'] ?? false;
-                final name = badge['name'] ?? '';
-                final icon = badge['icon'];
-                final color = badge['color'];
+                final isUnlocked = badge.isUnlocked;
 
                 return _buildBadge(
-                  icon: isUnlocked ? _getIconForBadge(icon) : LucideIcons.lock,
+                  icon: isUnlocked
+                      ? _getIconForBadge(badge.icon)
+                      : LucideIcons.lock,
                   color: isUnlocked
-                      ? _getColorForBadge(color)
+                      ? _getColorForBadge(badge.color)
                       : Colors.grey[800]!,
-                  label: isUnlocked ? name : context.l10n.badgeLocked,
+                  label: isUnlocked ? badge.name : context.l10n.badgeLocked,
                   isLocked: !isUnlocked,
                 );
               }).toList(),

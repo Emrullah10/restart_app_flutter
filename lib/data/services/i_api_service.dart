@@ -1,3 +1,5 @@
+import 'package:mobile_flutter/data/models/models.dart';
+
 abstract class IApiService {
   Future<Map<String, dynamic>> login(String email, String password);
   Future<Map<String, dynamic>> register(
@@ -11,29 +13,46 @@ abstract class IApiService {
   Future<List<dynamic>> getRecycleHistory(String userId);
 
   // User
-  Future<Map<String, dynamic>> getUserProfile(String userId);
+  Future<UserProfileModel> getUserProfile(String userId);
 
   // Activities
-  Future<List<dynamic>> getActivities(String userId, {int limit = 10});
+  Future<List<ActivityModel>> getActivities(String userId, {int limit = 10});
 
   // Gamification
   Future<Map<String, dynamic>> getLeaderboard({String? userId, int limit = 3});
-  Future<List<dynamic>> getUserBadges(String userId);
+  Future<List<BadgeModel>> getUserBadges(String userId);
 
   // Marketplace
-  Future<List<dynamic>> getUserListings(String userId);
-  Future<List<dynamic>> getProducts({String? category, int? limit});
+  Future<List<ListingModel>> getUserListings(String userId);
+  Future<List<ProductModel>> getProducts({String? category, int? limit});
 
   // Rewards
-  Future<List<dynamic>> getRewards();
+  Future<List<RewardModel>> getRewards();
 
   // Services
-  Future<List<dynamic>> getServices({String? type});
+  Future<List<ServiceModel>> getServices({String? type});
+
+  /// PostGIS ile yakındaki servis merkezlerini getirir
+  Future<List<ServiceModel>> getNearbyServices({
+    required double lat,
+    required double lng,
+    int radiusMeters = 5000,
+    String? type,
+  });
 
   Future<Map<String, dynamic>> getMotivationMessage(
     String productModel,
     String condition,
   );
-  Future<List<dynamic>> findCouriers(double lat, double lng);
+
+  /// PostGIS ile yakındaki kuryeleri getirir
+  Future<List<dynamic>> findCouriers({
+    required double lat,
+    required double lng,
+    int radiusMeters = 3000,
+    String? vehicleType,
+    bool electricOnly = false,
+  });
+
   Future<bool> sendContactMessage(Map<String, dynamic> data);
 }

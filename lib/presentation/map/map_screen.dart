@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/data/models/models.dart';
+import 'package:mobile_flutter/presentation/home/riverpod/services_provider.dart';
 import 'package:mobile_flutter/presentation/map/widgets/map_filter_bar.dart';
-import 'package:mobile_flutter/utils/constants/app_colors.dart';
 import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
-class MapScreen extends StatefulWidget {
+class MapScreen extends ConsumerStatefulWidget {
   final String? filter;
   const MapScreen({super.key, this.filter});
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  ConsumerState<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _MapScreenState extends ConsumerState<MapScreen> {
   final MapController _mapController = MapController();
 
   // 0: All, 1: Repair, 2: Sell, 3: Recycle
@@ -25,6 +27,18 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     super.initState();
     _selectedFilterIndex = _getFilterIndexFromParam(widget.filter);
+    // Load initial services
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadServicesByFilter(_selectedFilterIndex);
+    });
+  }
+
+  void _loadServicesByFilter(int index) {
+    String? type;
+    if (index == 1) type = 'repair';
+    if (index == 2) type = 'sell';
+    if (index == 3) type = 'recycle';
+    ref.read(servicesProvider.notifier).loadNearbyServices(type: type);
   }
 
   int _getFilterIndexFromParam(String? filter) {
@@ -34,75 +48,154 @@ class _MapScreenState extends State<MapScreen> {
     return 0;
   }
 
-  // Dummy markers for demonstration
-  final List<Marker> _markers = [
-    // Repair Shop
-    Marker(
-      point: const LatLng(41.0082, 28.9784), // Istanbul
-      width: 40.w,
-      height: 40.w,
-      child: Container(
+  List<Marker> _buildMarkers(List<ServiceModel> services) {
+    return services.map((service) {
+      final color = _getColorForType(service.type);
+      final icon = _getIconForType(service.type);
+
+      return Marker(
+        point: LatLng(service.latitude, service.longitude),
+        width: 40.w,
+        height: 40.w,
+        child: GestureDetector(
+          onTap: () => _showServiceInfo(service),
+          child: Container(
+            decoration: BoxDecoration(
+              color: color,
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 2.w),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Icon(icon, color: Colors.white, size: 20.sp),
+          ),
+        ),
+      );
+    }).toList();
+  }
+
+  IconData _getIconForType(String type) {
+    switch (type.toLowerCase()) {
+      case 'repair':
+        return LucideIcons.wrench;
+      case 'recycle':
+        return LucideIcons.recycle;
+      case 'sell':
+        return LucideIcons.store;
+      default:
+        return LucideIcons.mapPin;
+    }
+  }
+
+  Color _getColorForType(String type) {
+    switch (type.toLowerCase()) {
+      case 'repair':
+        return const Color(0xFF3B82F6);
+      case 'recycle':
+        return const Color(0xFF22C55E);
+      case 'sell':
+        return const Color(0xFFF97316);
+      default:
+        return const Color(0xFF6B7280);
+    }
+  }
+
+  void _showServiceInfo(ServiceModel service) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      useRootNavigator: true,
+      builder: (context) => Container(
+        margin: EdgeInsets.all(24.w),
+        padding: EdgeInsets.all(20.w),
         decoration: BoxDecoration(
-          color: const Color(0xFF3B82F6), // Blue
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 2.w),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
+          color: const Color(0xFF1F2937),
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  service.name,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                  decoration: BoxDecoration(
+                    color: _getColorForType(service.type).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Text(
+                    service.type.toUpperCase(),
+                    style: TextStyle(
+                      color: _getColorForType(service.type),
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 8.h),
+            Row(
+              children: [
+                Icon(Icons.star, color: Colors.amber, size: 16.sp),
+                SizedBox(width: 4.w),
+                Text(
+                  service.rating.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 12.h),
+            Text(
+              service.address,
+              style: TextStyle(color: Colors.grey[400], fontSize: 13.sp),
+            ),
+            SizedBox(height: 16.h),
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF22C55E),
+                minimumSize: Size(double.infinity, 45.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
+              child: Text(
+                context.l10n.actionGetDirections,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),
-        child: Icon(LucideIcons.wrench, color: Colors.white, size: 20.sp),
       ),
-    ),
-    // Recycle Point
-    Marker(
-      point: const LatLng(41.0150, 28.9850),
-      width: 40.w,
-      height: 40.w,
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFF22C55E), // Green
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 2.w),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Icon(LucideIcons.recycle, color: Colors.white, size: 20.sp),
-      ),
-    ),
-    // Sell/Shop
-    Marker(
-      point: const LatLng(41.0200, 28.9700),
-      width: 40.w,
-      height: 40.w,
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFFF97316), // Orange
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 2.w),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Icon(LucideIcons.store, color: Colors.white, size: 20.sp),
-      ),
-    ),
-  ];
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final servicesState = ref.watch(servicesProvider);
+    final markers = _buildMarkers(servicesState.services);
+
     return Scaffold(
       backgroundColor: context.theme.scaffoldBackgroundColor,
       body: Stack(
@@ -110,17 +203,19 @@ class _MapScreenState extends State<MapScreen> {
           // 1. Map Layer
           FlutterMap(
             mapController: _mapController,
-            options: const MapOptions(
-              initialCenter: LatLng(41.0082, 28.9784), // Istanbul Center
+            options: MapOptions(
+              initialCenter: const LatLng(41.0082, 28.9784), // Istanbul Center
               initialZoom: 13.0,
+              onTap: (_, __) {
+                // Close any open info panels if needed
+              },
             ),
             children: [
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.example.mobile_flutter',
-                // Always use standard OSM tiles (not affected by dark mode)
               ),
-              MarkerLayer(markers: _markers),
+              MarkerLayer(markers: markers),
             ],
           ),
 
@@ -148,8 +243,6 @@ class _MapScreenState extends State<MapScreen> {
                 children: [
                   Row(
                     children: [
-                      // Back button replaced by SizedBox as requested (it's a main tab)
-                      // No, user said "geri itme butonunu... kaldır".
                       SizedBox(width: 48.w),
                       Expanded(
                         child: Text(
@@ -171,10 +264,13 @@ class _MapScreenState extends State<MapScreen> {
                     ],
                   ),
                   SizedBox(height: 16.h),
-                  const MapFilterBar(), // Need refactor to accept index.
-                  // For now, let's assume user accepts default All, or if I change it:
-                  // I should refactor MapFilterBar to be stateless or accept initial index.
-                  // Let's do a quick inline update to MapFilterBar first.
+                  MapFilterBar(
+                    initialIndex: _selectedFilterIndex,
+                    onFilterChanged: (index) {
+                      setState(() => _selectedFilterIndex = index);
+                      _loadServicesByFilter(index);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -230,15 +326,25 @@ class _MapScreenState extends State<MapScreen> {
             right: 24.w,
             child: FloatingActionButton(
               onPressed: () {
-                // Determine user location logic here
+                // Center map on user location
+                _mapController.move(const LatLng(41.0082, 28.9784), 14.0);
               },
               backgroundColor: context.theme.colorScheme.surface,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.r),
               ),
-              child: Icon(LucideIcons.compass, color: AppColors.primary),
+              child: Icon(
+                LucideIcons.compass,
+                color: context.theme.primaryColor,
+              ),
             ),
           ),
+
+          // 5. Loading Indicator Overlay
+          if (servicesState.isLoading)
+            const Center(
+              child: CircularProgressIndicator(color: Color(0xFF22C55E)),
+            ),
         ],
       ),
     );

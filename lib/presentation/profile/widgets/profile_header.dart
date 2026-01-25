@@ -5,8 +5,20 @@ import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 class ProfileHeader extends StatelessWidget {
   final String fullName;
   final String role;
+  final int rank;
+  final double rating;
+  final int reviewCount;
+  final String? avatarUrl;
 
-  const ProfileHeader({super.key, required this.fullName, required this.role});
+  const ProfileHeader({
+    super.key,
+    required this.fullName,
+    required this.role,
+    this.rank = 0,
+    this.rating = 0.0,
+    this.reviewCount = 0,
+    this.avatarUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +39,10 @@ class ProfileHeader extends StatelessWidget {
                     color: const Color(0xFF22C55E),
                     width: 2.w,
                   ),
-                  image: const DecorationImage(
+                  image: DecorationImage(
                     image: NetworkImage(
-                      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80',
+                      avatarUrl ??
+                          'https://ui-avatars.com/api/?name=${Uri.encodeComponent(fullName)}&background=22C55E&color=fff',
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -49,7 +62,7 @@ class ProfileHeader extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    '#42',
+                    rank > 0 ? '#$rank' : '-',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 10.sp,
@@ -90,7 +103,7 @@ class ProfileHeader extends StatelessWidget {
                     ), // Amber
                     SizedBox(width: 4.w),
                     Text(
-                      '4.8',
+                      rating.toStringAsFixed(1),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 14.sp,
@@ -99,7 +112,7 @@ class ProfileHeader extends StatelessWidget {
                     ),
                     SizedBox(width: 4.w),
                     Text(
-                      context.l10n.profileReviewCount(127),
+                      context.l10n.profileReviewCount(reviewCount),
                       style: TextStyle(
                         color: Colors.grey[500],
                         fontSize: 12.sp,

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_flutter/data/models/models.dart';
 import 'package:mobile_flutter/data/services/api_service.dart';
 import 'package:mobile_flutter/data/services/i_api_service.dart';
 import 'package:mobile_flutter/presentation/auth/riverpod/auth_provider.dart';
@@ -6,14 +7,14 @@ import 'package:mobile_flutter/presentation/auth/riverpod/auth_provider.dart';
 class ProfileState {
   final bool isLoading;
   final String? error;
-  final Map<String, dynamic>? profile;
+  final UserProfileModel? profile;
 
   ProfileState({this.isLoading = false, this.error, this.profile});
 
   ProfileState copyWith({
     bool? isLoading,
     String? error,
-    Map<String, dynamic>? profile,
+    UserProfileModel? profile,
   }) {
     return ProfileState(
       isLoading: isLoading ?? this.isLoading,

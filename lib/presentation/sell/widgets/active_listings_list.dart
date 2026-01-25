@@ -1,13 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/presentation/sell/riverpod/marketplace_provider.dart';
 import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
-class ActiveListingsList extends StatelessWidget {
+class ActiveListingsList extends ConsumerWidget {
   const ActiveListingsList({super.key});
 
+  IconData _getIconForCategory(String? category) {
+    switch (category?.toLowerCase()) {
+      case 'screen':
+      case 'ekran':
+        return LucideIcons.cpu;
+      case 'battery':
+      case 'batarya':
+        return LucideIcons.battery;
+      case 'cable':
+      case 'kablo':
+        return LucideIcons.plug;
+      case 'phone':
+      case 'telefon':
+        return LucideIcons.smartphone;
+      default:
+        return LucideIcons.package;
+    }
+  }
+
+  Color _getStatusColor(String? status) {
+    switch (status?.toLowerCase()) {
+      case 'active':
+      case 'aktif':
+        return const Color(0xFF10B981);
+      case 'pending':
+      case 'beklemede':
+        return const Color(0xFFF59E0B);
+      case 'sold':
+      case 'satıldı':
+        return Colors.grey[600]!;
+      default:
+        return const Color(0xFF10B981);
+    }
+  }
+
+  String _getStatusText(String? status, BuildContext context) {
+    switch (status?.toLowerCase()) {
+      case 'active':
+        return context.l10n.statusActive;
+      case 'pending':
+        return context.l10n.statusPending;
+      case 'sold':
+        return context.l10n.statusSold;
+      default:
+        return status ?? '';
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final listingsState = ref.watch(listingsProvider);
+    final listings = listingsState.listings;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Column(
@@ -34,32 +87,47 @@ class ActiveListingsList extends StatelessWidget {
             ],
           ),
           SizedBox(height: 16.h),
-          _buildListingItem(
-            icon: LucideIcons.cpu,
-            title: 'iPhone 12 Ekran',
-            subtitle: 'Orijinal, çalışır durumda',
-            price: '₺850',
-            status: context.l10n.statusActive,
-            statusColor: const Color(0xFF10B981), // Green
-          ),
-          SizedBox(height: 16.h),
-          _buildListingItem(
-            icon: LucideIcons.battery,
-            title: 'Samsung Batarya',
-            subtitle: 'Galaxy S21, %85 sağlık',
-            price: '₺320',
-            status: context.l10n.statusPending,
-            statusColor: const Color(0xFFF59E0B), // Amber
-          ),
-          SizedBox(height: 16.h),
-          _buildListingItem(
-            icon: LucideIcons.plug, // Using plug icon for cable
-            title: 'Lightning Kablo Seti',
-            subtitle: 'Orijinal Apple, 3 adet',
-            price: '₺180',
-            status: context.l10n.statusSold,
-            statusColor: Colors.grey[600]!, // Gray
-          ),
+          if (listingsState.isLoading)
+            const Center(
+              child: CircularProgressIndicator(color: Color(0xFF22C55E)),
+            )
+          else if (listingsState.error != null)
+            Text(
+              'Hata: ${listingsState.error}',
+              style: TextStyle(color: Colors.red[400], fontSize: 12.sp),
+            )
+          else if (listings.isEmpty)
+            Container(
+              padding: EdgeInsets.all(24.w),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1F2937),
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              child: Text(
+                'Henüz ilan yok',
+                style: TextStyle(color: Colors.grey[500], fontSize: 14.sp),
+              ),
+            )
+          else
+            ...listings.take(3).map((listing) {
+              final category = listing.category;
+              final title = listing.title;
+              final description = listing.description;
+              final price = listing.price;
+              final status = listing.status;
+
+              return Padding(
+                padding: EdgeInsets.only(bottom: 16.h),
+                child: _buildListingItem(
+                  icon: _getIconForCategory(category),
+                  title: title,
+                  subtitle: description,
+                  price: '₺${price.toString()}',
+                  status: _getStatusText(status, context),
+                  statusColor: _getStatusColor(status),
+                ),
+              );
+            }),
         ],
       ),
     );

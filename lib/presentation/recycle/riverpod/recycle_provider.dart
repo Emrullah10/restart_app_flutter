@@ -9,14 +9,28 @@ class RecycleState {
   final String? error;
   final bool isSuccess;
   final TransportMode selectedMode;
-  final double estimatedPoints;
+  final double weightKg;
+  final String? wasteType;
+  final String? selectedCenterId;
+
+  // Puan hesaplama
+  final int basePoints;
+  final int bonusPoints;
+  final int totalPoints;
+  final double commissionTl;
 
   RecycleState({
     this.isLoading = false,
     this.error,
     this.isSuccess = false,
     this.selectedMode = TransportMode.standard,
-    this.estimatedPoints = 10.0, // Base calculation mock
+    this.weightKg = 1.0, // MVP: Varsayılan 1 kg
+    this.wasteType = 'electronic', // MVP: Varsayılan elektronik
+    this.selectedCenterId,
+    this.basePoints = 10,
+    this.bonusPoints = 0,
+    this.totalPoints = 10,
+    this.commissionTl = 0.5,
   });
 
   RecycleState copyWith({
@@ -24,14 +38,26 @@ class RecycleState {
     String? error,
     bool? isSuccess,
     TransportMode? selectedMode,
-    double? estimatedPoints,
+    double? weightKg,
+    String? wasteType,
+    String? selectedCenterId,
+    int? basePoints,
+    int? bonusPoints,
+    int? totalPoints,
+    double? commissionTl,
   }) {
     return RecycleState(
       isLoading: isLoading ?? this.isLoading,
       error: error,
       isSuccess: isSuccess ?? this.isSuccess,
       selectedMode: selectedMode ?? this.selectedMode,
-      estimatedPoints: estimatedPoints ?? this.estimatedPoints,
+      weightKg: weightKg ?? this.weightKg,
+      wasteType: wasteType ?? this.wasteType,
+      selectedCenterId: selectedCenterId ?? this.selectedCenterId,
+      basePoints: basePoints ?? this.basePoints,
+      bonusPoints: bonusPoints ?? this.bonusPoints,
+      totalPoints: totalPoints ?? this.totalPoints,
+      commissionTl: commissionTl ?? this.commissionTl,
     );
   }
 }
@@ -39,33 +65,61 @@ class RecycleState {
 class RecycleNotifier extends StateNotifier<RecycleState> {
   final IApiService _apiService;
 
-  RecycleNotifier(this._apiService) : super(RecycleState());
+  RecycleNotifier(this._apiService) : super(RecycleState()) {
+    // Başlangıçta puanları hesapla
+    _recalculatePoints();
+  }
 
   void setTransportMode(TransportMode mode) {
-    // 1.5x Multiplier logic for Electric
-    double basePoints = 10.0; // Mock base points per package
-    double multiplier = mode == TransportMode.electric ? 1.5 : 1.0;
+    _recalculatePoints(mode: mode);
+  }
+
+  void setWeight(double weightKg) {
+    state = state.copyWith(weightKg: weightKg);
+    _recalculatePoints();
+  }
+
+  void setWasteType(String wasteType) {
+    state = state.copyWith(wasteType: wasteType);
+  }
+
+  void setCenter(String centerId) {
+    state = state.copyWith(selectedCenterId: centerId);
+  }
+
+  void _recalculatePoints({TransportMode? mode}) {
+    final transportMode = mode ?? state.selectedMode;
+    final weight = state.weightKg;
+
+    final basePoints = (weight * 10).round();
+    final electricMultiplier = transportMode == TransportMode.electric
+        ? 1.5
+        : 1.0;
+    final bonusPoints = transportMode == TransportMode.electric
+        ? (basePoints * 0.5).round()
+        : 0;
+    final totalPoints = (basePoints * electricMultiplier).round();
+    final commissionTl = weight * 0.5;
 
     state = state.copyWith(
-      selectedMode: mode,
-      estimatedPoints: basePoints * multiplier,
+      selectedMode: transportMode,
+      basePoints: basePoints,
+      bonusPoints: bonusPoints,
+      totalPoints: totalPoints,
+      commissionTl: commissionTl,
     );
   }
 
-  Future<bool> submitRecycle(
-    String userId,
-    String centerId,
-    String wasteType,
-    double amount,
-  ) async {
+  /// Geri dönüşüm kaydını gönder
+  Future<bool> submitRecycle(String userId) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
       final data = {
         'userId': userId,
-        'centerId': centerId,
-        'wasteType': wasteType,
-        'amount': amount,
-        'transportMode': state.selectedMode.name,
+        'serviceCenterId': state.selectedCenterId ?? 'mock-center-id',
+        'wasteType': state.wasteType ?? 'electronic',
+        'weightKg': state.weightKg,
+        'isElectricTransport': state.selectedMode == TransportMode.electric,
       };
 
       await _apiService.logRecycle(data);

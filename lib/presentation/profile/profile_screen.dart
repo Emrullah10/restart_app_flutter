@@ -64,18 +64,20 @@ class ProfileScreen extends ConsumerWidget {
           children: [
             SizedBox(height: 10.h),
             ProfileHeader(
-              fullName: profile?['fullName'] ?? 'User',
-              role: profile?['role'] ?? 'Member',
+              fullName: profile?.fullName ?? 'User',
+              role: profile?.role ?? 'Member',
+              rank: profile?.rank ?? 0,
+              rating: (profile?.averageRating ?? 0.0),
+              reviewCount: profile?.reviewCount ?? 0,
+              avatarUrl: profile?.avatarUrl,
             ),
             SizedBox(height: 32.h),
             ProfileStatsRow(
-              points: (profile?['totalPoints'] ?? 0).toString(),
-              recycleCount: (profile?['recycleCount'] ?? 0).toString(),
+              points: (profile?.totalPoints ?? 0).toString(),
+              recycleCount: (profile?.recycleCount ?? 0).toString(),
             ),
             SizedBox(height: 32.h),
-            CarbonSavingsCard(
-              co2Saved: (profile?['co2Saved'] ?? '0.0').toString(),
-            ),
+            CarbonSavingsCard(co2Saved: (profile?.co2Saved ?? '0.0')),
             SizedBox(height: 32.h),
             const LeaderboardCard(),
             SizedBox(height: 32.h),

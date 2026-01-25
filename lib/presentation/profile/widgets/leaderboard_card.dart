@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_flutter/presentation/profile/riverpod/gamification_provider.dart';
+import 'package:mobile_flutter/presentation/rewards/riverpod/gamification_provider.dart';
 import 'package:mobile_flutter/utils/extensions/context_extensions.dart';
 
 class LeaderboardCard extends ConsumerWidget {
@@ -18,9 +18,11 @@ class LeaderboardCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final leaderboardState = ref.watch(leaderboardProvider);
-    final topUsers = leaderboardState.topUsers;
-    final currentUser = leaderboardState.currentUser;
+    final gamificationState = ref.watch(gamificationProvider);
+    final leaderboardData = gamificationState.leaderboard;
+    final topUsers = (leaderboardData?['topUsers'] as List?) ?? [];
+    final currentUser =
+        leaderboardData?['currentUser'] as Map<String, dynamic>?;
     final userRank = currentUser?['rank'] ?? 1;
 
     return Container(
@@ -54,7 +56,7 @@ class LeaderboardCard extends ConsumerWidget {
             ],
           ),
           SizedBox(height: 16.h),
-          if (leaderboardState.isLoading)
+          if (gamificationState.isLoading)
             const CircularProgressIndicator(color: Color(0xFF22C55E))
           else ...[
             ...topUsers.asMap().entries.map((entry) {
