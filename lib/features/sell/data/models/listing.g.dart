@@ -1,0 +1,21 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'listing.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_Listing _$ListingFromJson(Map<String, dynamic> json) => _Listing(
+  title: json['title'] as String,
+  subtitle: json['subtitle'] as String? ?? '',
+  price: (json['price'] as num?)?.toDouble() ?? 0.0,
+  status: json['status'] as String? ?? 'active',
+);
+
+Map<String, dynamic> _$ListingToJson(_Listing instance) => <String, dynamic>{
+  'title': instance.title,
+  'subtitle': instance.subtitle,
+  'price': instance.price,
+  'status': instance.status,
+};

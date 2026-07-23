@@ -1,37 +1,25 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/data/services/i_api_service.dart';
+import 'package:mobile_flutter/core/network/i_api_service.dart';
 
 final apiServiceProvider = Provider<IApiService>((ref) => ApiService());
 
 class ApiService implements IApiService {
-  // For Android Emulator: use 10.0.2.2
-  // For Physical Device: use your computer's local IP (e.g., 192.168.x.x)
-  // Check your IP with: ipconfig (Windows) or ifconfig (Mac/Linux)
-  static String get baseUrl {
-    // If running on Android emulator, use 10.0.2.2
-    // For physical device, change this to your computer's local IP
-    const emulatorUrl = 'http://10.0.2.2:3001/api';
-    const physicalDeviceUrl =
-        'http://192.168.1.108:3001/api'; // <-- CHANGE THIS TO YOUR IP
-
-    // You can toggle this based on your testing needs
-    // For now, using emulator URL. Change to physicalDeviceUrl for real phone
-    return physicalDeviceUrl;
-  }
+  // Override at build/run time: --dart-define=API_BASE_URL=http://192.168.1.108:3001/api
+  // Android emulator default: 10.0.2.2. Physical device: use your machine's LAN IP.
+  static const String baseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'http://192.168.1.108:3001/api',
+  );
 
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'http://10.0.2.2:3001/api', // Will be overridden
-      connectTimeout: const Duration(seconds: 10), // Increased timeout
+      baseUrl: baseUrl,
+      connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
       headers: {'Content-Type': 'application/json'},
     ),
   );
-
-  ApiService() {
-    _dio.options.baseUrl = baseUrl;
-  }
 
   @override
   Future<Map<String, dynamic>> login(String email, String password) async {
@@ -189,8 +177,7 @@ class ApiService implements IApiService {
         data: {'productModel': productModel, 'condition': condition},
       );
       return response.data;
-    } catch (e) {
-      print('API Error (Motivation): $e');
+    } catch (_) {
       return {'message': 'Hata oluştu, tekrar deneyin.', 'savings': 0};
     }
   }
@@ -203,8 +190,7 @@ class ApiService implements IApiService {
         data: {'lat': lat, 'lng': lng},
       );
       return response.data;
-    } catch (e) {
-      print('API Error (Couriers): $e');
+    } catch (_) {
       return [];
     }
   }

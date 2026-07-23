@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_flutter/utils/constants/app_colors.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 
 class AppTheme {
   // Dark Theme
