@@ -33,6 +33,12 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# iOS/CocoaPods related
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+
 # Symbolication related
 app.*.symbols
 
