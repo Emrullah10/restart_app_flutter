@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class NotificationItemCard extends StatelessWidget {
   final IconData icon;
@@ -31,9 +33,9 @@ class NotificationItemCard extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 16.h, left: 24.w, right: 24.w),
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: context.theme.dividerColor.withOpacity(0.05)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +57,9 @@ class NotificationItemCard extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: context.isDarkMode
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimaryLight,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -64,7 +68,12 @@ class NotificationItemCard extends StatelessWidget {
               ),
               Text(
                 time,
-                style: TextStyle(color: Colors.grey[500], fontSize: 11.sp),
+                style: TextStyle(
+                  color: context.isDarkMode
+                      ? AppColors.textSecondaryDark
+                      : AppColors.textSecondaryLight,
+                  fontSize: 11.sp,
+                ),
               ),
             ],
           ),
@@ -80,7 +89,9 @@ class NotificationItemCard extends StatelessWidget {
                 Text(
                   description,
                   style: TextStyle(
-                    color: Colors.grey[400],
+                    color: context.isDarkMode
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
                     fontSize: 13.sp,
                     height: 1.4,
                   ),

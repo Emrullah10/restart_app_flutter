@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/recycle/presentation/view/recycle_cargo_screen.dart';
 import 'package:mobile_flutter/features/recycle/presentation/view/recycle_map_screen.dart';
 import 'package:mobile_flutter/features/recycle/presentation/widgets/recycle_header.dart'; // Reusing header if appropriate or creating custom one
+import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 // Actually the second screen has the same "Dönüştür" header.
 
 class RecycleActionScreen extends StatelessWidget {
@@ -12,7 +14,9 @@ class RecycleActionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF111827),
+      backgroundColor: context.isDarkMode
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       body: SafeArea(
         child: Column(
           children: [
@@ -42,7 +46,9 @@ class RecycleActionScreen extends StatelessWidget {
                       'Bu cihaz artık çalışmıyor',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: context.isDarkMode
+                            ? AppColors.textPrimaryDark
+                            : AppColors.textPrimaryLight,
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -52,7 +58,9 @@ class RecycleActionScreen extends StatelessWidget {
                       'Geri dönüşüm için en uygun seçeneği\nbelirleyelim',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.grey[400],
+                        color: context.isDarkMode
+                            ? AppColors.textSecondaryDark
+                            : AppColors.textSecondaryLight,
                         fontSize: 14.sp,
                         height: 1.5,
                       ),

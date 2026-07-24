@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/app/router/app_routes.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 import 'package:mobile_flutter/shared/extensions/padding_extensions.dart';
 
@@ -17,6 +18,7 @@ class ActionButtonsGrid extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildActionCard(
+            context,
             icon: LucideIcons.wrench,
             title: context.l10n.homeActionRepair,
             subtitle: context.l10n.homeActionRepairSub,
@@ -26,6 +28,7 @@ class ActionButtonsGrid extends StatelessWidget {
             },
           ),
           _buildActionCard(
+            context,
             icon: LucideIcons.tag,
             title: context.l10n.homeActionSell,
             subtitle: context.l10n.homeActionSellSub,
@@ -35,6 +38,7 @@ class ActionButtonsGrid extends StatelessWidget {
             },
           ),
           _buildActionCard(
+            context,
             icon: LucideIcons.recycle,
             title: context.l10n.homeActionRecycle,
             subtitle: context.l10n.homeActionRecycleSub,
@@ -48,7 +52,8 @@ class ActionButtonsGrid extends StatelessWidget {
     );
   }
 
-  Widget _buildActionCard({
+  Widget _buildActionCard(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String subtitle,
@@ -62,9 +67,11 @@ class ActionButtonsGrid extends StatelessWidget {
         height: 180.h,
         padding: 12.allP,
         decoration: BoxDecoration(
-          color: const Color(0xFF1F2937),
+          color: context.isDarkMode
+              ? AppColors.surfaceDark
+              : AppColors.surfaceLight,
           borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+          border: Border.all(color: context.theme.dividerColor.withValues(alpha: 0.05)),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +88,9 @@ class ActionButtonsGrid extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                color: Colors.white,
+                color: context.isDarkMode
+                    ? AppColors.textPrimaryDark
+                    : AppColors.textPrimaryLight,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -91,7 +100,9 @@ class ActionButtonsGrid extends StatelessWidget {
             Text(
               subtitle,
               style: TextStyle(
-                color: Colors.grey[400],
+                color: context.isDarkMode
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
                 fontSize: 12.sp,
                 height: 1.2,
               ),

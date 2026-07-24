@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class ProfileStatsRow extends StatelessWidget {
@@ -21,6 +22,7 @@ class ProfileStatsRow extends StatelessWidget {
         children: [
           Expanded(
             child: _buildStatCard(
+              context,
               icon: LucideIcons.smartphone,
               value: recycleCount,
               label: context.l10n.statTotalDevices,
@@ -30,6 +32,7 @@ class ProfileStatsRow extends StatelessWidget {
           SizedBox(width: 16.w),
           Expanded(
             child: _buildStatCard(
+              context,
               icon: LucideIcons.coins,
               value: points,
               label: context.l10n.statPointsEarned,
@@ -41,7 +44,8 @@ class ProfileStatsRow extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard({
+  Widget _buildStatCard(
+    BuildContext context, {
     required IconData icon,
     required String value,
     required String label,
@@ -50,9 +54,9 @@ class ProfileStatsRow extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: context.theme.dividerColor.withOpacity(0.05)),
       ),
       child: Row(
         children: [
@@ -71,14 +75,21 @@ class ProfileStatsRow extends StatelessWidget {
               Text(
                 value,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: context.isDarkMode
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 label,
-                style: TextStyle(color: Colors.grey[400], fontSize: 10.sp),
+                style: TextStyle(
+                  color: context.isDarkMode
+                      ? AppColors.textSecondaryDark
+                      : AppColors.textSecondaryLight,
+                  fontSize: 10.sp,
+                ),
               ),
             ],
           ),

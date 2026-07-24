@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class MapFilterBar extends StatefulWidget {
@@ -28,6 +29,7 @@ class _MapFilterBarState extends State<MapFilterBar> {
       child: Row(
         children: [
           _buildFilterChip(
+            context,
             0,
             context.l10n.mapFilterAll,
             LucideIcons.mapPin,
@@ -35,6 +37,7 @@ class _MapFilterBarState extends State<MapFilterBar> {
           ),
           SizedBox(width: 8.w),
           _buildFilterChip(
+            context,
             1,
             context.l10n.mapFilterRepair,
             LucideIcons.wrench,
@@ -42,6 +45,7 @@ class _MapFilterBarState extends State<MapFilterBar> {
           ),
           SizedBox(width: 8.w),
           _buildFilterChip(
+            context,
             2,
             context.l10n.mapFilterSell,
             LucideIcons.store,
@@ -49,6 +53,7 @@ class _MapFilterBarState extends State<MapFilterBar> {
           ), // Store/Shop icon
           SizedBox(width: 8.w),
           _buildFilterChip(
+            context,
             3,
             '',
             LucideIcons.recycle,
@@ -61,6 +66,7 @@ class _MapFilterBarState extends State<MapFilterBar> {
   }
 
   Widget _buildFilterChip(
+    BuildContext context,
     int index,
     String label,
     IconData icon,
@@ -68,15 +74,24 @@ class _MapFilterBarState extends State<MapFilterBar> {
     bool isIconOnly = false,
   }) {
     final bool isSelected = _selectedIndex == index;
+    final Color inactiveTextColor = context.isDarkMode
+        ? AppColors.textSecondaryDark
+        : AppColors.textSecondaryLight;
     return GestureDetector(
       onTap: () => setState(() => _selectedIndex = index),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: isSelected ? color : const Color(0xFF1F2937),
+          color: isSelected
+              ? color
+              : (context.isDarkMode
+                    ? AppColors.surfaceDark
+                    : AppColors.surfaceLight),
           borderRadius: BorderRadius.circular(20.r),
           border: Border.all(
-            color: isSelected ? color : Colors.white.withOpacity(0.1),
+            color: isSelected
+                ? color
+                : context.theme.dividerColor.withOpacity(0.1),
           ),
         ),
         child: Row(
@@ -84,7 +99,7 @@ class _MapFilterBarState extends State<MapFilterBar> {
           children: [
             Icon(
               icon,
-              color: isSelected ? Colors.white : Colors.grey[400],
+              color: isSelected ? Colors.white : inactiveTextColor,
               size: 16.sp,
             ),
             if (!isIconOnly) ...[
@@ -92,7 +107,7 @@ class _MapFilterBarState extends State<MapFilterBar> {
               Text(
                 label,
                 style: TextStyle(
-                  color: isSelected ? Colors.white : Colors.grey[400],
+                  color: isSelected ? Colors.white : inactiveTextColor,
                   fontSize: 14.sp,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class ProfileHeader extends StatelessWidget {
@@ -44,7 +45,9 @@ class ProfileHeader extends StatelessWidget {
                     color: const Color(0xFF22C55E),
                     borderRadius: BorderRadius.circular(12.r),
                     border: Border.all(
-                      color: const Color(0xFF111827),
+                      color: context.isDarkMode
+                          ? AppColors.backgroundDark
+                          : AppColors.backgroundLight,
                       width: 2.w,
                     ),
                   ),
@@ -70,7 +73,9 @@ class ProfileHeader extends StatelessWidget {
                 Text(
                   fullName,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: context.isDarkMode
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -78,7 +83,12 @@ class ProfileHeader extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Text(
                   role,
-                  style: TextStyle(color: Colors.grey[400], fontSize: 14.sp),
+                  style: TextStyle(
+                    color: context.isDarkMode
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
+                    fontSize: 14.sp,
+                  ),
                 ),
                 SizedBox(height: 8.h),
                 Row(
@@ -92,7 +102,9 @@ class ProfileHeader extends StatelessWidget {
                     Text(
                       '4.8',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: context.isDarkMode
+                            ? AppColors.textPrimaryDark
+                            : AppColors.textPrimaryLight,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -101,7 +113,9 @@ class ProfileHeader extends StatelessWidget {
                     Text(
                       context.l10n.profileReviewCount(127),
                       style: TextStyle(
-                        color: Colors.grey[500],
+                        color: context.isDarkMode
+                            ? AppColors.textSecondaryDark
+                            : AppColors.textSecondaryLight,
                         fontSize: 12.sp,
                       ),
                     ),

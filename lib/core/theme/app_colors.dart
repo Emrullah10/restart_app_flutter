@@ -17,22 +17,25 @@ class AppColors {
   static const Color borderDark = Color(0xFF374151); // Gray 700
   static const Color iconDark = Colors.white;
 
-  // Neutral Colors (Light Theme) - Soft Tech Palette (Refined)
+  // Neutral Colors (Light Theme) - Soft Slate Palette (Refined)
   // Background is clearly gray (not white), items are softer darks.
   static const Color backgroundLight = Color(
-    0xFFF1F5F9,
-  ); // Slate 100 - Visible soft gray background
+    0xFFEDF1F7,
+  ); // Cooler/deeper than Slate 100 so cards visibly separate
   static const Color surfaceLight =
       Colors.white; // White cards pop against the gray background
+  static const Color surfaceAltLight = Color(
+    0xFFF8FAFC,
+  ); // Slate 50 - secondary/nested surface (chips, rows inside a card)
   static const Color textPrimaryLight = Color(
-    0xFF334155,
-  ); // Slate 700 - Soft dark gray, not harsh black
+    0xFF1E293B,
+  ); // Slate 800 - stronger contrast than Slate 700
   static const Color textSecondaryLight = Color(
     0xFF64748B,
   ); // Slate 500 - Balanced secondary text
   static const Color borderLight = Color(
-    0xFFCBD5E1,
-  ); // Slate 300 - Distinct borders
+    0xFFDCE3EC,
+  ); // Deeper than Slate 300 so borders read on the new background
   static const Color iconLight = Color(
     0xFF475569,
   ); // Slate 600 - Visible softer icons

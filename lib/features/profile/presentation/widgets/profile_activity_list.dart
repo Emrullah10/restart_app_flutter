@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class ProfileActivityList extends StatelessWidget {
@@ -12,7 +13,7 @@ class ProfileActivityList extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 24.w),
       padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(24.r),
       ),
       child: Column(
@@ -21,13 +22,16 @@ class ProfileActivityList extends StatelessWidget {
           Text(
             context.l10n.recentActivityTitle,
             style: TextStyle(
-              color: Colors.white,
+              color: context.isDarkMode
+                  ? AppColors.textPrimaryDark
+                  : AppColors.textPrimaryLight,
               fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(height: 24.h),
           _buildActivityItem(
+            context,
             icon: LucideIcons.smartphone,
             title: context.l10n.mockActivityRepair,
             subtitle: '2 saat önce • +50 puan',
@@ -35,6 +39,7 @@ class ProfileActivityList extends StatelessWidget {
           ),
           SizedBox(height: 24.h),
           _buildActivityItem(
+            context,
             icon: LucideIcons.trophy,
             title: context.l10n.mockActivityBadge,
             subtitle: '1 gün önce',
@@ -42,6 +47,7 @@ class ProfileActivityList extends StatelessWidget {
           ),
           SizedBox(height: 24.h),
           _buildActivityItem(
+            context,
             icon: LucideIcons.leaf,
             title: context.l10n.mockActivitySavings,
             subtitle: '2 gün önce',
@@ -52,7 +58,8 @@ class ProfileActivityList extends StatelessWidget {
     );
   }
 
-  Widget _buildActivityItem({
+  Widget _buildActivityItem(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String subtitle,
@@ -75,7 +82,9 @@ class ProfileActivityList extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                color: Colors.white,
+                color: context.isDarkMode
+                    ? AppColors.textPrimaryDark
+                    : AppColors.textPrimaryLight,
                 fontSize: 15.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -83,7 +92,12 @@ class ProfileActivityList extends StatelessWidget {
             SizedBox(height: 4.h),
             Text(
               subtitle,
-              style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
+              style: TextStyle(
+                color: context.isDarkMode
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
+                fontSize: 12.sp,
+              ),
             ),
           ],
         ),

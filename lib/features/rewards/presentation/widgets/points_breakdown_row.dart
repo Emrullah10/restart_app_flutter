@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class PointsBreakdownRow extends StatelessWidget {
@@ -12,6 +13,7 @@ class PointsBreakdownRow extends StatelessWidget {
       children: [
         Expanded(
           child: _buildPointCard(
+            context,
             icon: LucideIcons.wrench,
             color: const Color(0xFF3B82F6), // Blue
             points: '+10',
@@ -21,6 +23,7 @@ class PointsBreakdownRow extends StatelessWidget {
         SizedBox(width: 12.w),
         Expanded(
           child: _buildPointCard(
+            context,
             icon: LucideIcons.tag,
             color: const Color(0xFF10B981), // Green
             points: '+5',
@@ -30,6 +33,7 @@ class PointsBreakdownRow extends StatelessWidget {
         SizedBox(width: 12.w),
         Expanded(
           child: _buildPointCard(
+            context,
             icon: LucideIcons.recycle,
             color: const Color(0xFFF97316), // Orange
             points: '+8',
@@ -40,7 +44,8 @@ class PointsBreakdownRow extends StatelessWidget {
     );
   }
 
-  Widget _buildPointCard({
+  Widget _buildPointCard(
+    BuildContext context, {
     required IconData icon,
     required Color color,
     required String points,
@@ -49,9 +54,9 @@ class PointsBreakdownRow extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.h),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: context.theme.dividerColor.withOpacity(0.05)),
       ),
       child: Column(
         children: [
@@ -64,7 +69,9 @@ class PointsBreakdownRow extends StatelessWidget {
           Text(
             points,
             style: TextStyle(
-              color: Colors.white,
+              color: context.isDarkMode
+                  ? AppColors.textPrimaryDark
+                  : AppColors.textPrimaryLight,
               fontSize: 20.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -72,7 +79,12 @@ class PointsBreakdownRow extends StatelessWidget {
           SizedBox(height: 4.h),
           Text(
             label,
-            style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
+            style: TextStyle(
+              color: context.isDarkMode
+                  ? AppColors.textSecondaryDark
+                  : AppColors.textSecondaryLight,
+              fontSize: 12.sp,
+            ),
           ),
         ],
       ),

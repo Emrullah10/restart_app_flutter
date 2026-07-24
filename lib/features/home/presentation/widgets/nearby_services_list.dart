@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/home/presentation/viewmodel/services_view_model.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
@@ -51,7 +52,9 @@ class NearbyServicesList extends ConsumerWidget {
               Text(
                 context.l10n.nearbyServicesTitle,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: context.isDarkMode
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
@@ -91,7 +94,12 @@ class NearbyServicesList extends ConsumerWidget {
             padding: EdgeInsets.all(24.w),
             child: Text(
               'Yakında servis bulunamadı',
-              style: TextStyle(color: Colors.grey[500], fontSize: 14.sp),
+              style: TextStyle(
+                color: context.isDarkMode
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
+                fontSize: 14.sp,
+              ),
             ),
           )
         else
@@ -101,6 +109,7 @@ class NearbyServicesList extends ConsumerWidget {
             return Padding(
               padding: EdgeInsets.only(bottom: 12.h),
               child: _buildServiceItem(
+                context,
                 icon: _getIconForType(type),
                 title: service.name,
                 distance: service.address,
@@ -117,7 +126,8 @@ class NearbyServicesList extends ConsumerWidget {
     );
   }
 
-  Widget _buildServiceItem({
+  Widget _buildServiceItem(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String distance,
@@ -130,7 +140,9 @@ class NearbyServicesList extends ConsumerWidget {
       margin: EdgeInsets.symmetric(horizontal: 24.w),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode
+            ? AppColors.surfaceDark
+            : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Row(
@@ -151,7 +163,9 @@ class NearbyServicesList extends ConsumerWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: context.isDarkMode
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -162,7 +176,9 @@ class NearbyServicesList extends ConsumerWidget {
                     Text(
                       distance,
                       style: TextStyle(
-                        color: Colors.grey[400],
+                        color: context.isDarkMode
+                            ? AppColors.textSecondaryDark
+                            : AppColors.textSecondaryLight,
                         fontSize: 12.sp,
                       ),
                     ),
@@ -172,7 +188,9 @@ class NearbyServicesList extends ConsumerWidget {
                     Text(
                       rating.toString(),
                       style: TextStyle(
-                        color: Colors.white,
+                        color: context.isDarkMode
+                            ? AppColors.textPrimaryDark
+                            : AppColors.textPrimaryLight,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
                       ),

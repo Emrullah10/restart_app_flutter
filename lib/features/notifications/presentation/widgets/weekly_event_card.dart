@@ -64,8 +64,8 @@ class WeeklyEventCard extends StatelessWidget {
           Text(
             context.l10n.weeklyRecycleEventDesc,
             style: TextStyle(
-              color: context.theme.brightness == Brightness.dark
-                  ? Colors.grey[400]
+              color: context.isDarkMode
+                  ? AppColors.textSecondaryDark
                   : AppColors.textSecondaryLight,
               fontSize: 14.sp,
               height: 1.5,

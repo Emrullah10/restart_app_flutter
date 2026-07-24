@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/home/presentation/viewmodel/activity_view_model.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
@@ -66,7 +67,9 @@ class RecentActivityList extends ConsumerWidget {
               Text(
                 context.l10n.recentActivities,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: context.isDarkMode
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
@@ -95,7 +98,12 @@ class RecentActivityList extends ConsumerWidget {
             padding: EdgeInsets.all(24.w),
             child: Text(
               'Henüz aktivite yok',
-              style: TextStyle(color: Colors.grey[500], fontSize: 14.sp),
+              style: TextStyle(
+                color: context.isDarkMode
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
+                fontSize: 14.sp,
+              ),
             ),
           )
         else
@@ -105,6 +113,7 @@ class RecentActivityList extends ConsumerWidget {
             return Padding(
               padding: EdgeInsets.only(bottom: 12.h),
               child: _buildActivityItem(
+                context,
                 icon: _getIconForType(activity.type),
                 title: activity.title,
                 subtitle: '$timeAgo • +${activity.pointsEarned} puan',
@@ -119,7 +128,8 @@ class RecentActivityList extends ConsumerWidget {
     );
   }
 
-  Widget _buildActivityItem({
+  Widget _buildActivityItem(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String subtitle,
@@ -130,7 +140,9 @@ class RecentActivityList extends ConsumerWidget {
       margin: EdgeInsets.symmetric(horizontal: 24.w),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode
+            ? AppColors.surfaceDark
+            : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Row(
@@ -151,7 +163,9 @@ class RecentActivityList extends ConsumerWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: context.isDarkMode
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -159,7 +173,12 @@ class RecentActivityList extends ConsumerWidget {
                 SizedBox(height: 4.h),
                 Text(
                   subtitle,
-                  style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
+                  style: TextStyle(
+                    color: context.isDarkMode
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
+                    fontSize: 12.sp,
+                  ),
                 ),
               ],
             ),

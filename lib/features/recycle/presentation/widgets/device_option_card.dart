@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class DeviceOptionCard extends StatelessWidget {
   final IconData icon;
@@ -26,9 +28,9 @@ class DeviceOptionCard extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 16.h),
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: const Color(0xFF1F2937),
+          color: context.isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight,
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: Colors.white.withOpacity(0.05)),
+          border: Border.all(color: context.theme.dividerColor.withOpacity(0.05)),
         ),
         child: Row(
           children: [
@@ -48,7 +50,9 @@ class DeviceOptionCard extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: context.isDarkMode
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimaryLight,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -56,14 +60,21 @@ class DeviceOptionCard extends StatelessWidget {
                   SizedBox(height: 4.h),
                   Text(
                     subtitle,
-                    style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
+                    style: TextStyle(
+                      color: context.isDarkMode
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondaryLight,
+                      fontSize: 12.sp,
+                    ),
                   ),
                 ],
               ),
             ),
             Icon(
               LucideIcons.chevronRight,
-              color: Colors.grey[500],
+              color: context.isDarkMode
+                  ? AppColors.textSecondaryDark
+                  : AppColors.textSecondaryLight,
               size: 20.sp,
             ),
           ],

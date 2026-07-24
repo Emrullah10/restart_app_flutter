@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class AuthTextField extends StatelessWidget {
   final String hintText;
@@ -21,20 +23,39 @@ class AuthTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05), width: 1),
+        border: Border.all(
+          color: context.theme.dividerColor.withOpacity(0.05),
+          width: 1,
+        ),
       ),
       child: TextField(
         controller: controller,
         obscureText: isPassword,
         keyboardType: keyboardType,
-        style: TextStyle(color: Colors.white, fontSize: 16.sp),
+        style: TextStyle(
+          color: context.isDarkMode
+              ? AppColors.textPrimaryDark
+              : AppColors.textPrimaryLight,
+          fontSize: 16.sp,
+        ),
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[500], fontSize: 14.sp),
+          hintStyle: TextStyle(
+            color: context.isDarkMode
+                ? AppColors.textSecondaryDark
+                : AppColors.textSecondaryLight,
+            fontSize: 14.sp,
+          ),
           prefixIcon: prefixIcon != null
-              ? Icon(prefixIcon, color: Colors.grey[400], size: 20.sp)
+              ? Icon(
+                  prefixIcon,
+                  color: context.isDarkMode
+                      ? AppColors.textSecondaryDark
+                      : AppColors.textSecondaryLight,
+                  size: 20.sp,
+                )
               : null,
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/sell/presentation/view/create_listing/create_listing_screen.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
@@ -13,9 +14,11 @@ class CreateListingCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 24.w),
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode
+            ? AppColors.surfaceDark
+            : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: context.theme.dividerColor.withOpacity(0.05)),
       ),
       child: Column(
         children: [
@@ -24,7 +27,7 @@ class CreateListingCard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(12.w),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.05),
+                  color: const Color(0xFF3B82F6).withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -40,7 +43,9 @@ class CreateListingCard extends StatelessWidget {
                   Text(
                     context.l10n.createNewListing,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: context.isDarkMode
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimaryLight,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -48,7 +53,12 @@ class CreateListingCard extends StatelessWidget {
                   SizedBox(height: 4.h),
                   Text(
                     context.l10n.sellUnusedItems,
-                    style: TextStyle(color: Colors.grey[400], fontSize: 14.sp),
+                    style: TextStyle(
+                      color: context.isDarkMode
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondaryLight,
+                      fontSize: 14.sp,
+                    ),
                   ),
                 ],
               ),

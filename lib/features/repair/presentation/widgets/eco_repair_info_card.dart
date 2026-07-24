@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class EcoRepairInfoCard extends StatelessWidget {
   const EcoRepairInfoCard({super.key});
@@ -11,7 +13,7 @@ class EcoRepairInfoCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: const Color(0xFF10B981).withOpacity(0.3)),
       ),
@@ -33,7 +35,9 @@ class EcoRepairInfoCard extends StatelessWidget {
                 Text(
                   'Çevre Dostu Tamir',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: context.isDarkMode
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -42,7 +46,9 @@ class EcoRepairInfoCard extends StatelessWidget {
                 Text(
                   'Her tamir, yeni cihaz üretimini engelleyerek doğayı koruyor',
                   style: TextStyle(
-                    color: Colors.grey[400],
+                    color: context.isDarkMode
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
                     fontSize: 12.sp,
                     height: 1.3,
                   ),

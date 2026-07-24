@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/profile/presentation/viewmodel/gamification_view_model.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
@@ -28,7 +29,7 @@ class LeaderboardCard extends ConsumerWidget {
       margin: EdgeInsets.symmetric(horizontal: 24.w),
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
@@ -39,7 +40,9 @@ class LeaderboardCard extends ConsumerWidget {
               Text(
                 context.l10n.leaderboardTitle,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: context.isDarkMode
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                 ),
@@ -65,8 +68,12 @@ class LeaderboardCard extends ConsumerWidget {
               return Column(
                 children: [
                   if (index > 0)
-                    Divider(color: Colors.white.withOpacity(0.1), height: 24.h),
+                    Divider(
+                      color: context.theme.dividerColor.withOpacity(0.1),
+                      height: 24.h,
+                    ),
                   _buildRankItem(
+                    context,
                     user.rank,
                     user.fullName,
                     context.l10n.leaderboardPoints(
@@ -78,8 +85,12 @@ class LeaderboardCard extends ConsumerWidget {
               );
             }),
             if (currentUser != null) ...[
-              Divider(color: Colors.white.withOpacity(0.1), height: 24.h),
+              Divider(
+                color: context.theme.dividerColor.withOpacity(0.1),
+                height: 24.h,
+              ),
               _buildRankItem(
+                context,
                 userRank,
                 context.l10n.leaderboardYou,
                 context.l10n.leaderboardPoints(
@@ -94,7 +105,19 @@ class LeaderboardCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildRankItem(int rank, String name, String points, bool isMe) {
+  Widget _buildRankItem(
+    BuildContext context,
+    int rank,
+    String name,
+    String points,
+    bool isMe,
+  ) {
+    final Color secondaryText = context.isDarkMode
+        ? AppColors.textSecondaryDark
+        : AppColors.textSecondaryLight;
+    final Color primaryText = context.isDarkMode
+        ? AppColors.textPrimaryDark
+        : AppColors.textPrimaryLight;
     return Row(
       children: [
         Container(
@@ -103,7 +126,7 @@ class LeaderboardCard extends ConsumerWidget {
           decoration: BoxDecoration(
             color: isMe
                 ? const Color(0xFF22C55E)
-                : (rank == 1 ? const Color(0xFFF59E0B) : Colors.grey[700]),
+                : (rank == 1 ? const Color(0xFFF59E0B) : secondaryText),
             shape: BoxShape.circle,
           ),
           child: Center(
@@ -121,7 +144,7 @@ class LeaderboardCard extends ConsumerWidget {
         Text(
           name,
           style: TextStyle(
-            color: isMe ? const Color(0xFF22C55E) : Colors.white,
+            color: isMe ? const Color(0xFF22C55E) : primaryText,
             fontWeight: FontWeight.bold,
             fontSize: 14.sp,
           ),
@@ -130,7 +153,7 @@ class LeaderboardCard extends ConsumerWidget {
         Text(
           points,
           style: TextStyle(
-            color: isMe ? const Color(0xFF22C55E) : Colors.grey[400],
+            color: isMe ? const Color(0xFF22C55E) : secondaryText,
             fontSize: 14.sp,
           ),
         ),

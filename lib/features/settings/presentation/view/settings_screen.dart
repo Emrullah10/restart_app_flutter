@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/core/localization/localization_provider.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/core/theme/theme_provider.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 import 'package:mobile_flutter/shared/extensions/padding_extensions.dart';
@@ -23,9 +24,6 @@ class SettingsScreen extends ConsumerWidget {
           context.l10n.settingsTitle,
           style: context.textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
-            color: context.theme.brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
           ),
         ),
         leading: IconButton(
@@ -48,21 +46,7 @@ class SettingsScreen extends ConsumerWidget {
             SizedBox(height: 16.h),
 
             // Theme Setting
-            _buildSettingsTile(
-              context,
-              icon: LucideIcons.moon,
-              title: context.l10n.themeTitle,
-              subtitle: _getThemeText(context, themeMode),
-              trailing: Switch(
-                value: themeMode == ThemeMode.dark,
-                activeThumbColor: context.colorScheme.primary,
-                onChanged: (value) {
-                  ref
-                      .read(themeProvider.notifier)
-                      .setTheme(value ? ThemeMode.dark : ThemeMode.light);
-                },
-              ),
-            ),
+            _buildThemeTile(context, ref, themeMode),
 
             SizedBox(height: 16.h),
 
@@ -86,15 +70,84 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  String _getThemeText(BuildContext context, ThemeMode mode) {
-    switch (mode) {
-      case ThemeMode.light:
-        return context.l10n.themeLight;
-      case ThemeMode.dark:
-        return context.l10n.themeDark;
-      case ThemeMode.system:
-        return context.l10n.themeSystem;
-    }
+  Widget _buildThemeTile(
+    BuildContext context,
+    WidgetRef ref,
+    ThemeMode themeMode,
+  ) {
+    return Container(
+      padding: 16.allP,
+      decoration: BoxDecoration(
+        color: context.theme.cardColor,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: context.theme.dividerColor.withOpacity(0.1)),
+        boxShadow: context.isDarkMode
+            ? []
+            : [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: 10.allP,
+                decoration: BoxDecoration(
+                  color: context.colorScheme.primary.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  LucideIcons.moon,
+                  color: context.colorScheme.primary,
+                  size: 20.sp,
+                ),
+              ),
+              SizedBox(width: 16.w),
+              Text(
+                context.l10n.themeTitle,
+                style: context.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 12.h),
+          SizedBox(
+            width: double.infinity,
+            child: SegmentedButton<ThemeMode>(
+              segments: [
+                ButtonSegment(
+                  value: ThemeMode.light,
+                  icon: Icon(LucideIcons.sun, size: 16.sp),
+                  label: Text(context.l10n.themeLight),
+                ),
+                ButtonSegment(
+                  value: ThemeMode.dark,
+                  icon: Icon(LucideIcons.moon, size: 16.sp),
+                  label: Text(context.l10n.themeDark),
+                ),
+                ButtonSegment(
+                  value: ThemeMode.system,
+                  icon: Icon(LucideIcons.smartphone, size: 16.sp),
+                  label: Text(context.l10n.themeSystem),
+                ),
+              ],
+              selected: {themeMode},
+              showSelectedIcon: false,
+              onSelectionChanged: (Set<ThemeMode> selection) {
+                ref.read(themeProvider.notifier).setTheme(selection.first);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildSectionHeader(BuildContext context, String title) {
@@ -155,7 +208,9 @@ class SettingsScreen extends ConsumerWidget {
                 Text(
                   subtitle,
                   style: context.textTheme.bodyMedium?.copyWith(
-                    color: Colors.grey,
+                    color: context.isDarkMode
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
                   ),
                 ),
               ],

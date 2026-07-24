@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class RewardsSection extends StatelessWidget {
@@ -16,19 +17,27 @@ class RewardsSection extends StatelessWidget {
             Text(
               context.l10n.rewardsTitle,
               style: TextStyle(
-                color: Colors.white,
+                color: context.isDarkMode
+                    ? AppColors.textPrimaryDark
+                    : AppColors.textPrimaryLight,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
               context.l10n.brandCollaborations,
-              style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
+              style: TextStyle(
+                color: context.isDarkMode
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
+                fontSize: 12.sp,
+              ),
             ),
           ],
         ),
         SizedBox(height: 16.h),
         _buildRewardItem(
+          context,
           icon: LucideIcons.gift, // Placeholder for MediaMarkt logo
           iconColor: Colors.white,
           bgColor: const Color(0xFF7F1D1D), // Red for MediaMarkt
@@ -40,6 +49,7 @@ class RewardsSection extends StatelessWidget {
         ),
         SizedBox(height: 12.h),
         _buildRewardItem(
+          context,
           icon: LucideIcons.shoppingBag, // Placeholder for Migros
           iconColor: Colors.white,
           bgColor: const Color(0xFF1F2937),
@@ -51,6 +61,7 @@ class RewardsSection extends StatelessWidget {
         ),
         SizedBox(height: 12.h),
         _buildRewardItem(
+          context,
           icon: LucideIcons.coffee, // Placeholder for Starbucks
           iconColor: Colors.white,
           bgColor: const Color(0xFF065F46), // Green for Starbucks
@@ -59,13 +70,16 @@ class RewardsSection extends StatelessWidget {
           points: '1,500 puan',
           buttonText: context.l10n.insufficientPoints,
           buttonColor: Colors.transparent,
-          textColor: Colors.grey[500],
+          textColor: context.isDarkMode
+              ? AppColors.textSecondaryDark
+              : AppColors.textSecondaryLight,
         ),
       ],
     );
   }
 
-  Widget _buildRewardItem({
+  Widget _buildRewardItem(
+    BuildContext context, {
     required IconData icon,
     required Color iconColor,
     required Color bgColor,
@@ -79,9 +93,9 @@ class RewardsSection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: context.theme.dividerColor.withOpacity(0.05)),
       ),
       child: Row(
         children: [
@@ -101,14 +115,21 @@ class RewardsSection extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: context.isDarkMode
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
+                  style: TextStyle(
+                    color: context.isDarkMode
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
+                    fontSize: 12.sp,
+                  ),
                 ),
               ],
             ),

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/app/router/app_routes.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:mobile_flutter/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
@@ -16,7 +17,9 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF111827),
+      backgroundColor: context.isDarkMode
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: 24.horizontalP,
@@ -75,14 +78,18 @@ class _LoginFormState extends ConsumerState<_LoginForm> {
           context.l10n.loginWelcome,
           style: context.textTheme.headlineLarge?.copyWith(
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: context.isDarkMode
+                ? AppColors.textPrimaryDark
+                : AppColors.textPrimaryLight,
           ),
         ),
         SizedBox(height: 8.h),
         Text(
           context.l10n.loginSubtitle,
           style: context.textTheme.bodyMedium?.copyWith(
-            color: Colors.grey[400],
+            color: context.isDarkMode
+                ? AppColors.textSecondaryDark
+                : AppColors.textSecondaryLight,
           ),
         ),
         SizedBox(height: 40.h),
@@ -119,15 +126,19 @@ class _LoginFormState extends ConsumerState<_LoginForm> {
         // Social Login Divider
         Row(
           children: [
-            Expanded(child: Divider(color: Colors.grey[800])),
+            Expanded(child: Divider(color: context.theme.dividerColor)),
             Padding(
               padding: 16.horizontalP,
               child: Text(
                 context.l10n.orDivider,
-                style: TextStyle(color: Colors.grey[500]),
+                style: TextStyle(
+                  color: context.isDarkMode
+                      ? AppColors.textSecondaryDark
+                      : AppColors.textSecondaryLight,
+                ),
               ),
             ),
-            Expanded(child: Divider(color: Colors.grey[800])),
+            Expanded(child: Divider(color: context.theme.dividerColor)),
           ],
         ),
         SizedBox(height: 24.h),
@@ -136,9 +147,9 @@ class _LoginFormState extends ConsumerState<_LoginForm> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildSocialButton(LucideIcons.chrome), // Google
+            _buildSocialButton(context, LucideIcons.chrome), // Google
             SizedBox(width: 16.w),
-            _buildSocialButton(LucideIcons.apple), // Apple
+            _buildSocialButton(context, LucideIcons.apple), // Apple
           ],
         ),
 
@@ -150,7 +161,12 @@ class _LoginFormState extends ConsumerState<_LoginForm> {
           children: [
             Text(
               context.l10n.noAccount,
-              style: TextStyle(color: Colors.grey[400], fontSize: 14.sp),
+              style: TextStyle(
+                color: context.isDarkMode
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
+                fontSize: 14.sp,
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -171,17 +187,23 @@ class _LoginFormState extends ConsumerState<_LoginForm> {
     );
   }
 
-  Widget _buildSocialButton(IconData icon) {
+  Widget _buildSocialButton(BuildContext context, IconData icon) {
     return Container(
       width: 56.w,
       height: 56.w,
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.1)),
+        border: Border.all(color: context.theme.dividerColor.withOpacity(0.1)),
       ),
       child: Center(
-        child: Icon(icon, color: Colors.white, size: 24.sp),
+        child: Icon(
+          icon,
+          color: context.isDarkMode
+              ? AppColors.iconDark
+              : AppColors.iconLight,
+          size: 24.sp,
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class CarbonSavingsCard extends StatelessWidget {
@@ -18,7 +19,9 @@ class CarbonSavingsCard extends StatelessWidget {
           Text(
             context.l10n.carbonSavingsTitle,
             style: TextStyle(
-              color: Colors.white,
+              color: context.isDarkMode
+                  ? AppColors.textPrimaryDark
+                  : AppColors.textPrimaryLight,
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -27,7 +30,9 @@ class CarbonSavingsCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(24.w),
             decoration: BoxDecoration(
-              color: const Color(0xFF1F2937),
+              color: context.isDarkMode
+                  ? AppColors.surfaceDark
+                  : AppColors.surfaceLight,
               borderRadius: BorderRadius.circular(24.r),
             ),
             child: Row(
@@ -43,7 +48,9 @@ class CarbonSavingsCard extends StatelessWidget {
                             text: '$co2Saved kg\n',
                             style: TextStyle(
                               fontFamily: 'Inter',
-                              color: Colors.white,
+                              color: context.isDarkMode
+                                  ? AppColors.textPrimaryDark
+                                  : AppColors.textPrimaryLight,
                               fontSize: 32.sp,
                               fontWeight: FontWeight.bold,
                               height: 1.2,
@@ -53,7 +60,9 @@ class CarbonSavingsCard extends StatelessWidget {
                             text: context.l10n.carbonSavingsUnit,
                             style: TextStyle(
                               fontFamily: 'Inter',
-                              color: Colors.grey[400],
+                              color: context.isDarkMode
+                                  ? AppColors.textSecondaryDark
+                                  : AppColors.textSecondaryLight,
                               fontSize: 14.sp,
                             ),
                           ),
@@ -62,7 +71,11 @@ class CarbonSavingsCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Icon(LucideIcons.leaf, color: Colors.white, size: 32.sp),
+                Icon(
+                  LucideIcons.leaf,
+                  color: AppColors.primary,
+                  size: 32.sp,
+                ),
               ],
             ),
           ),

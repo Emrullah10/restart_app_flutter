@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class RecycleHeader extends StatelessWidget {
@@ -18,9 +19,9 @@ class RecycleHeader extends StatelessWidget {
             context.l10n.recycleTitle,
             style: context.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
-              color: context.theme.brightness == Brightness.dark
-                  ? Colors.white
-                  : Colors.black,
+              color: context.isDarkMode
+                  ? AppColors.textPrimaryDark
+                  : AppColors.textPrimaryLight,
             ),
           ),
           // Empty SizedBox to balance the row if needed, or an action button if design changes.

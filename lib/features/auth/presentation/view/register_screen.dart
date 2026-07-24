@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/app/router/app_routes.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:mobile_flutter/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
@@ -16,12 +17,19 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF111827),
+      backgroundColor: context.isDarkMode
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
+          icon: Icon(
+            LucideIcons.arrowLeft,
+            color: context.isDarkMode
+                ? AppColors.iconDark
+                : AppColors.iconLight,
+          ),
           onPressed: () => context.pop(),
         ),
       ),
@@ -107,14 +115,18 @@ class _RegisterFormState extends ConsumerState<_RegisterForm> {
           context.l10n.registerTitle,
           style: context.textTheme.headlineLarge?.copyWith(
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: context.isDarkMode
+                ? AppColors.textPrimaryDark
+                : AppColors.textPrimaryLight,
           ),
         ),
         SizedBox(height: 8.h),
         Text(
           context.l10n.registerSubtitle,
           style: context.textTheme.bodyMedium?.copyWith(
-            color: Colors.grey[400],
+            color: context.isDarkMode
+                ? AppColors.textSecondaryDark
+                : AppColors.textSecondaryLight,
           ),
         ),
         SizedBox(height: 32.h),
@@ -167,7 +179,12 @@ class _RegisterFormState extends ConsumerState<_RegisterForm> {
           children: [
             Text(
               context.l10n.haveAccount,
-              style: TextStyle(color: Colors.grey[400], fontSize: 14.sp),
+              style: TextStyle(
+                color: context.isDarkMode
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
+                fontSize: 14.sp,
+              ),
             ),
             TextButton(
               onPressed: () => context.pop(), // Go back to login

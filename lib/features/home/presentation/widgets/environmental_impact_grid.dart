@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/profile/presentation/viewmodel/profile_view_model.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
@@ -27,7 +28,9 @@ class EnvironmentalImpactGrid extends ConsumerWidget {
           Text(
             context.l10n.environmentalImpactTitle,
             style: TextStyle(
-              color: Colors.white,
+              color: context.isDarkMode
+                  ? AppColors.textPrimaryDark
+                  : AppColors.textPrimaryLight,
               fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -37,6 +40,7 @@ class EnvironmentalImpactGrid extends ConsumerWidget {
             children: [
               Expanded(
                 child: _buildStatCard(
+                  context,
                   repairedCount,
                   context.l10n.statRepairedDevices,
                 ),
@@ -44,6 +48,7 @@ class EnvironmentalImpactGrid extends ConsumerWidget {
               SizedBox(width: 16.w),
               Expanded(
                 child: _buildStatCard(
+                  context,
                   preventedWasteKg,
                   context.l10n.statPreventedWaste,
                 ),
@@ -55,6 +60,7 @@ class EnvironmentalImpactGrid extends ConsumerWidget {
             children: [
               Expanded(
                 child: _buildStatCard(
+                  context,
                   totalEarnings,
                   context.l10n.statTotalEarnings,
                 ),
@@ -62,6 +68,7 @@ class EnvironmentalImpactGrid extends ConsumerWidget {
               SizedBox(width: 16.w),
               Expanded(
                 child: _buildStatCard(
+                  context,
                   context.l10n.statLevel(level),
                   context.l10n.statEcoWarrior,
                 ),
@@ -73,20 +80,24 @@ class EnvironmentalImpactGrid extends ConsumerWidget {
     );
   }
 
-  Widget _buildStatCard(String value, String label) {
+  Widget _buildStatCard(BuildContext context, String value, String label) {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode
+            ? AppColors.surfaceDark
+            : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: context.theme.dividerColor.withOpacity(0.05)),
       ),
       child: Column(
         children: [
           Text(
             value,
             style: TextStyle(
-              color: Colors.white,
+              color: context.isDarkMode
+                  ? AppColors.textPrimaryDark
+                  : AppColors.textPrimaryLight,
               fontSize: 24.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -94,7 +105,12 @@ class EnvironmentalImpactGrid extends ConsumerWidget {
           SizedBox(height: 6.h),
           Text(
             label,
-            style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
+            style: TextStyle(
+              color: context.isDarkMode
+                  ? AppColors.textSecondaryDark
+                  : AppColors.textSecondaryLight,
+              fontSize: 12.sp,
+            ),
             textAlign: TextAlign.center,
           ),
         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/sell/presentation/view/create_listing/widgets/category_selector.dart';
 import 'package:mobile_flutter/features/sell/presentation/view/create_listing/widgets/listing_form_fields.dart';
 import 'package:mobile_flutter/features/sell/presentation/view/create_listing/widgets/photo_upload_section.dart';
@@ -37,7 +38,9 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF111827),
+      backgroundColor: context.isDarkMode
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       appBar: AppBar(
         backgroundColor: const Color(0xFF0F50C1), // Strong Blue Header
         elevation: 0,
@@ -66,11 +69,11 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                   setState(() => _selectedCategoryIndex = index),
             ),
 
-            Divider(color: Colors.white.withOpacity(0.1), height: 1),
+            Divider(color: context.theme.dividerColor.withOpacity(0.1), height: 1),
 
             const PhotoUploadSection(),
 
-            Divider(color: Colors.white.withOpacity(0.1), height: 1),
+            Divider(color: context.theme.dividerColor.withOpacity(0.1), height: 1),
 
             // Form Fields
             Padding(
@@ -78,19 +81,21 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildFormLabel(context.l10n.labelTitle),
-                  buildFormTextField(context.l10n.hintTitle),
+                  buildFormLabel(context, context.l10n.labelTitle),
+                  buildFormTextField(context, context.l10n.hintTitle),
                   SizedBox(height: 20.h),
 
-                  buildFormLabel(context.l10n.labelDescription),
+                  buildFormLabel(context, context.l10n.labelDescription),
                   buildFormTextField(
+                    context,
                     context.l10n.hintDescription,
                     maxLines: 4,
                   ),
                   SizedBox(height: 20.h),
 
-                  buildFormLabel(context.l10n.labelCondition),
+                  buildFormLabel(context, context.l10n.labelCondition),
                   buildFormDropdown(
+                    context,
                     [
                       context.l10n.conditionNew,
                       context.l10n.conditionUsed,
@@ -101,10 +106,10 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                   ),
                   SizedBox(height: 20.h),
 
-                  buildFormLabel(context.l10n.labelPrice),
+                  buildFormLabel(context, context.l10n.labelPrice),
                   Stack(
                     children: [
-                      buildFormTextField('0'),
+                      buildFormTextField(context, '0'),
                       Positioned(
                         right: 16.w,
                         top: 0,
@@ -113,7 +118,9 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                           child: Text(
                             '₺',
                             style: TextStyle(
-                              color: Colors.grey[400],
+                              color: context.isDarkMode
+                                  ? AppColors.textSecondaryDark
+                                  : AppColors.textSecondaryLight,
                               fontSize: 16.sp,
                             ),
                           ),
@@ -133,7 +140,12 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                           onChanged: (val) =>
                               setState(() => _isNegotiable = val!),
                           activeColor: const Color(0xFF0F50C1),
-                          side: BorderSide(color: Colors.grey[600]!, width: 2),
+                          side: BorderSide(
+                            color: context.isDarkMode
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
+                            width: 2,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4.r),
                           ),
@@ -142,7 +154,12 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                       SizedBox(width: 8.w),
                       Text(
                         context.l10n.negotiable,
-                        style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                        style: TextStyle(
+                          color: context.isDarkMode
+                              ? AppColors.textPrimaryDark
+                              : AppColors.textPrimaryLight,
+                          fontSize: 14.sp,
+                        ),
                       ),
                     ],
                   ),
@@ -150,11 +167,11 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
               ),
             ),
 
-            Divider(color: Colors.white.withOpacity(0.1), height: 1),
+            Divider(color: context.theme.dividerColor.withOpacity(0.1), height: 1),
 
             const SafeSellingInfoCard(),
 
-            Divider(color: Colors.white.withOpacity(0.1), height: 1),
+            Divider(color: context.theme.dividerColor.withOpacity(0.1), height: 1),
 
             // Contact Info
             Padding(
@@ -165,18 +182,21 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                   Text(
                     context.l10n.contactInfo,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: context.isDarkMode
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimaryLight,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: 16.h),
-                  buildFormLabel(context.l10n.labelPhone),
-                  buildFormTextField('+90 5XX XXX XX XX'),
+                  buildFormLabel(context, context.l10n.labelPhone),
+                  buildFormTextField(context, '+90 5XX XXX XX XX'),
                   SizedBox(height: 20.h),
 
-                  buildFormLabel(context.l10n.labelCity),
+                  buildFormLabel(context, context.l10n.labelCity),
                   buildFormDropdown(
+                    context,
                     [
                       context.l10n.cityIstanbul,
                       context.l10n.cityAnkara,

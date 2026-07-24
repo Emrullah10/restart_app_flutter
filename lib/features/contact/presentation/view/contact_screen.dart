@@ -58,7 +58,12 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(LucideIcons.arrowLeft, color: Colors.white),
+          icon: Icon(
+            LucideIcons.arrowLeft,
+            color: context.isDarkMode
+                ? AppColors.iconDark
+                : AppColors.iconLight,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
       ),

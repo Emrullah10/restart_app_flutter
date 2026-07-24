@@ -24,9 +24,6 @@ class SellHeader extends StatelessWidget {
             context.l10n.sellTitle,
             style: context.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
-              color: context.theme.brightness == Brightness.dark
-                  ? Colors.white
-                  : Colors.black,
             ),
           ),
           IconButton(

@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/sell/presentation/viewmodel/marketplace_view_model.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class ActiveListingsList extends ConsumerWidget {
   const ActiveListingsList({super.key});
 
-  Color _statusColor(String status) {
+  Color _statusColor(BuildContext context, String status) {
     switch (status) {
       case 'active':
         return const Color(0xFF10B981); // Green
       case 'pending':
         return const Color(0xFFF59E0B); // Amber
       default:
-        return Colors.grey[600]!; // Sold / other
+        return context.isDarkMode
+            ? AppColors.textSecondaryDark
+            : AppColors.textSecondaryLight; // Sold / other
     }
   }
 
@@ -34,7 +37,9 @@ class ActiveListingsList extends ConsumerWidget {
               Text(
                 context.l10n.activeListingsTitle,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: context.isDarkMode
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
@@ -57,19 +62,25 @@ class ActiveListingsList extends ConsumerWidget {
           else if (listings.isEmpty)
             Text(
               'Henüz ilan yok',
-              style: TextStyle(color: Colors.grey[500], fontSize: 14.sp),
+              style: TextStyle(
+                color: context.isDarkMode
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
+                fontSize: 14.sp,
+              ),
             )
           else
             ...listings.map(
               (listing) => Padding(
                 padding: EdgeInsets.only(bottom: 16.h),
                 child: _buildListingItem(
+                  context,
                   icon: LucideIcons.cpu,
                   title: listing.title,
                   subtitle: listing.subtitle,
                   price: '₺${listing.price.toStringAsFixed(0)}',
                   status: listing.status,
-                  statusColor: _statusColor(listing.status),
+                  statusColor: _statusColor(context, listing.status),
                 ),
               ),
             ),
@@ -78,7 +89,8 @@ class ActiveListingsList extends ConsumerWidget {
     );
   }
 
-  Widget _buildListingItem({
+  Widget _buildListingItem(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String subtitle,
@@ -89,16 +101,18 @@ class ActiveListingsList extends ConsumerWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode
+            ? AppColors.surfaceDark
+            : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: context.theme.dividerColor.withOpacity(0.05)),
       ),
       child: Row(
         children: [
           Container(
             padding: EdgeInsets.all(12.w),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.05),
+              color: const Color(0xFF3B82F6).withOpacity(0.1),
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Icon(icon, color: const Color(0xFF3B82F6), size: 24.sp),
@@ -111,7 +125,9 @@ class ActiveListingsList extends ConsumerWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: context.isDarkMode
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -119,13 +135,20 @@ class ActiveListingsList extends ConsumerWidget {
                 SizedBox(height: 4.h),
                 Text(
                   subtitle,
-                  style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
+                  style: TextStyle(
+                    color: context.isDarkMode
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
+                    fontSize: 12.sp,
+                  ),
                 ),
                 SizedBox(height: 8.h),
                 Text(
                   price,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: context.isDarkMode
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -154,7 +177,9 @@ class ActiveListingsList extends ConsumerWidget {
               SizedBox(height: 16.h),
               Icon(
                 LucideIcons.moreHorizontal,
-                color: Colors.grey[400],
+                color: context.isDarkMode
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
                 size: 20.sp,
               ),
             ],

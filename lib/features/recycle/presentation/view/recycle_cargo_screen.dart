@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/recycle/presentation/view/recycle_success_screen.dart';
 import 'package:mobile_flutter/features/recycle/presentation/viewmodel/recycle_state.dart';
 import 'package:mobile_flutter/features/recycle/presentation/viewmodel/recycle_view_model.dart';
 import 'package:mobile_flutter/features/recycle/presentation/widgets/recycle_header.dart';
+import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class RecycleCargoScreen extends ConsumerStatefulWidget {
   const RecycleCargoScreen({super.key});
@@ -21,7 +23,9 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
     final notifier = ref.read(recycleViewModelProvider.notifier);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF111827),
+      backgroundColor: context.isDarkMode
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       body: SafeArea(
         child: Column(
           children: [
@@ -35,14 +39,16 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                     Text(
                       'Kargo QR Kodu',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: context.isDarkMode
+                            ? AppColors.textPrimaryDark
+                            : AppColors.textPrimaryLight,
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(height: 24.h),
 
-                    // QR Code Placeholder
+                    // QR Code Placeholder (Always dark/black - QR readability, not theme related)
                     Container(
                       width: 200.w,
                       height: 200.w,
@@ -69,7 +75,9 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                       child: Text(
                         'Taşıma Yöntemi Seçin',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: context.isDarkMode
+                              ? AppColors.textPrimaryDark
+                              : AppColors.textPrimaryLight,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                         ),
@@ -77,6 +85,7 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                     ),
                     SizedBox(height: 12.h),
                     _buildTransportOption(
+                      context,
                       mode: TransportMode.standard,
                       selectedMode: recycleState.selectedMode,
                       title: 'Standart Kurye',
@@ -87,6 +96,7 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                     ),
                     SizedBox(height: 12.h),
                     _buildTransportOption(
+                      context,
                       mode: TransportMode.electric,
                       selectedMode: recycleState.selectedMode,
                       title: 'Elektrikli / Yeşil Kurye',
@@ -103,10 +113,12 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                     Container(
                       padding: EdgeInsets.all(20.w),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1F2937),
+                        color: context.isDarkMode
+                            ? AppColors.surfaceDark
+                            : AppColors.surfaceLight,
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.05),
+                          color: context.theme.dividerColor.withOpacity(0.05),
                         ),
                       ),
                       child: Column(
@@ -120,11 +132,20 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                             ),
                           ),
                           SizedBox(height: 16.h),
-                          _buildInfoRow('Takip No:', 'RCY123456789'),
-                          SizedBox(height: 12.h),
-                          _buildInfoRow('Tahmini Teslimat:', '2-3 iş günü'),
+                          _buildInfoRow(
+                            context,
+                            'Takip No:',
+                            'RCY123456789',
+                          ),
                           SizedBox(height: 12.h),
                           _buildInfoRow(
+                            context,
+                            'Tahmini Teslimat:',
+                            '2-3 iş günü',
+                          ),
+                          SizedBox(height: 12.h),
+                          _buildInfoRow(
+                            context,
                             'Kazanılacak Puan:',
                             '${recycleState.estimatedPoints.toStringAsFixed(0)} Puan',
                             isHighlight: true,
@@ -196,7 +217,8 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
     );
   }
 
-  Widget _buildTransportOption({
+  Widget _buildTransportOption(
+    BuildContext context, {
     required TransportMode mode,
     required TransportMode selectedMode,
     required String title,
@@ -209,10 +231,13 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
     final Color activeColor = isGreen
         ? const Color(0xFF10B981)
         : const Color(0xFF3B82F6);
+    final Color secondaryTextColor = context.isDarkMode
+        ? AppColors.textSecondaryDark
+        : AppColors.textSecondaryLight;
     final Color borderColor = isSelected
         ? activeColor
-        : Colors.white.withOpacity(0.1);
-    final Color iconColor = isSelected ? activeColor : Colors.grey;
+        : context.theme.dividerColor.withOpacity(0.1);
+    final Color iconColor = isSelected ? activeColor : secondaryTextColor;
 
     return GestureDetector(
       onTap: onTap,
@@ -222,7 +247,9 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
         decoration: BoxDecoration(
           color: isSelected
               ? activeColor.withOpacity(0.1)
-              : const Color(0xFF1F2937),
+              : (context.isDarkMode
+                    ? AppColors.surfaceDark
+                    : AppColors.surfaceLight),
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(color: borderColor, width: isSelected ? 2 : 1),
         ),
@@ -237,7 +264,9 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                   Text(
                     title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: context.isDarkMode
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimaryLight,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -246,7 +275,9 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                   Text(
                     subtitle,
                     style: TextStyle(
-                      color: isGreen ? const Color(0xFF10B981) : Colors.grey,
+                      color: isGreen
+                          ? const Color(0xFF10B981)
+                          : secondaryTextColor,
                       fontSize: 12.sp,
                       fontWeight: isGreen ? FontWeight.w600 : FontWeight.normal,
                     ),
@@ -262,18 +293,32 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
     );
   }
 
-  Widget _buildInfoRow(String label, String value, {bool isHighlight = false}) {
+  Widget _buildInfoRow(
+    BuildContext context,
+    String label,
+    String value, {
+    bool isHighlight = false,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           label,
-          style: TextStyle(color: Colors.grey[400], fontSize: 14.sp),
+          style: TextStyle(
+            color: context.isDarkMode
+                ? AppColors.textSecondaryDark
+                : AppColors.textSecondaryLight,
+            fontSize: 14.sp,
+          ),
         ),
         Text(
           value,
           style: TextStyle(
-            color: isHighlight ? const Color(0xFF10B981) : Colors.white,
+            color: isHighlight
+                ? const Color(0xFF10B981)
+                : (context.isDarkMode
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight),
             fontSize: 14.sp,
             fontWeight: FontWeight.bold,
           ),

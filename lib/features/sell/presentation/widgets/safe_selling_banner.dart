@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 import 'package:mobile_flutter/shared/extensions/padding_extensions.dart';
 
@@ -13,7 +14,9 @@ class SafeSellingBanner extends StatelessWidget {
       margin: [24, 24].horizantalAndVerticalP,
       padding: 16.allP,
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode
+            ? AppColors.surfaceDark
+            : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: const Color(0xFF10B981).withOpacity(0.3)),
       ),
@@ -39,7 +42,9 @@ class SafeSellingBanner extends StatelessWidget {
                 Text(
                   context.l10n.safeSellingTitle,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: context.isDarkMode
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -48,7 +53,9 @@ class SafeSellingBanner extends StatelessWidget {
                 Text(
                   context.l10n.safeSellingDesc,
                   style: TextStyle(
-                    color: Colors.grey[400],
+                    color: context.isDarkMode
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
                     fontSize: 12.sp,
                     height: 1.2,
                   ),
@@ -56,7 +63,13 @@ class SafeSellingBanner extends StatelessWidget {
               ],
             ),
           ),
-          Icon(LucideIcons.chevronRight, color: Colors.grey[500], size: 20.sp),
+          Icon(
+            LucideIcons.chevronRight,
+            color: context.isDarkMode
+                ? AppColors.textSecondaryDark
+                : AppColors.textSecondaryLight,
+            size: 20.sp,
+          ),
         ],
       ),
     );

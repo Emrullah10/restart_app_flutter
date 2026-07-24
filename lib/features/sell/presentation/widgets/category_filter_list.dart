@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class CategoryFilterList extends StatefulWidget {
@@ -42,17 +43,23 @@ class _CategoryFilterListState extends State<CategoryFilterList> {
               decoration: BoxDecoration(
                 color: isSelected
                     ? const Color(0xFF0F50C1)
-                    : const Color(0xFF1F2937), // Blue if selected
+                    : (context.isDarkMode
+                          ? AppColors.surfaceDark
+                          : AppColors.surfaceLight), // Blue if selected
                 borderRadius: BorderRadius.circular(20.r),
                 border: isSelected
                     ? null
-                    : Border.all(color: Colors.white.withOpacity(0.05)),
+                    : Border.all(color: context.theme.dividerColor.withOpacity(0.05)),
               ),
               child: Center(
                 child: Text(
                   _categories[index],
                   style: TextStyle(
-                    color: isSelected ? Colors.white : Colors.grey[400],
+                    color: isSelected
+                        ? Colors.white
+                        : (context.isDarkMode
+                              ? AppColors.textSecondaryDark
+                              : AppColors.textSecondaryLight),
                     fontSize: 14.sp,
                     fontWeight: isSelected
                         ? FontWeight.bold

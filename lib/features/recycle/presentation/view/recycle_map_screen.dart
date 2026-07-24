@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/recycle/presentation/widgets/recycle_header.dart'; // Reusing generic header
+import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class RecycleMapScreen extends StatelessWidget {
   const RecycleMapScreen({super.key});
@@ -9,7 +11,9 @@ class RecycleMapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF111827),
+      backgroundColor: context.isDarkMode
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       body: SafeArea(
         child: Stack(
           children: [
@@ -17,17 +21,27 @@ class RecycleMapScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               height: double.infinity,
-              color: const Color(0xFF1F2937),
+              color: context.isDarkMode
+                  ? AppColors.surfaceDark
+                  : AppColors.surfaceLight,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(LucideIcons.mapPin, color: Colors.white, size: 48.sp),
+                    Icon(
+                      LucideIcons.mapPin,
+                      color: context.isDarkMode
+                          ? AppColors.iconDark
+                          : AppColors.iconLight,
+                      size: 48.sp,
+                    ),
                     SizedBox(height: 16.h),
                     Text(
                       'Harita yükleniyor...',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: context.isDarkMode
+                            ? AppColors.textPrimaryDark
+                            : AppColors.textPrimaryLight,
                         fontSize: 16.sp,
                       ),
                     ),
@@ -55,13 +69,16 @@ class RecycleMapScreen extends StatelessWidget {
                   Text(
                     'En Yakın Noktalar',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: context.isDarkMode
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimaryLight,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: 16.h),
                   _buildLocationCard(
+                    context,
                     icon: LucideIcons.recycle,
                     title: 'Teknosa Mağazası',
                     distance: '850m uzaklıkta • Açık',
@@ -69,6 +86,7 @@ class RecycleMapScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
                   _buildLocationCard(
+                    context,
                     icon: LucideIcons.store,
                     title: 'Vatan Bilgisayar',
                     distance: '1.2km uzaklıkta • Açık',
@@ -83,7 +101,8 @@ class RecycleMapScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLocationCard({
+  Widget _buildLocationCard(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String distance,
@@ -92,9 +111,11 @@ class RecycleMapScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937), // Solid dark bg for visibility over map
+        color: context.isDarkMode
+            ? AppColors.surfaceDark
+            : AppColors.surfaceLight, // Solid bg for visibility over map
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: context.theme.dividerColor.withOpacity(0.05)),
       ),
       child: Row(
         children: [
@@ -114,7 +135,9 @@ class RecycleMapScreen extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: context.isDarkMode
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -123,7 +146,9 @@ class RecycleMapScreen extends StatelessWidget {
                 Text(
                   distance,
                   style: TextStyle(
-                    color: Colors.grey[400],
+                    color: context.isDarkMode
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
                     fontSize: 12.sp,
                   ),
                 ),

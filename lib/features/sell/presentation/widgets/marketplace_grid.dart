@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/sell/presentation/viewmodel/marketplace_view_model.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
@@ -23,7 +24,9 @@ class MarketplaceGrid extends ConsumerWidget {
               Text(
                 context.l10n.marketplaceTitle,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: context.isDarkMode
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
@@ -46,7 +49,12 @@ class MarketplaceGrid extends ConsumerWidget {
           else if (products.isEmpty)
             Text(
               'Ürün bulunamadı',
-              style: TextStyle(color: Colors.grey[500], fontSize: 14.sp),
+              style: TextStyle(
+                color: context.isDarkMode
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
+                fontSize: 14.sp,
+              ),
             )
           else
             GridView.count(
@@ -59,6 +67,7 @@ class MarketplaceGrid extends ConsumerWidget {
               children: products
                   .map(
                     (product) => _buildMarketItem(
+                      context,
                       icon: LucideIcons.smartphone,
                       title: product.title,
                       subtitle: product.subtitle,
@@ -74,7 +83,8 @@ class MarketplaceGrid extends ConsumerWidget {
     );
   }
 
-  Widget _buildMarketItem({
+  Widget _buildMarketItem(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String subtitle,
@@ -85,9 +95,11 @@ class MarketplaceGrid extends ConsumerWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: context.isDarkMode
+            ? AppColors.surfaceDark
+            : AppColors.surfaceLight,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: context.theme.dividerColor.withOpacity(0.05)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +108,7 @@ class MarketplaceGrid extends ConsumerWidget {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.05),
+                color: const Color(0xFF3B82F6).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Icon(icon, color: const Color(0xFF3B82F6), size: 32.sp),
@@ -108,7 +120,9 @@ class MarketplaceGrid extends ConsumerWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              color: Colors.white,
+              color: context.isDarkMode
+                  ? AppColors.textPrimaryDark
+                  : AppColors.textPrimaryLight,
               fontSize: 14.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -118,7 +132,12 @@ class MarketplaceGrid extends ConsumerWidget {
             subtitle,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
+            style: TextStyle(
+              color: context.isDarkMode
+                  ? AppColors.textSecondaryDark
+                  : AppColors.textSecondaryLight,
+              fontSize: 12.sp,
+            ),
           ),
           SizedBox(height: 8.h),
           Row(
@@ -127,7 +146,9 @@ class MarketplaceGrid extends ConsumerWidget {
               Text(
                 price,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: context.isDarkMode
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                 ),
@@ -139,7 +160,9 @@ class MarketplaceGrid extends ConsumerWidget {
                   Text(
                     rating.toString(),
                     style: TextStyle(
-                      color: Colors.white,
+                      color: context.isDarkMode
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimaryLight,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -151,7 +174,12 @@ class MarketplaceGrid extends ConsumerWidget {
           SizedBox(height: 4.h),
           Text(
             location,
-            style: TextStyle(color: Colors.grey[500], fontSize: 11.sp),
+            style: TextStyle(
+              color: context.isDarkMode
+                  ? AppColors.textSecondaryDark
+                  : AppColors.textSecondaryLight,
+              fontSize: 11.sp,
+            ),
           ),
         ],
       ),

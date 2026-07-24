@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/notifications/presentation/view/notifications_screen.dart';
 import 'package:mobile_flutter/features/profile/presentation/view/profile_screen.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
@@ -22,10 +23,14 @@ class HomeHeader extends StatelessWidget {
           Container(
             padding: 8.allP,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.05),
+              color: context.colorScheme.primary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12.r),
             ),
-            child: Icon(LucideIcons.recycle, color: Colors.white, size: 24.sp),
+            child: Icon(
+              LucideIcons.recycle,
+              color: context.colorScheme.primary,
+              size: 24.sp,
+            ),
           ),
           SizedBox(width: 12.w),
 
@@ -37,7 +42,9 @@ class HomeHeader extends StatelessWidget {
                 Text(
                   'ReStart',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: context.isDarkMode
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -46,7 +53,12 @@ class HomeHeader extends StatelessWidget {
                   fullName.isNotEmpty
                       ? 'Merhaba, $fullName'
                       : context.l10n.appTagline,
-                  style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
+                  style: TextStyle(
+                    color: context.isDarkMode
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
+                    fontSize: 12.sp,
+                  ),
                 ),
               ],
             ),
@@ -66,7 +78,9 @@ class HomeHeader extends StatelessWidget {
                 },
                 icon: Icon(
                   LucideIcons.bell,
-                  color: Colors.grey[300],
+                  color: context.isDarkMode
+                      ? AppColors.iconDark
+                      : AppColors.iconLight,
                   size: 24.sp,
                 ),
               ),
@@ -99,7 +113,7 @@ class HomeHeader extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.2),
+                  color: context.theme.dividerColor.withOpacity(0.2),
                   width: 2.w,
                 ),
                 image: DecorationImage(

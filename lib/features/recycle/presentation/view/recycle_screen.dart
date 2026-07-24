@@ -36,8 +36,8 @@ class RecycleScreen extends StatelessWidget {
                     Text(
                       context.l10n.recycleSubtitle,
                       style: context.textTheme.bodyMedium?.copyWith(
-                        color: context.theme.brightness == Brightness.dark
-                            ? Colors.grey[400]
+                        color: context.isDarkMode
+                            ? AppColors.textSecondaryDark
                             : AppColors.textSecondaryLight,
                       ),
                     ),
