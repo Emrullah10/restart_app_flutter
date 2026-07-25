@@ -10,6 +10,7 @@ abstract class Listing with _$Listing {
     @Default('') String subtitle,
     @Default(0.0) double price,
     @Default('active') String status,
+    @Default([]) List<String> images,
   }) = _Listing;
 
   factory Listing.fromJson(Map<String, dynamic> json) =>

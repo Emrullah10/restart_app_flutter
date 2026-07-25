@@ -84,7 +84,7 @@ class WeeklyEventCard extends StatelessWidget {
                   ),
                   SizedBox(width: 8.w),
                   Text(
-                    '15-21 Oct', // Mock Date
+                    context.l10n.thisWeek,
                     style: TextStyle(
                       color: context.theme.colorScheme.onSurface,
                       fontSize: 12.sp,

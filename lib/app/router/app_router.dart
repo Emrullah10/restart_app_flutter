@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:mobile_flutter/features/auth/presentation/view/login_screen.dart';
 import 'package:mobile_flutter/features/auth/presentation/view/register_screen.dart';
 import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
+import 'package:mobile_flutter/features/contact/presentation/view/contact_screen.dart';
+import 'package:mobile_flutter/features/discover/presentation/view/discover_screen.dart';
 import 'package:mobile_flutter/features/home/presentation/view/home_content.dart';
 import 'package:mobile_flutter/features/map/presentation/view/map_screen.dart';
 import 'package:mobile_flutter/app/navigation/nav_bar.dart';
@@ -169,6 +171,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: rootNavigatorKey,
         path: Routes.createListing,
         builder: (context, state) => const CreateListingScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: rootNavigatorKey,
+        path: Routes.contact,
+        builder: (context, state) => const ContactScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: rootNavigatorKey,
+        path: Routes.discover,
+        builder: (context, state) => const DiscoverScreen(),
       ),
     ],
   );

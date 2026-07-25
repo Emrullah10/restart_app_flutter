@@ -76,6 +76,9 @@ class ActiveListingsList extends ConsumerWidget {
                 child: _buildListingItem(
                   context,
                   icon: LucideIcons.cpu,
+                  imageUrl: listing.images.isNotEmpty
+                      ? listing.images.first
+                      : null,
                   title: listing.title,
                   subtitle: listing.subtitle,
                   price: '₺${listing.price.toStringAsFixed(0)}',
@@ -92,6 +95,7 @@ class ActiveListingsList extends ConsumerWidget {
   Widget _buildListingItem(
     BuildContext context, {
     required IconData icon,
+    String? imageUrl,
     required String title,
     required String subtitle,
     required String price,
@@ -109,14 +113,30 @@ class ActiveListingsList extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          Container(
-            padding: EdgeInsets.all(12.w),
-            decoration: BoxDecoration(
-              color: const Color(0xFF3B82F6).withOpacity(0.1),
+          if (imageUrl != null)
+            ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
+              child: Image.network(
+                imageUrl,
+                width: 48.w,
+                height: 48.w,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => Icon(
+                  icon,
+                  color: const Color(0xFF3B82F6),
+                  size: 24.sp,
+                ),
+              ),
+            )
+          else
+            Container(
+              padding: EdgeInsets.all(12.w),
+              decoration: BoxDecoration(
+                color: const Color(0xFF3B82F6).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Icon(icon, color: const Color(0xFF3B82F6), size: 24.sp),
             ),
-            child: Icon(icon, color: const Color(0xFF3B82F6), size: 24.sp),
-          ),
           SizedBox(width: 16.w),
           Expanded(
             child: Column(

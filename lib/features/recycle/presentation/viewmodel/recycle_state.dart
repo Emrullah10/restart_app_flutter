@@ -12,5 +12,11 @@ abstract class RecycleState with _$RecycleState {
     @Default(false) bool isSuccess,
     @Default(TransportMode.standard) TransportMode selectedMode,
     @Default(10.0) double estimatedPoints,
+    String? selectedCenterId,
+    String? selectedCenterName,
+    @Default('electronic') String wasteType,
+    @Default(1.0) double weightKg,
+    int? resultTotalPoints,
+    double? resultCommissionTl,
   }) = _RecycleState;
 }

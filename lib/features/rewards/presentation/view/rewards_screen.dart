@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/features/notifications/presentation/view/notifications_screen.dart';
 import 'package:mobile_flutter/features/profile/presentation/viewmodel/profile_view_model.dart';
 import 'package:mobile_flutter/features/rewards/presentation/widgets/achievements_section.dart';
 import 'package:mobile_flutter/features/rewards/presentation/widgets/points_breakdown_row.dart';
@@ -41,7 +42,10 @@ class RewardsScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: Icon(LucideIcons.bell, color: context.theme.iconTheme.color),
-            onPressed: () {},
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+            ),
           ),
         ],
       ),

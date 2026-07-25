@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/app/router/app_routes.dart';
 import 'package:mobile_flutter/core/localization/localization_provider.dart';
 import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/core/theme/theme_provider.dart';
+import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 import 'package:mobile_flutter/shared/extensions/padding_extensions.dart';
 
@@ -64,10 +66,72 @@ class SettingsScreen extends ConsumerWidget {
                 },
               ),
             ),
+
+            SizedBox(height: 24.h),
+            _buildSectionHeader(context, context.l10n.settingsAccount),
+            SizedBox(height: 16.h),
+
+            GestureDetector(
+              onTap: () => context.push(Routes.contact),
+              child: _buildSettingsTile(
+                context,
+                icon: LucideIcons.mail,
+                title: context.l10n.contactTitle,
+                subtitle: '',
+                trailing: Icon(
+                  LucideIcons.chevronRight,
+                  color: context.isDarkMode
+                      ? AppColors.textSecondaryDark
+                      : AppColors.textSecondaryLight,
+                  size: 18.sp,
+                ),
+              ),
+            ),
+            SizedBox(height: 16.h),
+
+            GestureDetector(
+              onTap: () => _confirmLogout(context, ref),
+              child: _buildSettingsTile(
+                context,
+                icon: LucideIcons.logOut,
+                title: context.l10n.logout,
+                subtitle: '',
+                trailing: Icon(
+                  LucideIcons.chevronRight,
+                  color: context.isDarkMode
+                      ? AppColors.textSecondaryDark
+                      : AppColors.textSecondaryLight,
+                  size: 18.sp,
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _confirmLogout(BuildContext context, WidgetRef ref) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(context.l10n.logoutConfirmTitle),
+        content: Text(context.l10n.logoutConfirmMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(context.l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(context.l10n.logout),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) {
+      await ref.read(authViewModelProvider.notifier).logout();
+    }
   }
 
   Widget _buildThemeTile(

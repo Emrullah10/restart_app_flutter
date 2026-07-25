@@ -119,6 +119,7 @@ class NearbyServicesList extends ConsumerWidget {
                     ? context.l10n.actionContact
                     : context.l10n.actionGetDirections,
                 color: _getColorForType(type),
+                onAction: () => context.go('/map?filter=$type'),
               ),
             );
           }),
@@ -135,6 +136,7 @@ class NearbyServicesList extends ConsumerWidget {
     required String tags,
     required String actionText,
     required Color color,
+    required VoidCallback onAction,
   }) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 24.w),
@@ -209,7 +211,7 @@ class NearbyServicesList extends ConsumerWidget {
             ),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: onAction,
             style: TextButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
               backgroundColor: Colors.transparent,

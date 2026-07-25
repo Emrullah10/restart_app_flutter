@@ -10,6 +10,21 @@ import 'package:mobile_flutter/features/recycle/presentation/viewmodel/recycle_v
 import 'package:mobile_flutter/features/recycle/presentation/widgets/recycle_header.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
+const List<String> _kWasteTypes = ['electronic', 'battery', 'cable', 'other'];
+
+String _wasteTypeLabel(String type) {
+  switch (type) {
+    case 'electronic':
+      return 'Elektronik Cihaz';
+    case 'battery':
+      return 'Pil / Batarya';
+    case 'cable':
+      return 'Kablo';
+    default:
+      return 'Diğer';
+  }
+}
+
 class RecycleCargoScreen extends ConsumerStatefulWidget {
   const RecycleCargoScreen({super.key});
 
@@ -18,6 +33,21 @@ class RecycleCargoScreen extends ConsumerStatefulWidget {
 }
 
 class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
+  late final TextEditingController _weightController;
+
+  @override
+  void initState() {
+    super.initState();
+    final initialWeight = ref.read(recycleViewModelProvider).weightKg;
+    _weightController = TextEditingController(text: initialWeight.toString());
+  }
+
+  @override
+  void dispose() {
+    _weightController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final recycleState = ref.watch(recycleViewModelProvider);
@@ -69,6 +99,125 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                         ),
                       ),
                     ),
+
+                    // Center Selection Info
+                    if (recycleState.selectedCenterName != null) ...[
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(12.w),
+                        margin: EdgeInsets.only(bottom: 16.h),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF10B981).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(LucideIcons.mapPin, color: Color(0xFF10B981)),
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: Text(
+                                recycleState.selectedCenterName!,
+                                style: TextStyle(
+                                  color: context.isDarkMode
+                                      ? AppColors.textPrimaryDark
+                                      : AppColors.textPrimaryLight,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+
+                    // Waste Type Selection
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Atık Türü',
+                        style: TextStyle(
+                          color: context.isDarkMode
+                              ? AppColors.textPrimaryDark
+                              : AppColors.textPrimaryLight,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      decoration: BoxDecoration(
+                        color: context.isDarkMode
+                            ? AppColors.surfaceDark
+                            : AppColors.surfaceLight,
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: recycleState.wasteType,
+                          isExpanded: true,
+                          items: _kWasteTypes
+                              .map(
+                                (type) => DropdownMenuItem(
+                                  value: type,
+                                  child: Text(_wasteTypeLabel(type)),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            if (value != null) notifier.setWasteType(value);
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+
+                    // Weight Input
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Ağırlık (kg)',
+                        style: TextStyle(
+                          color: context.isDarkMode
+                              ? AppColors.textPrimaryDark
+                              : AppColors.textPrimaryLight,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: context.isDarkMode
+                            ? AppColors.surfaceDark
+                            : AppColors.surfaceLight,
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: TextField(
+                        controller: _weightController,
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                        style: TextStyle(
+                          color: context.isDarkMode
+                              ? AppColors.textPrimaryDark
+                              : AppColors.textPrimaryLight,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: '1.0',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.all(16.w),
+                        ),
+                        onChanged: (value) {
+                          final parsed = double.tryParse(value);
+                          if (parsed != null) notifier.setWeight(parsed);
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 32.h),
 
                     // Transport Mode Selection
                     Align(
@@ -135,19 +284,19 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                           SizedBox(height: 16.h),
                           _buildInfoRow(
                             context,
-                            'Takip No:',
-                            'RCY123456789',
+                            'Atık Türü:',
+                            _wasteTypeLabel(recycleState.wasteType),
                           ),
                           SizedBox(height: 12.h),
                           _buildInfoRow(
                             context,
-                            'Tahmini Teslimat:',
-                            '2-3 iş günü',
+                            'Ağırlık:',
+                            '${recycleState.weightKg.toStringAsFixed(1)} kg',
                           ),
                           SizedBox(height: 12.h),
                           _buildInfoRow(
                             context,
-                            'Kazanılacak Puan:',
+                            'Tahmini Kazanılacak Puan:',
                             '${recycleState.estimatedPoints.toStringAsFixed(0)} Puan',
                             isHighlight: true,
                           ),
@@ -169,15 +318,11 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                                     .valueOrNull
                                     ?.id;
                                 if (userId == null) return;
-                                // TODO: centerId should come from a service
-                                // center selection step earlier in the flow;
-                                // no such UI exists yet so it's sent as null
-                                // (service_center_id is nullable in the DB).
                                 final success = await notifier.submitRecycle(
                                   userId,
-                                  null,
-                                  'electronic',
-                                  1.0,
+                                  recycleState.selectedCenterId,
+                                  recycleState.wasteType,
+                                  recycleState.weightKg,
                                 );
                                 if (success && mounted) {
                                   Navigator.push(

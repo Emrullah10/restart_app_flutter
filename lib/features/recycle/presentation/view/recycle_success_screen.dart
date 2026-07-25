@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/features/recycle/presentation/viewmodel/recycle_view_model.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
-class RecycleSuccessScreen extends StatelessWidget {
+class RecycleSuccessScreen extends ConsumerWidget {
   const RecycleSuccessScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final recycleState = ref.watch(recycleViewModelProvider);
+    final points = recycleState.resultTotalPoints ?? 0;
+    final commission = recycleState.resultCommissionTl ?? 0.0;
+
     return Scaffold(
       backgroundColor: context.isDarkMode
           ? AppColors.backgroundDark
@@ -68,7 +74,7 @@ class RecycleSuccessScreen extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
             Text(
-              'Bu cihaz doğaya 250 litre su\nkazandırdı.',
+              '$points puan kazandın ve çevreye\nkatkıda bulundun.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: context.isDarkMode
@@ -100,7 +106,7 @@ class RecycleSuccessScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
                   Text(
-                    '250 Litre Su',
+                    '$points Puan',
                     style: TextStyle(
                       color: Colors.white, // On dark-green impact card fill
                       fontSize: 20.sp,
@@ -109,7 +115,9 @@ class RecycleSuccessScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    'Çevreye katkınız için teşekkürler!',
+                    commission > 0
+                        ? '₺${commission.toStringAsFixed(2)} komisyon kazandın!'
+                        : 'Çevreye katkınız için teşekkürler!',
                     style: TextStyle(
                       color: const Color(0xFF34D399),
                       fontSize: 14.sp,
@@ -119,42 +127,14 @@ class RecycleSuccessScreen extends StatelessWidget {
               ),
             ),
 
-            Spacer(),
+            const Spacer(),
 
             // Buttons
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0F50C1), // Blue
-                  padding: EdgeInsets.symmetric(vertical: 16.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(LucideIcons.share2, color: Colors.white, size: 20.sp),
-                    SizedBox(width: 8.w),
-                    Text(
-                      'Başarımı Paylaş',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 16.h),
-            SizedBox(
-              width: double.infinity,
               child: TextButton(
                 onPressed: () {
+                  ref.read(recycleViewModelProvider.notifier).reset();
                   Navigator.popUntil(context, (route) => route.isFirst);
                 },
                 style: TextButton.styleFrom(

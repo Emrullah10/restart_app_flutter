@@ -1,14 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/features/profile/presentation/viewmodel/profile_view_model.dart';
+import 'package:mobile_flutter/features/rewards/data/models/reward.dart';
+import 'package:mobile_flutter/features/rewards/presentation/viewmodel/rewards_view_model.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
-class RewardsSection extends StatelessWidget {
+const List<IconData> _kRewardIcons = [
+  LucideIcons.gift,
+  LucideIcons.shoppingBag,
+  LucideIcons.coffee,
+];
+const List<Color> _kRewardColors = [
+  Color(0xFF7F1D1D),
+  Color(0xFF1F2937),
+  Color(0xFF065F46),
+];
+
+class RewardsSection extends ConsumerWidget {
   const RewardsSection({super.key});
 
+  Future<void> _handleRedeem(
+    BuildContext context,
+    WidgetRef ref,
+    Reward reward,
+  ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(reward.title),
+        content: Text('${reward.pointsCost} puan karşılığında kullanılsın mı?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(context.l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(context.l10n.useButton),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+
+    final success = await ref
+        .read(rewardsViewModelProvider.notifier)
+        .redeem(reward.id);
+
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          success ? '${reward.title} kullanıldı!' : 'Ödül kullanılamadı',
+        ),
+      ),
+    );
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rewardsAsync = ref.watch(rewardsViewModelProvider);
+    final totalPoints =
+        ref.watch(profileViewModelProvider).valueOrNull?.totalPoints ?? 0;
+    final rewards = rewardsAsync.valueOrNull ?? const [];
+
     return Column(
       children: [
         Row(
@@ -36,44 +94,38 @@ class RewardsSection extends StatelessWidget {
           ],
         ),
         SizedBox(height: 16.h),
-        _buildRewardItem(
-          context,
-          icon: LucideIcons.gift, // Placeholder for MediaMarkt logo
-          iconColor: Colors.white,
-          bgColor: const Color(0xFF7F1D1D), // Red for MediaMarkt
-          title: 'MediaMarkt',
-          subtitle: '50₺ Hediye Çeki',
-          points: '500 puan',
-          buttonText: context.l10n.useButton,
-          buttonColor: const Color(0xFF3B82F6),
-        ),
-        SizedBox(height: 12.h),
-        _buildRewardItem(
-          context,
-          icon: LucideIcons.shoppingBag, // Placeholder for Migros
-          iconColor: Colors.white,
-          bgColor: const Color(0xFF1F2937),
-          title: 'Migros',
-          subtitle: '100₺ Hediye Çeki',
-          points: '800 puan',
-          buttonText: context.l10n.useButton,
-          buttonColor: const Color(0xFF3B82F6),
-        ),
-        SizedBox(height: 12.h),
-        _buildRewardItem(
-          context,
-          icon: LucideIcons.coffee, // Placeholder for Starbucks
-          iconColor: Colors.white,
-          bgColor: const Color(0xFF065F46), // Green for Starbucks
-          title: 'Starbucks',
-          subtitle: '75₺ Hediye Çeki',
-          points: '1,500 puan',
-          buttonText: context.l10n.insufficientPoints,
-          buttonColor: Colors.transparent,
-          textColor: context.isDarkMode
-              ? AppColors.textSecondaryDark
-              : AppColors.textSecondaryLight,
-        ),
+        if (rewardsAsync.isLoading)
+          const Center(child: CircularProgressIndicator())
+        else
+          ...rewards.asMap().entries.map((entry) {
+            final index = entry.key;
+            final reward = entry.value;
+            final canAfford = totalPoints >= reward.pointsCost;
+            return Padding(
+              padding: EdgeInsets.only(bottom: 12.h),
+              child: _buildRewardItem(
+                context,
+                icon: _kRewardIcons[index % _kRewardIcons.length],
+                iconColor: Colors.white,
+                bgColor: _kRewardColors[index % _kRewardColors.length],
+                title: reward.title,
+                subtitle: reward.subtitle,
+                points: '${reward.pointsCost} puan',
+                buttonText: canAfford
+                    ? context.l10n.useButton
+                    : context.l10n.insufficientPoints,
+                buttonColor: canAfford
+                    ? const Color(0xFF3B82F6)
+                    : Colors.transparent,
+                onTap: canAfford
+                    ? () => _handleRedeem(context, ref, reward)
+                    : null,
+                textColor: context.isDarkMode
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondaryLight,
+              ),
+            );
+          }),
       ],
     );
   }
@@ -88,6 +140,7 @@ class RewardsSection extends StatelessWidget {
     required String points,
     required String buttonText,
     required Color buttonColor,
+    required VoidCallback? onTap,
     Color? textColor,
   }) {
     return Container(
@@ -146,9 +199,9 @@ class RewardsSection extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 4.h),
-              if (buttonColor != Colors.transparent)
+              if (onTap != null)
                 GestureDetector(
-                  onTap: () {},
+                  onTap: onTap,
                   child: Text(
                     buttonText,
                     style: TextStyle(

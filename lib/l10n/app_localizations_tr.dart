@@ -269,6 +269,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get searchHint => 'Ara...';
 
   @override
+  String get noResults => 'Sonuç bulunamadı';
+
+  @override
+  String get markAllAsRead => 'Tümünü okundu işaretle';
+
+  @override
+  String get thisWeek => 'Bu hafta';
+
+  @override
+  String get allMarkedAsRead => 'Tüm bildirimler okundu olarak işaretlendi';
+
+  @override
   String get appTagline => 'Teknolojiyi hayata döndür';
 
   @override
@@ -592,6 +604,22 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsAppearanceLanguage => 'Görünüm ve Dil';
+
+  @override
+  String get settingsAccount => 'Hesap';
+
+  @override
+  String get logout => 'Çıkış Yap';
+
+  @override
+  String get logoutConfirmTitle => 'Çıkış Yap';
+
+  @override
+  String get logoutConfirmMessage =>
+      'Çıkış yapmak istediğinizden emin misiniz?';
+
+  @override
+  String get cancel => 'Vazgeç';
 
   @override
   String get themeTitle => 'Tema';

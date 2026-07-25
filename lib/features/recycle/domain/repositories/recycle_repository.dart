@@ -1,5 +1,5 @@
 abstract interface class RecycleRepository {
-  Future<void> logRecycle({
+  Future<Map<String, dynamic>> logRecycle({
     required String userId,
     String? centerId,
     required String wasteType,

@@ -28,9 +28,12 @@ abstract class IApiService {
   // Marketplace
   Future<List<dynamic>> getUserListings(String userId);
   Future<List<dynamic>> getProducts({String? category, int? limit});
+  Future<List<String>> uploadListingImages(List<String> filePaths);
+  Future<Map<String, dynamic>> createListing(Map<String, dynamic> data);
 
   // Rewards
   Future<List<dynamic>> getRewards();
+  Future<Map<String, dynamic>> redeemReward(String userId, String rewardId);
 
   // Services
   Future<List<dynamic>> getServices({String? type});
@@ -41,4 +44,9 @@ abstract class IApiService {
   );
   Future<List<dynamic>> findCouriers(double lat, double lng);
   Future<bool> sendContactMessage(Map<String, dynamic> data);
+
+  // Notifications
+  Future<List<dynamic>> getNotifications(String userId);
+  Future<void> markNotificationRead(String notificationId);
+  Future<void> markAllNotificationsRead(String userId);
 }

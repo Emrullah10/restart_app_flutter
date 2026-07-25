@@ -1,27 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/sell/presentation/view/create_listing/widgets/category_selector.dart';
 import 'package:mobile_flutter/features/sell/presentation/view/create_listing/widgets/listing_form_fields.dart';
 import 'package:mobile_flutter/features/sell/presentation/view/create_listing/widgets/photo_upload_section.dart';
 import 'package:mobile_flutter/features/sell/presentation/view/create_listing/widgets/safe_selling_info_card.dart';
+import 'package:mobile_flutter/features/sell/presentation/viewmodel/create_listing_view_model.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
-class CreateListingScreen extends StatefulWidget {
+class CreateListingScreen extends ConsumerStatefulWidget {
   const CreateListingScreen({super.key});
 
   @override
-  State<CreateListingScreen> createState() => _CreateListingScreenState();
+  ConsumerState<CreateListingScreen> createState() =>
+      _CreateListingScreenState();
 }
 
-class _CreateListingScreenState extends State<CreateListingScreen> {
+class _CreateListingScreenState extends ConsumerState<CreateListingScreen> {
   int _selectedCategoryIndex = 0;
   late List<String> _categories;
 
   bool _isNegotiable = false;
   String _selectedCondition = 'Sıfır';
   String _selectedCity = 'İstanbul';
+  List<XFile> _images = [];
+
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _phoneController = TextEditingController();
 
   @override
   void didChangeDependencies() {
@@ -36,7 +46,50 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
   }
 
   @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _priceController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handlePublish() async {
+    if (_titleController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.labelTitle)),
+      );
+      return;
+    }
+    final price = double.tryParse(_priceController.text.trim()) ?? 0.0;
+
+    final success = await ref
+        .read(createListingViewModelProvider.notifier)
+        .publish(
+          title: _titleController.text.trim(),
+          description: _descriptionController.text.trim(),
+          category: _categories[_selectedCategoryIndex],
+          price: price,
+          location: _selectedCity,
+          imageFilePaths: _images.map((f) => f.path).toList(),
+        );
+
+    if (!mounted) return;
+
+    if (success) {
+      Navigator.pop(context);
+    } else {
+      final error = ref.read(createListingViewModelProvider).error;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error?.toString() ?? 'Bir hata oluştu')),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isPublishing = ref.watch(createListingViewModelProvider).isLoading;
+
     return Scaffold(
       backgroundColor: context.isDarkMode
           ? AppColors.backgroundDark
@@ -71,7 +124,9 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
 
             Divider(color: context.theme.dividerColor.withOpacity(0.1), height: 1),
 
-            const PhotoUploadSection(),
+            PhotoUploadSection(
+              onImagesChanged: (images) => setState(() => _images = images),
+            ),
 
             Divider(color: context.theme.dividerColor.withOpacity(0.1), height: 1),
 
@@ -82,13 +137,18 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildFormLabel(context, context.l10n.labelTitle),
-                  buildFormTextField(context, context.l10n.hintTitle),
+                  buildFormTextField(
+                    context,
+                    context.l10n.hintTitle,
+                    controller: _titleController,
+                  ),
                   SizedBox(height: 20.h),
 
                   buildFormLabel(context, context.l10n.labelDescription),
                   buildFormTextField(
                     context,
                     context.l10n.hintDescription,
+                    controller: _descriptionController,
                     maxLines: 4,
                   ),
                   SizedBox(height: 20.h),
@@ -109,7 +169,12 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                   buildFormLabel(context, context.l10n.labelPrice),
                   Stack(
                     children: [
-                      buildFormTextField(context, '0'),
+                      buildFormTextField(
+                        context,
+                        '0',
+                        controller: _priceController,
+                        keyboardType: TextInputType.number,
+                      ),
                       Positioned(
                         right: 16.w,
                         top: 0,
@@ -191,7 +256,12 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                   ),
                   SizedBox(height: 16.h),
                   buildFormLabel(context, context.l10n.labelPhone),
-                  buildFormTextField(context, '+90 5XX XXX XX XX'),
+                  buildFormTextField(
+                    context,
+                    '+90 5XX XXX XX XX',
+                    controller: _phoneController,
+                    keyboardType: TextInputType.phone,
+                  ),
                   SizedBox(height: 20.h),
 
                   buildFormLabel(context, context.l10n.labelCity),
@@ -215,7 +285,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: isPublishing ? null : _handlePublish,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0F50C1), // Strong Blue
                     padding: EdgeInsets.symmetric(vertical: 16.h),
@@ -223,21 +293,30 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(LucideIcons.send, color: Colors.white, size: 20.sp),
-                      SizedBox(width: 8.w),
-                      Text(
-                        context.l10n.publishButton,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
+                  child: isPublishing
+                      ? SizedBox(
+                          height: 20.h,
+                          width: 20.h,
+                          child: const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(LucideIcons.send, color: Colors.white, size: 20.sp),
+                            SizedBox(width: 8.w),
+                            Text(
+                              context.l10n.publishButton,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
             ),

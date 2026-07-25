@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/app/router/app_routes.dart';
 import 'package:mobile_flutter/core/theme/app_colors.dart';
 import 'package:mobile_flutter/features/home/presentation/viewmodel/activity_view_model.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
@@ -75,7 +77,7 @@ class RecentActivityList extends ConsumerWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () => context.push(Routes.profile),
                 child: Text(
                   context.l10n.viewAll,
                   style: TextStyle(

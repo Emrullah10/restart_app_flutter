@@ -6,7 +6,8 @@ import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class MapFilterBar extends StatefulWidget {
   final int initialIndex;
-  const MapFilterBar({super.key, this.initialIndex = 0});
+  final ValueChanged<int>? onFilterChanged;
+  const MapFilterBar({super.key, this.initialIndex = 0, this.onFilterChanged});
 
   @override
   State<MapFilterBar> createState() => _MapFilterBarState();
@@ -78,7 +79,10 @@ class _MapFilterBarState extends State<MapFilterBar> {
         ? AppColors.textSecondaryDark
         : AppColors.textSecondaryLight;
     return GestureDetector(
-      onTap: () => setState(() => _selectedIndex = index),
+      onTap: () {
+        setState(() => _selectedIndex = index);
+        widget.onFilterChanged?.call(index);
+      },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(

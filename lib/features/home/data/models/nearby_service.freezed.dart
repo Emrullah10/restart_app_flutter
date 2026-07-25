@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NearbyService {
 
- String get name; String? get type; double get rating; String get tags; String get address;
+ String? get id; String get name; String? get type; double get rating; String get tags; String get address; double? get latitude; double? get longitude;
 /// Create a copy of NearbyService
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $NearbyServiceCopyWith<NearbyService> get copyWith => _$NearbyServiceCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NearbyService&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.tags, tags) || other.tags == tags)&&(identical(other.address, address) || other.address == address));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NearbyService&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.tags, tags) || other.tags == tags)&&(identical(other.address, address) || other.address == address)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,type,rating,tags,address);
+int get hashCode => Object.hash(runtimeType,id,name,type,rating,tags,address,latitude,longitude);
 
 @override
 String toString() {
-  return 'NearbyService(name: $name, type: $type, rating: $rating, tags: $tags, address: $address)';
+  return 'NearbyService(id: $id, name: $name, type: $type, rating: $rating, tags: $tags, address: $address, latitude: $latitude, longitude: $longitude)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $NearbyServiceCopyWith<$Res>  {
   factory $NearbyServiceCopyWith(NearbyService value, $Res Function(NearbyService) _then) = _$NearbyServiceCopyWithImpl;
 @useResult
 $Res call({
- String name, String? type, double rating, String tags, String address
+ String? id, String name, String? type, double rating, String tags, String address, double? latitude, double? longitude
 });
 
 
@@ -65,14 +65,17 @@ class _$NearbyServiceCopyWithImpl<$Res>
 
 /// Create a copy of NearbyService
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? type = freezed,Object? rating = null,Object? tags = null,Object? address = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = null,Object? type = freezed,Object? rating = null,Object? tags = null,Object? address = null,Object? latitude = freezed,Object? longitude = freezed,}) {
   return _then(_self.copyWith(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String?,rating: null == rating ? _self.rating : rating // ignore: cast_nullable_to_non_nullable
 as double,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
 as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String,
+as String,latitude: freezed == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as double?,longitude: freezed == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 
@@ -157,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String? type,  double rating,  String tags,  String address)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String name,  String? type,  double rating,  String tags,  String address,  double? latitude,  double? longitude)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NearbyService() when $default != null:
-return $default(_that.name,_that.type,_that.rating,_that.tags,_that.address);case _:
+return $default(_that.id,_that.name,_that.type,_that.rating,_that.tags,_that.address,_that.latitude,_that.longitude);case _:
   return orElse();
 
 }
@@ -178,10 +181,10 @@ return $default(_that.name,_that.type,_that.rating,_that.tags,_that.address);cas
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String? type,  double rating,  String tags,  String address)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String name,  String? type,  double rating,  String tags,  String address,  double? latitude,  double? longitude)  $default,) {final _that = this;
 switch (_that) {
 case _NearbyService():
-return $default(_that.name,_that.type,_that.rating,_that.tags,_that.address);case _:
+return $default(_that.id,_that.name,_that.type,_that.rating,_that.tags,_that.address,_that.latitude,_that.longitude);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +201,10 @@ return $default(_that.name,_that.type,_that.rating,_that.tags,_that.address);cas
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String? type,  double rating,  String tags,  String address)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String name,  String? type,  double rating,  String tags,  String address,  double? latitude,  double? longitude)?  $default,) {final _that = this;
 switch (_that) {
 case _NearbyService() when $default != null:
-return $default(_that.name,_that.type,_that.rating,_that.tags,_that.address);case _:
+return $default(_that.id,_that.name,_that.type,_that.rating,_that.tags,_that.address,_that.latitude,_that.longitude);case _:
   return null;
 
 }
@@ -213,14 +216,17 @@ return $default(_that.name,_that.type,_that.rating,_that.tags,_that.address);cas
 @JsonSerializable()
 
 class _NearbyService implements NearbyService {
-  const _NearbyService({required this.name, this.type, this.rating = 0.0, this.tags = '', this.address = ''});
+  const _NearbyService({this.id, required this.name, this.type, this.rating = 0.0, this.tags = '', this.address = '', this.latitude, this.longitude});
   factory _NearbyService.fromJson(Map<String, dynamic> json) => _$NearbyServiceFromJson(json);
 
+@override final  String? id;
 @override final  String name;
 @override final  String? type;
 @override@JsonKey() final  double rating;
 @override@JsonKey() final  String tags;
 @override@JsonKey() final  String address;
+@override final  double? latitude;
+@override final  double? longitude;
 
 /// Create a copy of NearbyService
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NearbyService&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.tags, tags) || other.tags == tags)&&(identical(other.address, address) || other.address == address));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NearbyService&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.tags, tags) || other.tags == tags)&&(identical(other.address, address) || other.address == address)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,type,rating,tags,address);
+int get hashCode => Object.hash(runtimeType,id,name,type,rating,tags,address,latitude,longitude);
 
 @override
 String toString() {
-  return 'NearbyService(name: $name, type: $type, rating: $rating, tags: $tags, address: $address)';
+  return 'NearbyService(id: $id, name: $name, type: $type, rating: $rating, tags: $tags, address: $address, latitude: $latitude, longitude: $longitude)';
 }
 
 
@@ -255,7 +261,7 @@ abstract mixin class _$NearbyServiceCopyWith<$Res> implements $NearbyServiceCopy
   factory _$NearbyServiceCopyWith(_NearbyService value, $Res Function(_NearbyService) _then) = __$NearbyServiceCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String? type, double rating, String tags, String address
+ String? id, String name, String? type, double rating, String tags, String address, double? latitude, double? longitude
 });
 
 
@@ -272,14 +278,17 @@ class __$NearbyServiceCopyWithImpl<$Res>
 
 /// Create a copy of NearbyService
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? type = freezed,Object? rating = null,Object? tags = null,Object? address = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = null,Object? type = freezed,Object? rating = null,Object? tags = null,Object? address = null,Object? latitude = freezed,Object? longitude = freezed,}) {
   return _then(_NearbyService(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String?,rating: null == rating ? _self.rating : rating // ignore: cast_nullable_to_non_nullable
 as double,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
 as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String,
+as String,latitude: freezed == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as double?,longitude: freezed == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 

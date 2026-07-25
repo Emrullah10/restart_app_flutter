@@ -13,3 +13,8 @@ final servicesViewModelProvider =
     AutoDisposeAsyncNotifierProvider<ServicesViewModel, List<NearbyService>>(
       ServicesViewModel.new,
     );
+
+final servicesByTypeProvider = FutureProvider.autoDispose
+    .family<List<NearbyService>, String?>((ref, type) {
+      return ref.watch(homeRepositoryProvider).getServices(type: type);
+    });

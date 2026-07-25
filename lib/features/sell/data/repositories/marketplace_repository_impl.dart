@@ -27,8 +27,51 @@ class MarketplaceRepositoryImpl implements MarketplaceRepository {
         subtitle: json['description']?.toString() ?? '',
         price: _parseDouble(json['price']),
         status: json['status']?.toString() ?? 'active',
+        images: _resolveImageUrls(json['images']),
       );
     }).toList();
+  }
+
+  /// Backend returns paths relative to the API root (e.g. "/marketplace/uploads/x.jpg")
+  /// so they work regardless of which host (emulator alias, LAN IP, prod) resolved baseUrl.
+  String _absoluteUrl(String url) =>
+      url.startsWith('http') ? url : '${ApiService.baseUrl}$url';
+
+  List<String> _resolveImageUrls(dynamic rawImages) {
+    if (rawImages is! List) return const [];
+    return rawImages.map((url) => _absoluteUrl(url.toString())).toList();
+  }
+
+  @override
+  Future<List<String>> uploadListingImages(List<String> filePaths) async {
+    final relativeUrls = await _api.uploadListingImages(filePaths);
+    return relativeUrls.map(_absoluteUrl).toList();
+  }
+
+  @override
+  Future<void> createListing({
+    required String userId,
+    required String title,
+    required String description,
+    required String category,
+    required double price,
+    required String location,
+    List<String> images = const [],
+  }) async {
+    final relativeImages = images
+        .map((url) => url.startsWith(ApiService.baseUrl)
+            ? url.substring(ApiService.baseUrl.length)
+            : url)
+        .toList();
+    await _api.createListing({
+      'userId': userId,
+      'title': title,
+      'description': description,
+      'category': category,
+      'price': price,
+      'location': location,
+      'images': relativeImages,
+    });
   }
 
   @override

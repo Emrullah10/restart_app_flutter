@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Listing {
 
- String get title; String get subtitle; double get price; String get status;
+ String get title; String get subtitle; double get price; String get status; List<String> get images;
 /// Create a copy of Listing
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ListingCopyWith<Listing> get copyWith => _$ListingCopyWithImpl<Listing>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Listing&&(identical(other.title, title) || other.title == title)&&(identical(other.subtitle, subtitle) || other.subtitle == subtitle)&&(identical(other.price, price) || other.price == price)&&(identical(other.status, status) || other.status == status));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Listing&&(identical(other.title, title) || other.title == title)&&(identical(other.subtitle, subtitle) || other.subtitle == subtitle)&&(identical(other.price, price) || other.price == price)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.images, images));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,subtitle,price,status);
+int get hashCode => Object.hash(runtimeType,title,subtitle,price,status,const DeepCollectionEquality().hash(images));
 
 @override
 String toString() {
-  return 'Listing(title: $title, subtitle: $subtitle, price: $price, status: $status)';
+  return 'Listing(title: $title, subtitle: $subtitle, price: $price, status: $status, images: $images)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ListingCopyWith<$Res>  {
   factory $ListingCopyWith(Listing value, $Res Function(Listing) _then) = _$ListingCopyWithImpl;
 @useResult
 $Res call({
- String title, String subtitle, double price, String status
+ String title, String subtitle, double price, String status, List<String> images
 });
 
 
@@ -65,13 +65,14 @@ class _$ListingCopyWithImpl<$Res>
 
 /// Create a copy of Listing
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? subtitle = null,Object? price = null,Object? status = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? subtitle = null,Object? price = null,Object? status = null,Object? images = null,}) {
   return _then(_self.copyWith(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,subtitle: null == subtitle ? _self.subtitle : subtitle // ignore: cast_nullable_to_non_nullable
 as String,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as double,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,
+as String,images: null == images ? _self.images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -156,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String subtitle,  double price,  String status)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String subtitle,  double price,  String status,  List<String> images)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Listing() when $default != null:
-return $default(_that.title,_that.subtitle,_that.price,_that.status);case _:
+return $default(_that.title,_that.subtitle,_that.price,_that.status,_that.images);case _:
   return orElse();
 
 }
@@ -177,10 +178,10 @@ return $default(_that.title,_that.subtitle,_that.price,_that.status);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String subtitle,  double price,  String status)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String subtitle,  double price,  String status,  List<String> images)  $default,) {final _that = this;
 switch (_that) {
 case _Listing():
-return $default(_that.title,_that.subtitle,_that.price,_that.status);case _:
+return $default(_that.title,_that.subtitle,_that.price,_that.status,_that.images);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +198,10 @@ return $default(_that.title,_that.subtitle,_that.price,_that.status);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String subtitle,  double price,  String status)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String subtitle,  double price,  String status,  List<String> images)?  $default,) {final _that = this;
 switch (_that) {
 case _Listing() when $default != null:
-return $default(_that.title,_that.subtitle,_that.price,_that.status);case _:
+return $default(_that.title,_that.subtitle,_that.price,_that.status,_that.images);case _:
   return null;
 
 }
@@ -212,13 +213,20 @@ return $default(_that.title,_that.subtitle,_that.price,_that.status);case _:
 @JsonSerializable()
 
 class _Listing implements Listing {
-  const _Listing({required this.title, this.subtitle = '', this.price = 0.0, this.status = 'active'});
+  const _Listing({required this.title, this.subtitle = '', this.price = 0.0, this.status = 'active', final  List<String> images = const []}): _images = images;
   factory _Listing.fromJson(Map<String, dynamic> json) => _$ListingFromJson(json);
 
 @override final  String title;
 @override@JsonKey() final  String subtitle;
 @override@JsonKey() final  double price;
 @override@JsonKey() final  String status;
+ final  List<String> _images;
+@override@JsonKey() List<String> get images {
+  if (_images is EqualUnmodifiableListView) return _images;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_images);
+}
+
 
 /// Create a copy of Listing
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Listing&&(identical(other.title, title) || other.title == title)&&(identical(other.subtitle, subtitle) || other.subtitle == subtitle)&&(identical(other.price, price) || other.price == price)&&(identical(other.status, status) || other.status == status));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Listing&&(identical(other.title, title) || other.title == title)&&(identical(other.subtitle, subtitle) || other.subtitle == subtitle)&&(identical(other.price, price) || other.price == price)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._images, _images));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,subtitle,price,status);
+int get hashCode => Object.hash(runtimeType,title,subtitle,price,status,const DeepCollectionEquality().hash(_images));
 
 @override
 String toString() {
-  return 'Listing(title: $title, subtitle: $subtitle, price: $price, status: $status)';
+  return 'Listing(title: $title, subtitle: $subtitle, price: $price, status: $status, images: $images)';
 }
 
 
@@ -253,7 +261,7 @@ abstract mixin class _$ListingCopyWith<$Res> implements $ListingCopyWith<$Res> {
   factory _$ListingCopyWith(_Listing value, $Res Function(_Listing) _then) = __$ListingCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String subtitle, double price, String status
+ String title, String subtitle, double price, String status, List<String> images
 });
 
 
@@ -270,13 +278,14 @@ class __$ListingCopyWithImpl<$Res>
 
 /// Create a copy of Listing
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? subtitle = null,Object? price = null,Object? status = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? subtitle = null,Object? price = null,Object? status = null,Object? images = null,}) {
   return _then(_Listing(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,subtitle: null == subtitle ? _self.subtitle : subtitle // ignore: cast_nullable_to_non_nullable
 as String,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as double,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,
+as String,images: null == images ? _self._images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 

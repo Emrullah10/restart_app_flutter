@@ -11,6 +11,9 @@ _Listing _$ListingFromJson(Map<String, dynamic> json) => _Listing(
   subtitle: json['subtitle'] as String? ?? '',
   price: (json['price'] as num?)?.toDouble() ?? 0.0,
   status: json['status'] as String? ?? 'active',
+  images:
+      (json['images'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
 );
 
 Map<String, dynamic> _$ListingToJson(_Listing instance) => <String, dynamic>{
@@ -18,4 +21,5 @@ Map<String, dynamic> _$ListingToJson(_Listing instance) => <String, dynamic>{
   'subtitle': instance.subtitle,
   'price': instance.price,
   'status': instance.status,
+  'images': instance.images,
 };

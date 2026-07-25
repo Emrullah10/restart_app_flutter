@@ -23,6 +23,8 @@ Widget buildFormTextField(
   BuildContext context,
   String hint, {
   int maxLines = 1,
+  TextEditingController? controller,
+  TextInputType? keyboardType,
 }) {
   return Container(
     decoration: BoxDecoration(
@@ -32,6 +34,8 @@ Widget buildFormTextField(
       borderRadius: BorderRadius.circular(12.r),
     ),
     child: TextField(
+      controller: controller,
+      keyboardType: keyboardType,
       maxLines: maxLines,
       style: TextStyle(
         color: context.isDarkMode

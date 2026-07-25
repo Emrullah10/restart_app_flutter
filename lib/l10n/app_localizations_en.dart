@@ -269,6 +269,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchHint => 'Search...';
 
   @override
+  String get noResults => 'No results found';
+
+  @override
+  String get markAllAsRead => 'Mark all as read';
+
+  @override
+  String get thisWeek => 'This week';
+
+  @override
+  String get allMarkedAsRead => 'All notifications marked as read';
+
+  @override
   String get appTagline => 'Bring technology back to life';
 
   @override
@@ -592,6 +604,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsAppearanceLanguage => 'Appearance and Language';
+
+  @override
+  String get settingsAccount => 'Account';
+
+  @override
+  String get logout => 'Log Out';
+
+  @override
+  String get logoutConfirmTitle => 'Log Out';
+
+  @override
+  String get logoutConfirmMessage => 'Are you sure you want to log out?';
+
+  @override
+  String get cancel => 'Cancel';
 
   @override
   String get themeTitle => 'Theme';

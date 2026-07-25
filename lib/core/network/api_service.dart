@@ -198,10 +198,55 @@ class ApiService implements IApiService {
   }
 
   @override
+  Future<List<String>> uploadListingImages(List<String> filePaths) async {
+    try {
+      final formData = FormData.fromMap({
+        'images': [
+          for (final path in filePaths) await MultipartFile.fromFile(path),
+        ],
+      });
+      final response = await _dio.post(
+        '/marketplace/upload',
+        data: formData,
+        options: Options(contentType: 'multipart/form-data'),
+      );
+      return List<String>.from(response.data['imageUrls'] as List);
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> createListing(Map<String, dynamic> data) async {
+    try {
+      final response = await _dio.post('/marketplace/listings', data: data);
+      return response.data as Map<String, dynamic>;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  @override
   Future<List<dynamic>> getRewards() async {
     try {
       final response = await _dio.get('/rewards');
       return response.data;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> redeemReward(
+    String userId,
+    String rewardId,
+  ) async {
+    try {
+      final response = await _dio.post(
+        '/rewards/redeem',
+        data: {'userId': userId, 'rewardId': rewardId},
+      );
+      return response.data as Map<String, dynamic>;
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -254,6 +299,34 @@ class ApiService implements IApiService {
     try {
       final response = await _dio.post('/contact', data: data);
       return response.data['success'] == true;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  @override
+  Future<List<dynamic>> getNotifications(String userId) async {
+    try {
+      final response = await _dio.get('/notifications/$userId');
+      return response.data;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  @override
+  Future<void> markNotificationRead(String notificationId) async {
+    try {
+      await _dio.patch('/notifications/$notificationId/read');
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  @override
+  Future<void> markAllNotificationsRead(String userId) async {
+    try {
+      await _dio.patch('/notifications/$userId/read-all');
     } on DioException catch (e) {
       throw _handleError(e);
     }

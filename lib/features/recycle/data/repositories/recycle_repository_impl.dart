@@ -8,7 +8,7 @@ class RecycleRepositoryImpl implements RecycleRepository {
   RecycleRepositoryImpl(this._api);
 
   @override
-  Future<void> logRecycle({
+  Future<Map<String, dynamic>> logRecycle({
     required String userId,
     String? centerId,
     required String wasteType,

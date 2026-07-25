@@ -25,11 +25,18 @@ class HomeRepositoryImpl implements HomeRepository {
       // comma), not a single string.
       final tagsList = (json['tags'] as List?) ?? const [];
       return NearbyService(
+        id: json['id']?.toString(),
         name: json['name']?.toString() ?? '',
         type: json['type']?.toString(),
         rating: _parseDouble(json['rating']),
         tags: tagsList.join(', '),
         address: json['address']?.toString() ?? '',
+        latitude: json['latitude'] == null
+            ? null
+            : _parseDouble(json['latitude']),
+        longitude: json['longitude'] == null
+            ? null
+            : _parseDouble(json['longitude']),
       );
     }).toList();
   }
