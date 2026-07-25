@@ -23,7 +23,8 @@ class MarketplaceRepositoryImpl implements MarketplaceRepository {
       final json = raw as Map<String, dynamic>;
       return Listing(
         title: json['title']?.toString() ?? '',
-        subtitle: json['subtitle']?.toString() ?? '',
+        // Backend field is "description" (listing.entity.js), no "subtitle".
+        subtitle: json['description']?.toString() ?? '',
         price: _parseDouble(json['price']),
         status: json['status']?.toString() ?? 'active',
       );
@@ -40,7 +41,8 @@ class MarketplaceRepositoryImpl implements MarketplaceRepository {
       final json = raw as Map<String, dynamic>;
       return MarketplaceProduct(
         title: json['title']?.toString() ?? '',
-        subtitle: json['subtitle']?.toString() ?? '',
+        // Backend field is "description" (product.entity.js), no "subtitle".
+        subtitle: json['description']?.toString() ?? '',
         price: _parseDouble(json['price']),
         rating: _parseDouble(json['rating']),
         location: json['location']?.toString() ?? '',

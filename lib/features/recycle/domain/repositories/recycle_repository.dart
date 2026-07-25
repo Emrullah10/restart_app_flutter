@@ -1,9 +1,9 @@
 abstract interface class RecycleRepository {
   Future<void> logRecycle({
     required String userId,
-    required String centerId,
+    String? centerId,
     required String wasteType,
-    required double amount,
-    required String transportMode,
+    required double weightKg,
+    required bool isElectricTransport,
   });
 }

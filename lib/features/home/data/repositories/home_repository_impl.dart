@@ -21,11 +21,14 @@ class HomeRepositoryImpl implements HomeRepository {
     final data = await _api.getServices(type: type);
     return data.map((raw) {
       final json = raw as Map<String, dynamic>;
+      // Backend returns tags as a string[] (service.entity.js splits on
+      // comma), not a single string.
+      final tagsList = (json['tags'] as List?) ?? const [];
       return NearbyService(
         name: json['name']?.toString() ?? '',
         type: json['type']?.toString(),
         rating: _parseDouble(json['rating']),
-        tags: json['tags']?.toString() ?? '',
+        tags: tagsList.join(', '),
         address: json['address']?.toString() ?? '',
       );
     }).toList();
@@ -37,7 +40,8 @@ class HomeRepositoryImpl implements HomeRepository {
     return data.map((raw) {
       final json = raw as Map<String, dynamic>;
       return Activity(
-        type: json['type']?.toString() ?? 'default',
+        // Backend field is "activityType" (activity.entity.js), not "type".
+        type: json['activityType']?.toString() ?? 'default',
         title: json['title']?.toString() ?? '',
         pointsEarned: (json['pointsEarned'] as num?)?.toInt() ?? 0,
         amountEarned: _parseDouble(json['amountEarned']),

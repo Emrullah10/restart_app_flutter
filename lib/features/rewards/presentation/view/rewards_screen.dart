@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:mobile_flutter/features/profile/presentation/viewmodel/profile_view_model.dart';
 import 'package:mobile_flutter/features/rewards/presentation/widgets/achievements_section.dart';
 import 'package:mobile_flutter/features/rewards/presentation/widgets/points_breakdown_row.dart';
 import 'package:mobile_flutter/features/rewards/presentation/widgets/rewards_section.dart';
@@ -8,11 +11,12 @@ import 'package:mobile_flutter/features/rewards/presentation/widgets/sustainabil
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 import 'package:mobile_flutter/shared/extensions/padding_extensions.dart';
 
-class RewardsScreen extends StatelessWidget {
+class RewardsScreen extends ConsumerWidget {
   const RewardsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final totalPoints = ref.watch(profileViewModelProvider).valueOrNull?.totalPoints ?? 0;
     return Scaffold(
       backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
@@ -49,7 +53,7 @@ class RewardsScreen extends StatelessWidget {
               const SustainabilityLevelCard(),
               SizedBox(height: 32.h),
               Text(
-                '1,250',
+                NumberFormat('#,###').format(totalPoints),
                 style: context.textTheme.displayMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: context.theme.colorScheme.onSurface,

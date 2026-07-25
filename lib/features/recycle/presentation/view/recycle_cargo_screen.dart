@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:mobile_flutter/features/recycle/presentation/view/recycle_success_screen.dart';
 import 'package:mobile_flutter/features/recycle/presentation/viewmodel/recycle_state.dart';
 import 'package:mobile_flutter/features/recycle/presentation/viewmodel/recycle_view_model.dart';
@@ -163,10 +164,18 @@ class _RecycleCargoScreenState extends ConsumerState<RecycleCargoScreen> {
                         onPressed: recycleState.isLoading
                             ? null
                             : () async {
-                                // Mock data for now, would come from earlier screens
+                                final userId = ref
+                                    .read(authViewModelProvider)
+                                    .valueOrNull
+                                    ?.id;
+                                if (userId == null) return;
+                                // TODO: centerId should come from a service
+                                // center selection step earlier in the flow;
+                                // no such UI exists yet so it's sent as null
+                                // (service_center_id is nullable in the DB).
                                 final success = await notifier.submitRecycle(
-                                  'mock-user-id',
-                                  'mock-center-id',
+                                  userId,
+                                  null,
                                   'electronic',
                                   1.0,
                                 );

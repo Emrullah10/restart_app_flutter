@@ -90,11 +90,13 @@ class _RegisterFormState extends ConsumerState<_RegisterForm> {
         .read(authViewModelProvider.notifier)
         .register(email, password, name);
 
+    if (!mounted) return;
+
     if (success) {
-      if (mounted) context.go(Routes.home);
+      context.go(Routes.home);
     } else {
       final error = ref.read(authViewModelProvider).error;
-      if (mounted && error != null) {
+      if (error != null) {
         final cleanError = error.toString().replaceAll('Exception: ', '');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(cleanError), backgroundColor: Colors.red),

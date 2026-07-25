@@ -10,17 +10,17 @@ class RecycleRepositoryImpl implements RecycleRepository {
   @override
   Future<void> logRecycle({
     required String userId,
-    required String centerId,
+    String? centerId,
     required String wasteType,
-    required double amount,
-    required String transportMode,
+    required double weightKg,
+    required bool isElectricTransport,
   }) {
     return _api.logRecycle({
       'userId': userId,
-      'centerId': centerId,
+      'serviceCenterId': centerId,
       'wasteType': wasteType,
-      'amount': amount,
-      'transportMode': transportMode,
+      'weightKg': weightKg,
+      'isElectricTransport': isElectricTransport,
     });
   }
 }

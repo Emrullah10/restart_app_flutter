@@ -1,31 +1,62 @@
+import 'dart:io' show Platform;
+
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_flutter/core/network/i_api_service.dart';
+import 'package:path_provider/path_provider.dart';
 
-final apiServiceProvider = Provider<IApiService>((ref) => ApiService());
+/// Builds the persistent cookie jar used for the gateway's HttpOnly session
+/// cookie. Must be awaited once in main() before runApp, then supplied to
+/// [apiServiceProvider] via ProviderScope overrides — this keeps the
+/// provider itself synchronous so every repository/viewmodel that depends
+/// on it does not need to become async.
+Future<CookieJar> createPersistentCookieJar() async {
+  final appDir = await getApplicationDocumentsDirectory();
+  return PersistCookieJar(storage: FileStorage('${appDir.path}/.cookies'));
+}
+
+final apiServiceProvider = Provider<IApiService>((ref) {
+  throw UnimplementedError(
+    'apiServiceProvider must be overridden in main() with a resolved CookieJar '
+    '(see createPersistentCookieJar).',
+  );
+});
 
 class ApiService implements IApiService {
-  // Override at build/run time: --dart-define=API_BASE_URL=http://192.168.1.108:3001/api
-  // Android emulator default: 10.0.2.2. Physical device: use your machine's LAN IP.
-  static const String baseUrl = String.fromEnvironment(
-    'API_BASE_URL',
-    defaultValue: 'http://192.168.1.108:3001/api',
-  );
+  // Gateway is the single entry point (port 3000). The host address depends
+  // on where the app runs, so it's chosen automatically:
+  //   - Android emulator          -> 10.0.2.2 (its alias for the host machine)
+  //   - iOS Simulator / macOS     -> localhost (they share the host network)
+  // A physical device can't reach either, so pass your machine's LAN IP via
+  //   --dart-define=API_BASE_URL=http://192.168.x.x:3000/api
+  // When that define is set it always wins, overriding the auto-detection.
+  static const String _envBaseUrl = String.fromEnvironment('API_BASE_URL');
 
-  final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-      headers: {'Content-Type': 'application/json'},
-    ),
-  );
+  static String get baseUrl {
+    if (_envBaseUrl.isNotEmpty) return _envBaseUrl;
+    final host = Platform.isAndroid ? '10.0.2.2' : 'localhost';
+    return 'http://$host:3000/api';
+  }
+
+  final Dio _dio;
+
+  ApiService({required CookieJar cookieJar})
+    : _dio = Dio(
+        BaseOptions(
+          baseUrl: baseUrl,
+          connectTimeout: const Duration(seconds: 10),
+          receiveTimeout: const Duration(seconds: 10),
+          headers: {'Content-Type': 'application/json'},
+        ),
+      )..interceptors.add(CookieManager(cookieJar));
 
   @override
   Future<Map<String, dynamic>> login(String email, String password) async {
     try {
       final response = await _dio.post(
-        '/auth/login',
+        '/gateway/login',
         data: {'email': email, 'password': password},
       );
       return response.data;
@@ -52,9 +83,29 @@ class ApiService implements IApiService {
   }
 
   @override
+  Future<Map<String, dynamic>?> getCurrentUser() async {
+    try {
+      final response = await _dio.get('/gateway/me');
+      return response.data as Map<String, dynamic>;
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 401) return null;
+      throw _handleError(e);
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    try {
+      await _dio.post('/gateway/logout');
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  @override
   Future<Map<String, dynamic>> logRecycle(Map<String, dynamic> data) async {
     try {
-      final response = await _dio.post('/recycle/log', data: data);
+      final response = await _dio.post('/operation/recycle/log', data: data);
       return response.data;
     } on DioException catch (e) {
       throw _handleError(e);
@@ -64,7 +115,7 @@ class ApiService implements IApiService {
   @override
   Future<List<dynamic>> getRecycleHistory(String userId) async {
     try {
-      final response = await _dio.get('/recycle/history/$userId');
+      final response = await _dio.get('/operation/recycle/history/$userId');
       return response.data;
     } on DioException catch (e) {
       throw _handleError(e);
@@ -84,7 +135,10 @@ class ApiService implements IApiService {
   @override
   Future<List<dynamic>> getActivities(String userId, {int limit = 10}) async {
     try {
-      final response = await _dio.get('/activities/$userId?limit=$limit');
+      final response = await _dio.get(
+        '/operation/activities/$userId',
+        queryParameters: {'limit': limit},
+      );
       return response.data;
     } on DioException catch (e) {
       throw _handleError(e);
@@ -97,10 +151,10 @@ class ApiService implements IApiService {
     int limit = 3,
   }) async {
     try {
-      final queryParams = userId != null
-          ? '?userId=$userId&limit=$limit'
-          : '?limit=$limit';
-      final response = await _dio.get('/gamification/leaderboard$queryParams');
+      final response = await _dio.get(
+        '/gamification/leaderboard',
+        queryParameters: {if (userId != null) 'userId': userId, 'limit': limit},
+      );
       return response.data;
     } on DioException catch (e) {
       throw _handleError(e);
@@ -130,15 +184,13 @@ class ApiService implements IApiService {
   @override
   Future<List<dynamic>> getProducts({String? category, int? limit}) async {
     try {
-      final queryParams = <String, String>{};
-      if (category != null) queryParams['category'] = category;
-      if (limit != null) queryParams['limit'] = limit.toString();
-
-      final queryString = queryParams.isNotEmpty
-          ? '?${queryParams.entries.map((e) => '${e.key}=${e.value}').join('&')}'
-          : '';
-
-      final response = await _dio.get('/marketplace/products$queryString');
+      final response = await _dio.get(
+        '/marketplace/products',
+        queryParameters: {
+          if (category != null) 'category': category,
+          if (limit != null) 'limit': limit,
+        },
+      );
       return response.data;
     } on DioException catch (e) {
       throw _handleError(e);
@@ -158,8 +210,10 @@ class ApiService implements IApiService {
   @override
   Future<List<dynamic>> getServices({String? type}) async {
     try {
-      final queryString = type != null ? '?type=$type' : '';
-      final response = await _dio.get('/services$queryString');
+      final response = await _dio.get(
+        '/operation/services',
+        queryParameters: {if (type != null) 'type': type},
+      );
       return response.data;
     } on DioException catch (e) {
       throw _handleError(e);
@@ -173,7 +227,7 @@ class ApiService implements IApiService {
   ) async {
     try {
       final response = await _dio.post(
-        '/ai/generate-motivation',
+        '/operation/ai/generate-motivation',
         data: {'productModel': productModel, 'condition': condition},
       );
       return response.data;
@@ -186,7 +240,7 @@ class ApiService implements IApiService {
   Future<List<dynamic>> findCouriers(double lat, double lng) async {
     try {
       final response = await _dio.post(
-        '/logistics/find',
+        '/operation/logistics/find',
         data: {'lat': lat, 'lng': lng},
       );
       return response.data;
@@ -197,9 +251,12 @@ class ApiService implements IApiService {
 
   @override
   Future<bool> sendContactMessage(Map<String, dynamic> data) async {
-    // Mock for now
-    await Future.delayed(const Duration(seconds: 1));
-    return true;
+    try {
+      final response = await _dio.post('/contact', data: data);
+      return response.data['success'] == true;
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
   }
 
   Exception _handleError(DioException e) {

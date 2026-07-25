@@ -20,16 +20,18 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<UserProfile> getProfile(String userId) async {
     final json = await _api.getUserProfile(userId);
+    // Backend nests numeric stats under "stats" (see IAM
+    // users.controller.js getProfile); recycleCount/level have no backend
+    // source yet, so they stay at their model defaults.
+    final stats = (json['stats'] as Map<String, dynamic>?) ?? const {};
     return UserProfile(
       fullName: json['fullName']?.toString() ?? 'User',
       role: json['role']?.toString() ?? 'Member',
-      totalPoints: (json['totalPoints'] as num?)?.toInt() ?? 0,
-      recycleCount: (json['recycleCount'] as num?)?.toInt() ?? 0,
-      co2Saved: json['co2Saved']?.toString() ?? '0.0',
-      repairedCount: (json['repairedCount'] as num?)?.toInt() ?? 0,
-      preventedWasteKg: _parseDouble(json['preventedWasteKg']),
-      totalEarnings: _parseDouble(json['totalEarnings']),
-      level: (json['level'] as num?)?.toInt() ?? 1,
+      totalPoints: (stats['totalPoints'] as num?)?.toInt() ?? 0,
+      co2Saved: stats['co2Saved']?.toString() ?? '0.0',
+      repairedCount: (stats['repairedCount'] as num?)?.toInt() ?? 0,
+      preventedWasteKg: _parseDouble(stats['preventedWasteKg']),
+      totalEarnings: _parseDouble(stats['totalEarnings']),
     );
   }
 

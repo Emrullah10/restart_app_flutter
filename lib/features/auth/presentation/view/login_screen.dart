@@ -47,8 +47,33 @@ class _LoginFormState extends ConsumerState<_LoginForm> {
   }
 
   Future<void> _handleLogin() async {
-    // Auth backend çağrısı geçici olarak atlanıyor, doğrudan Home'a gidiliyor.
-    context.go(Routes.home);
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Lütfen tüm alanları doldurun')),
+      );
+      return;
+    }
+
+    final success = await ref
+        .read(authViewModelProvider.notifier)
+        .login(email, password);
+
+    if (!mounted) return;
+
+    if (success) {
+      context.go(Routes.home);
+    } else {
+      final error = ref.read(authViewModelProvider).error;
+      if (error != null) {
+        final cleanError = error.toString().replaceAll('Exception: ', '');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(cleanError), backgroundColor: Colors.red),
+        );
+      }
+    }
   }
 
   @override

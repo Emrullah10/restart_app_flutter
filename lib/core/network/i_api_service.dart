@@ -6,6 +6,11 @@ abstract class IApiService {
     String fullName,
   );
 
+  /// Restores the session from the persisted auth cookie, if any.
+  /// Returns the current user map, or null if there is no valid session.
+  Future<Map<String, dynamic>?> getCurrentUser();
+  Future<void> logout();
+
   // Recycle
   Future<Map<String, dynamic>> logRecycle(Map<String, dynamic> data);
   Future<List<dynamic>> getRecycleHistory(String userId);

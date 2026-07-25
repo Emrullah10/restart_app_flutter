@@ -18,9 +18,9 @@ class RecycleViewModel extends Notifier<RecycleState> {
 
   Future<bool> submitRecycle(
     String userId,
-    String centerId,
+    String? centerId,
     String wasteType,
-    double amount,
+    double weightKg,
   ) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
@@ -28,8 +28,8 @@ class RecycleViewModel extends Notifier<RecycleState> {
         userId: userId,
         centerId: centerId,
         wasteType: wasteType,
-        amount: amount,
-        transportMode: state.selectedMode.name,
+        weightKg: weightKg,
+        isElectricTransport: state.selectedMode == TransportMode.electric,
       );
       state = state.copyWith(isLoading: false, isSuccess: true);
       return true;
