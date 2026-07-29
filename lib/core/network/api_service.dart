@@ -1,56 +1,97 @@
 import 'dart:io' show Platform;
 
-import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_flutter/core/network/i_api_service.dart';
-import 'package:path_provider/path_provider.dart';
-
-/// Builds the persistent cookie jar used for the gateway's HttpOnly session
-/// cookie. Must be awaited once in main() before runApp, then supplied to
-/// [apiServiceProvider] via ProviderScope overrides — this keeps the
-/// provider itself synchronous so every repository/viewmodel that depends
-/// on it does not need to become async.
-Future<CookieJar> createPersistentCookieJar() async {
-  final appDir = await getApplicationDocumentsDirectory();
-  return PersistCookieJar(storage: FileStorage('${appDir.path}/.cookies'));
-}
+import 'package:mobile_flutter/core/storage/token_storage.dart';
 
 final apiServiceProvider = Provider<IApiService>((ref) {
   throw UnimplementedError(
-    'apiServiceProvider must be overridden in main() with a resolved CookieJar '
-    '(see createPersistentCookieJar).',
+    'apiServiceProvider must be overridden in main() with an ApiService whose '
+    'restoreSession() has already been awaited.',
   );
 });
 
 class ApiService implements IApiService {
-  // Gateway is the single entry point (port 3000). The host address depends
-  // on where the app runs, so it's chosen automatically:
+  // Mobile API Gateway is the single entry point (port 3004). The host
+  // address depends on where the app runs, so it's chosen automatically:
   //   - Android emulator          -> 10.0.2.2 (its alias for the host machine)
   //   - iOS Simulator / macOS     -> localhost (they share the host network)
   // A physical device can't reach either, so pass your machine's LAN IP via
-  //   --dart-define=API_BASE_URL=http://192.168.x.x:3000/api
+  //   --dart-define=API_BASE_URL=http://192.168.x.x:3004/api
   // When that define is set it always wins, overriding the auto-detection.
   static const String _envBaseUrl = String.fromEnvironment('API_BASE_URL');
 
   static String get baseUrl {
     if (_envBaseUrl.isNotEmpty) return _envBaseUrl;
     final host = Platform.isAndroid ? '10.0.2.2' : 'localhost';
-    return 'http://$host:3000/api';
+    return 'http://$host:3004/api';
   }
 
   final Dio _dio;
+  final ITokenStorage _tokenStorage;
 
-  ApiService({required CookieJar cookieJar})
-    : _dio = Dio(
+  @visibleForTesting
+  Dio get debugDio => _dio;
+
+  // Cached in memory so every request doesn't pay for a secure-storage
+  // platform-channel round trip. Hydrated once via [restoreSession] and kept
+  // in sync on login/logout/401.
+  String? _cachedToken;
+
+  ApiService({required ITokenStorage tokenStorage})
+    : _tokenStorage = tokenStorage,
+      _dio = Dio(
         BaseOptions(
           baseUrl: baseUrl,
           connectTimeout: const Duration(seconds: 10),
           receiveTimeout: const Duration(seconds: 10),
           headers: {'Content-Type': 'application/json'},
         ),
-      )..interceptors.add(CookieManager(cookieJar));
+      ) {
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          final token = _cachedToken;
+          if (token != null) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
+          handler.next(options);
+        },
+        onError: (error, handler) async {
+          if (error.response?.statusCode == 401) {
+            _cachedToken = null;
+            await _tokenStorage.clear();
+          }
+          handler.next(error);
+        },
+      ),
+    );
+  }
+
+  /// Hydrates the in-memory token from secure storage. Must be awaited once
+  /// in main() before runApp, then this ApiService supplied to
+  /// [apiServiceProvider] via ProviderScope overrides — this keeps the
+  /// provider itself synchronous so every repository/viewmodel that depends
+  /// on it does not need to become async.
+  Future<void> restoreSession() async {
+    _cachedToken = await _tokenStorage.read();
+  }
+
+  // Shared by login and register: both endpoints return a fresh
+  // {message, user, token}; the token must be cached and persisted the same
+  // way regardless of which flow produced it.
+  Future<Map<String, dynamic>> _persistTokenFrom(Response response) async {
+    final data = response.data as Map<String, dynamic>;
+    final token = data['token'] as String?;
+    if (token == null) {
+      throw Exception('Sunucudan oturum anahtarı alınamadı.');
+    }
+    _cachedToken = token;
+    await _tokenStorage.write(token);
+    return data;
+  }
 
   @override
   Future<Map<String, dynamic>> login(String email, String password) async {
@@ -59,7 +100,7 @@ class ApiService implements IApiService {
         '/gateway/login',
         data: {'email': email, 'password': password},
       );
-      return response.data;
+      return await _persistTokenFrom(response);
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -73,10 +114,10 @@ class ApiService implements IApiService {
   ) async {
     try {
       final response = await _dio.post(
-        '/auth/register',
+        '/gateway/register',
         data: {'email': email, 'password': password, 'fullName': fullName},
       );
-      return response.data;
+      return await _persistTokenFrom(response);
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -84,6 +125,7 @@ class ApiService implements IApiService {
 
   @override
   Future<Map<String, dynamic>?> getCurrentUser() async {
+    if (_cachedToken == null) return null;
     try {
       final response = await _dio.get('/gateway/me');
       return response.data as Map<String, dynamic>;
@@ -95,10 +137,14 @@ class ApiService implements IApiService {
 
   @override
   Future<void> logout() async {
+    // Clear local state first so logout always "succeeds" from the app's
+    // perspective even if the network call below fails (e.g. offline).
+    _cachedToken = null;
+    await _tokenStorage.clear();
     try {
       await _dio.post('/gateway/logout');
-    } on DioException catch (e) {
-      throw _handleError(e);
+    } on DioException {
+      // Stateless on the server side — nothing to roll back locally.
     }
   }
 

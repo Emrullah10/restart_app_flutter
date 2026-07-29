@@ -17,8 +17,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<AuthUser> login(String email, String password) async {
-    // Gateway sets the session as an HttpOnly cookie (handled by Dio's
-    // CookieManager); the response body only carries {message, user}.
+    // ApiService persists the Bearer token internally; the mapped user here
+    // only needs {message, user} from the response.
     final response = await _api.login(email, password);
     return _mapUser(response['user'] as Map<String, dynamic>);
   }

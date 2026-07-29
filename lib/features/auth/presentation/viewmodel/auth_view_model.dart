@@ -3,7 +3,7 @@ import 'package:mobile_flutter/features/auth/data/models/auth_user.dart';
 import 'package:mobile_flutter/features/auth/data/repositories/auth_repository_impl.dart';
 
 /// Holds the currently authenticated user, or null when signed out.
-/// On first watch, restores the session from the persisted auth cookie
+/// On first watch, restores the session using the persisted Bearer token
 /// (calls the gateway's /me endpoint) so a logged-in user stays logged in
 /// across app restarts.
 class AuthViewModel extends AsyncNotifier<AuthUser?> {

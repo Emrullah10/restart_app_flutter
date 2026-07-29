@@ -6,8 +6,8 @@ abstract class IApiService {
     String fullName,
   );
 
-  /// Restores the session from the persisted auth cookie, if any.
-  /// Returns the current user map, or null if there is no valid session.
+  /// Returns the current user map using the persisted Bearer token, or null
+  /// if there is no stored token or it's no longer valid.
   Future<Map<String, dynamic>?> getCurrentUser();
   Future<void> logout();
 
