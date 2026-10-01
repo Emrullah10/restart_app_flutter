@@ -523,5 +523,20 @@
   "contactEmailChannel": "E-POSTA",
   "contactPhoneChannel": "TELEFON (7/24)",
   "contactSent": "Mesajınız iletildi.",
-  "contactFailed": "Mesaj gönderilemedi."
+  "contactFailed": "Mesaj gönderilemedi.",
+  "pwHint": "Hesabınızı korumak için güçlü bir şifre seçin.",
+  "pwCurrent": "MEVCUT ŞİFRE",
+  "pwNew": "YENİ ŞİFRE",
+  "pwSave": "ŞİFREYİ GÜNCELLE",
+  "pwChanged": "Şifreniz güncellendi.",
+  "pwTooShort": "Yeni şifre en az 8 karakter olmalı.",
+  "prefHint": "Hangi türde bildirim almak istediğinizi seçin.",
+  "prefRecycle": "Geri dönüşüm",
+  "prefRecycleSub": "Teslimat ve puan bildirimleri",
+  "prefMarket": "Pazaryeri",
+  "prefMarketSub": "İlan ve satış güncellemeleri",
+  "prefRewards": "Ödüller",
+  "prefRewardsSub": "Yeni ödül ve seviye bildirimleri",
+  "prefSystem": "Sistem",
+  "prefSystemSub": "Bakım ve duyurular"
 }

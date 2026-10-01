@@ -83,6 +83,8 @@ class FakeApi implements IApiService {
   @override
   Future<Map<String, dynamic>> logRecycle(Map<String, dynamic> data) async => {'totalPoints': 8, 'bonusPoints': 3};
   @override
+  Future<Map<String, dynamic>> getNotificationPreferences() async => {'recycle': true, 'marketplace': false, 'rewards': true, 'system': true};
+  @override
   Future<void> logout() async {}
   @override
   Future<bool> sendContactMessage(Map<String, dynamic> data) async => true;

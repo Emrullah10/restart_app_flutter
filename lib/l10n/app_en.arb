@@ -579,5 +579,20 @@
   "contactEmailChannel": "EMAIL",
   "contactPhoneChannel": "PHONE (24/7)",
   "contactSent": "Your message was sent.",
-  "contactFailed": "Could not send the message."
+  "contactFailed": "Could not send the message.",
+  "pwHint": "Choose a strong password to protect your account.",
+  "pwCurrent": "CURRENT PASSWORD",
+  "pwNew": "NEW PASSWORD",
+  "pwSave": "UPDATE PASSWORD",
+  "pwChanged": "Your password was updated.",
+  "pwTooShort": "New password must be at least 8 characters.",
+  "prefHint": "Choose which notifications you want to receive.",
+  "prefRecycle": "Recycling",
+  "prefRecycleSub": "Delivery and points updates",
+  "prefMarket": "Marketplace",
+  "prefMarketSub": "Listing and sales updates",
+  "prefRewards": "Rewards",
+  "prefRewardsSub": "New rewards and level-ups",
+  "prefSystem": "System",
+  "prefSystemSub": "Maintenance and announcements"
 }

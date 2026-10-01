@@ -27,7 +27,6 @@ class SettingsScreen extends ConsumerWidget {
     final mode = ref.watch(themeProvider);
     final locale = ref.watch(localeProvider);
     final version = ref.watch(_versionProvider).valueOrNull ?? '';
-    final soon = SnackBar(content: Text(l.commonComingSoon));
 
     Widget section(String title, Widget group) => Padding(
           padding: const EdgeInsets.only(bottom: 32),
@@ -58,8 +57,8 @@ class SettingsScreen extends ConsumerWidget {
             ])),
             section(l.setAccount, RsGroup(children: [
               RsRow(icon: Symbols.person, title: l.setProfile, onTap: () => context.go(Routes.profile)),
-              RsRow(icon: Symbols.key, title: l.setPassword, onTap: () => ScaffoldMessenger.of(context).showSnackBar(soon)),
-              RsRow(icon: Symbols.notifications_active, title: l.setNotifs, onTap: () => context.go(Routes.notifications)),
+              RsRow(icon: Symbols.key, title: l.setPassword, onTap: () => context.go(Routes.settingsPassword)),
+              RsRow(icon: Symbols.notifications_active, title: l.setNotifs, onTap: () => context.go(Routes.settingsNotifications)),
             ])),
             section(l.setSecurity, RsGroup(children: [
               RsRow(icon: Symbols.shield_lock, title: l.setSession, chevron: false, trailing: Container(
@@ -69,8 +68,8 @@ class SettingsScreen extends ConsumerWidget {
               )),
             ])),
             section(l.setAbout, RsGroup(children: [
-              RsRow(icon: Symbols.description, title: l.setTerms, onTap: () => ScaffoldMessenger.of(context).showSnackBar(soon)),
-              RsRow(icon: Symbols.policy, title: l.setPrivacy, onTap: () => ScaffoldMessenger.of(context).showSnackBar(soon)),
+              RsRow(icon: Symbols.description, title: l.setTerms, onTap: () => context.push(Routes.legal('terms'))),
+              RsRow(icon: Symbols.policy, title: l.setPrivacy, onTap: () => context.push(Routes.legal('privacy'))),
               RsRow(icon: Symbols.info, title: l.setVersion, chevron: false, trailing: Text(version, style: AppType.label.copyWith(color: t.fg2))),
             ])),
             RsButton(l.setLogout, icon: Symbols.logout, variant: RsButtonVariant.dangerOutline, textStyle: AppType.headingMd, padding: const EdgeInsets.symmetric(vertical: 16), onPressed: () => ref.read(authViewModelProvider.notifier).logout()),

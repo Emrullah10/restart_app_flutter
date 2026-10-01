@@ -9,6 +9,9 @@ class Routes {
   static const String profile = '/profile';
   static const String notifications = '/notifications';
   static const String settings = '/settings';
+  static const String settingsPassword = '/settings/password';
+  static const String settingsNotifications = '/settings/notifications';
+  static String legal(String kind) => '/legal/$kind';
   static const String contact = '/contact';
 
   static const String login = '/login';

@@ -2911,6 +2911,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not send the message.'**
   String get contactFailed;
+
+  /// No description provided for @pwHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a strong password to protect your account.'**
+  String get pwHint;
+
+  /// No description provided for @pwCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'CURRENT PASSWORD'**
+  String get pwCurrent;
+
+  /// No description provided for @pwNew.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW PASSWORD'**
+  String get pwNew;
+
+  /// No description provided for @pwSave.
+  ///
+  /// In en, this message translates to:
+  /// **'UPDATE PASSWORD'**
+  String get pwSave;
+
+  /// No description provided for @pwChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password was updated.'**
+  String get pwChanged;
+
+  /// No description provided for @pwTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'New password must be at least 8 characters.'**
+  String get pwTooShort;
+
+  /// No description provided for @prefHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which notifications you want to receive.'**
+  String get prefHint;
+
+  /// No description provided for @prefRecycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recycling'**
+  String get prefRecycle;
+
+  /// No description provided for @prefRecycleSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery and points updates'**
+  String get prefRecycleSub;
+
+  /// No description provided for @prefMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketplace'**
+  String get prefMarket;
+
+  /// No description provided for @prefMarketSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing and sales updates'**
+  String get prefMarketSub;
+
+  /// No description provided for @prefRewards.
+  ///
+  /// In en, this message translates to:
+  /// **'Rewards'**
+  String get prefRewards;
+
+  /// No description provided for @prefRewardsSub.
+  ///
+  /// In en, this message translates to:
+  /// **'New rewards and level-ups'**
+  String get prefRewardsSub;
+
+  /// No description provided for @prefSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get prefSystem;
+
+  /// No description provided for @prefSystemSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance and announcements'**
+  String get prefSystemSub;
 }
 
 class _AppLocalizationsDelegate

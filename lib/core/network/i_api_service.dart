@@ -49,4 +49,9 @@ abstract class IApiService {
   Future<List<dynamic>> getNotifications(String userId);
   Future<void> markNotificationRead(String notificationId);
   Future<void> markAllNotificationsRead(String userId);
+
+  // Account
+  Future<void> changePassword(String currentPassword, String newPassword);
+  Future<Map<String, dynamic>> getNotificationPreferences();
+  Future<Map<String, dynamic>> updateNotificationPreferences(Map<String, bool> prefs);
 }

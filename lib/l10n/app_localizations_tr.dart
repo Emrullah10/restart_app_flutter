@@ -1465,4 +1465,49 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get contactFailed => 'Mesaj gönderilemedi.';
+
+  @override
+  String get pwHint => 'Hesabınızı korumak için güçlü bir şifre seçin.';
+
+  @override
+  String get pwCurrent => 'MEVCUT ŞİFRE';
+
+  @override
+  String get pwNew => 'YENİ ŞİFRE';
+
+  @override
+  String get pwSave => 'ŞİFREYİ GÜNCELLE';
+
+  @override
+  String get pwChanged => 'Şifreniz güncellendi.';
+
+  @override
+  String get pwTooShort => 'Yeni şifre en az 8 karakter olmalı.';
+
+  @override
+  String get prefHint => 'Hangi türde bildirim almak istediğinizi seçin.';
+
+  @override
+  String get prefRecycle => 'Geri dönüşüm';
+
+  @override
+  String get prefRecycleSub => 'Teslimat ve puan bildirimleri';
+
+  @override
+  String get prefMarket => 'Pazaryeri';
+
+  @override
+  String get prefMarketSub => 'İlan ve satış güncellemeleri';
+
+  @override
+  String get prefRewards => 'Ödüller';
+
+  @override
+  String get prefRewardsSub => 'Yeni ödül ve seviye bildirimleri';
+
+  @override
+  String get prefSystem => 'Sistem';
+
+  @override
+  String get prefSystemSub => 'Bakım ve duyurular';
 }

@@ -1464,4 +1464,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contactFailed => 'Could not send the message.';
+
+  @override
+  String get pwHint => 'Choose a strong password to protect your account.';
+
+  @override
+  String get pwCurrent => 'CURRENT PASSWORD';
+
+  @override
+  String get pwNew => 'NEW PASSWORD';
+
+  @override
+  String get pwSave => 'UPDATE PASSWORD';
+
+  @override
+  String get pwChanged => 'Your password was updated.';
+
+  @override
+  String get pwTooShort => 'New password must be at least 8 characters.';
+
+  @override
+  String get prefHint => 'Choose which notifications you want to receive.';
+
+  @override
+  String get prefRecycle => 'Recycling';
+
+  @override
+  String get prefRecycleSub => 'Delivery and points updates';
+
+  @override
+  String get prefMarket => 'Marketplace';
+
+  @override
+  String get prefMarketSub => 'Listing and sales updates';
+
+  @override
+  String get prefRewards => 'Rewards';
+
+  @override
+  String get prefRewardsSub => 'New rewards and level-ups';
+
+  @override
+  String get prefSystem => 'System';
+
+  @override
+  String get prefSystemSub => 'Maintenance and announcements';
 }

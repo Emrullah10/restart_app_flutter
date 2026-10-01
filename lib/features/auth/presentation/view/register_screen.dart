@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -82,9 +83,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         SizedBox(width: 16, height: 20, child: Checkbox(value: _terms, onChanged: (v) => setState(() => _terms = v ?? false), materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, visualDensity: VisualDensity.compact)),
                         const SizedBox(width: 12),
                         Expanded(child: Text.rich(TextSpan(style: AppType.caption.copyWith(color: t.fg2), children: [
-                          TextSpan(text: l.regTermsPre, style: TextStyle(color: t.accent)),
+                          TextSpan(text: l.regTermsPre, style: TextStyle(color: t.accent), recognizer: TapGestureRecognizer()..onTap = () => context.push(Routes.legal('terms'))),
                           TextSpan(text: l.regTermsMid),
-                          TextSpan(text: l.regPrivacy, style: TextStyle(color: t.accent)),
+                          TextSpan(text: l.regPrivacy, style: TextStyle(color: t.accent), recognizer: TapGestureRecognizer()..onTap = () => context.push(Routes.legal('privacy'))),
                           TextSpan(text: l.regTermsPost),
                         ]))),
                       ]),

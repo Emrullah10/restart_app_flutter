@@ -378,6 +378,35 @@ class ApiService implements IApiService {
     }
   }
 
+  @override
+  Future<void> changePassword(String currentPassword, String newPassword) async {
+    try {
+      await _dio.patch('/user/password', data: {'currentPassword': currentPassword, 'newPassword': newPassword});
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> getNotificationPreferences() async {
+    try {
+      final r = await _dio.get('/user/notification-preferences');
+      return Map<String, dynamic>.from(r.data as Map);
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> updateNotificationPreferences(Map<String, bool> prefs) async {
+    try {
+      final r = await _dio.put('/user/notification-preferences', data: prefs);
+      return Map<String, dynamic>.from(r.data as Map);
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
   Exception _handleError(DioException e) {
     if (e.response != null) {
       final errorData = e.response?.data;
