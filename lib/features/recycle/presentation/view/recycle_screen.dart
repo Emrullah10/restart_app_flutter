@@ -1,90 +1,90 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
-import 'package:mobile_flutter/features/recycle/presentation/view/recycle_action_screen.dart';
-import 'package:mobile_flutter/features/recycle/presentation/widgets/device_option_card.dart';
-import 'package:mobile_flutter/features/recycle/presentation/widgets/recycle_header.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:mobile_flutter/app/router/app_routes.dart';
+import 'package:mobile_flutter/core/theme/app_spacing.dart';
+import 'package:mobile_flutter/core/theme/app_typography.dart';
+import 'package:mobile_flutter/features/recycle/presentation/viewmodel/recycle_view_model.dart';
+import 'package:mobile_flutter/shared/design_system/rs_core.dart';
+import 'package:mobile_flutter/shared/design_system/rs_parts.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
-class RecycleScreen extends StatelessWidget {
+class RecycleScreen extends ConsumerStatefulWidget {
   const RecycleScreen({super.key});
+  @override
+  ConsumerState<RecycleScreen> createState() => _RecycleScreenState();
+}
+
+class _RecycleScreenState extends ConsumerState<RecycleScreen> {
+  String? _device = 'phone';
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l = context.l10n;
+    final items = [
+      ('phone', Symbols.smartphone, l.recPhone, l.recPhoneSub),
+      ('laptop', Symbols.laptop_mac, l.recLaptop, l.recLaptopSub),
+      ('tablet', Symbols.tablet_mac, l.recTablet, l.recTabletSub),
+      ('other', Symbols.devices_other, l.recOther, l.recOtherSub),
+    ];
     return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
+      backgroundColor: t.canvas,
       body: SafeArea(
-        child: Column(
-          children: [
-            const RecycleHeader(),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 12.h),
-                    Text(
-                      context.l10n.recycleQuestion,
-                      style: context.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      context.l10n.recycleSubtitle,
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        color: context.isDarkMode
-                            ? AppColors.textSecondaryDark
-                            : AppColors.textSecondaryLight,
-                      ),
-                    ),
-                    SizedBox(height: 24.h),
-                    DeviceOptionCard(
-                      icon: LucideIcons.smartphone,
-                      title: context.l10n.devicePhone,
-                      subtitle: context.l10n.devicePhoneSub,
-                      iconColor: const Color(0xFF3B82F6),
-                      onTap: () => _navigateToAction(context),
-                    ),
-                    DeviceOptionCard(
-                      icon: LucideIcons.laptop,
-                      title: context.l10n.deviceLaptop,
-                      subtitle: context.l10n.deviceLaptopSub,
-                      iconColor: const Color(0xFFA855F7), // Purple
-                      onTap: () => _navigateToAction(context),
-                    ),
-                    DeviceOptionCard(
-                      icon: LucideIcons.tablet,
-                      title: context.l10n.deviceTablet,
-                      subtitle: context.l10n.deviceTabletSub,
-                      iconColor: const Color(0xFF10B981), // Green
-                      onTap: () => _navigateToAction(context),
-                    ),
-                    DeviceOptionCard(
-                      icon: LucideIcons.cpu,
-                      title: context.l10n.deviceOther,
-                      subtitle: context.l10n.deviceOtherSub,
-                      iconColor: const Color(0xFFF59E0B), // Amber
-                      onTap: () => _navigateToAction(context),
-                    ),
-                  ],
+        bottom: false,
+        child: ListView(padding: const EdgeInsets.all(24), children: [
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(l.recStep('1'), style: AppType.label.copyWith(color: t.accent)),
+            Text(l.recStepDevice, style: AppType.label.copyWith(color: t.fg2)),
+          ]),
+          const SizedBox(height: 8),
+          Row(children: [
+            Expanded(child: RsProgressBarSegment(active: true)),
+            const SizedBox(width: 4),
+            Expanded(child: RsProgressBarSegment()),
+            const SizedBox(width: 4),
+            Expanded(child: RsProgressBarSegment()),
+          ]),
+          const SizedBox(height: 32),
+          Text(l.recQuestion, style: AppType.headingLg.copyWith(color: t.fg)),
+          const SizedBox(height: 8),
+          Text(l.recQuestionSub, style: AppType.bodyMd.copyWith(color: t.fg2)),
+          const SizedBox(height: 32),
+          GridView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 16, crossAxisSpacing: 16, mainAxisExtent: 192),
+            children: [
+              for (final d in items)
+                RsPressable(
+                  scale: 0.98,
+                  onTap: () => setState(() => _device = d.$1),
+                  child: RsCard(
+                    tone: RsTone.raised,
+                    stripe: _device == d.$1 ? RsStripe.accent : RsStripe.none,
+                    padding: const EdgeInsets.all(24),
+                    child: SizedBox(width: double.infinity, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      RsIcon(d.$2, size: 36, color: _device == d.$1 ? t.accent : t.fg2),
+                      const SizedBox(height: 16),
+                      Text(d.$3, style: AppType.headingMd.copyWith(color: t.fg)),
+                      const SizedBox(height: 4),
+                      Text(d.$4, textAlign: TextAlign.center, style: AppType.caption.copyWith(color: t.fg2)),
+                    ])),
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(height: 120.h),
-          ],
-        ),
+            ],
+          ),
+          const SizedBox(height: 32),
+          Align(
+            alignment: Alignment.centerRight,
+            child: RsButton(l.recContinue, full: false, radius: Rad.b2, onPressed: _device == null ? null : () {
+              ref.read(recycleViewModelProvider.notifier).setWasteType(_device!);
+              context.go(Routes.recycleDetails);
+            }),
+          ),
+        ]),
       ),
-    );
-  }
-
-  void _navigateToAction(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const RecycleActionScreen()),
     );
   }
 }

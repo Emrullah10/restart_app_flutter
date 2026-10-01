@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MarketplaceProduct {
 
- String get title; String get subtitle; double get price; double get rating; String get location;
+ String? get id; String get title; String get subtitle; double get price; double get rating; String get location; String get category; String? get imageUrl;
 /// Create a copy of MarketplaceProduct
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $MarketplaceProductCopyWith<MarketplaceProduct> get copyWith => _$MarketplacePro
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MarketplaceProduct&&(identical(other.title, title) || other.title == title)&&(identical(other.subtitle, subtitle) || other.subtitle == subtitle)&&(identical(other.price, price) || other.price == price)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.location, location) || other.location == location));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MarketplaceProduct&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.subtitle, subtitle) || other.subtitle == subtitle)&&(identical(other.price, price) || other.price == price)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.location, location) || other.location == location)&&(identical(other.category, category) || other.category == category)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,subtitle,price,rating,location);
+int get hashCode => Object.hash(runtimeType,id,title,subtitle,price,rating,location,category,imageUrl);
 
 @override
 String toString() {
-  return 'MarketplaceProduct(title: $title, subtitle: $subtitle, price: $price, rating: $rating, location: $location)';
+  return 'MarketplaceProduct(id: $id, title: $title, subtitle: $subtitle, price: $price, rating: $rating, location: $location, category: $category, imageUrl: $imageUrl)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $MarketplaceProductCopyWith<$Res>  {
   factory $MarketplaceProductCopyWith(MarketplaceProduct value, $Res Function(MarketplaceProduct) _then) = _$MarketplaceProductCopyWithImpl;
 @useResult
 $Res call({
- String title, String subtitle, double price, double rating, String location
+ String? id, String title, String subtitle, double price, double rating, String location, String category, String? imageUrl
 });
 
 
@@ -65,14 +65,17 @@ class _$MarketplaceProductCopyWithImpl<$Res>
 
 /// Create a copy of MarketplaceProduct
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? subtitle = null,Object? price = null,Object? rating = null,Object? location = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? title = null,Object? subtitle = null,Object? price = null,Object? rating = null,Object? location = null,Object? category = null,Object? imageUrl = freezed,}) {
   return _then(_self.copyWith(
-title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,subtitle: null == subtitle ? _self.subtitle : subtitle // ignore: cast_nullable_to_non_nullable
 as String,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as double,rating: null == rating ? _self.rating : rating // ignore: cast_nullable_to_non_nullable
 as double,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
-as String,
+as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as String,imageUrl: freezed == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -157,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String subtitle,  double price,  double rating,  String location)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String title,  String subtitle,  double price,  double rating,  String location,  String category,  String? imageUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MarketplaceProduct() when $default != null:
-return $default(_that.title,_that.subtitle,_that.price,_that.rating,_that.location);case _:
+return $default(_that.id,_that.title,_that.subtitle,_that.price,_that.rating,_that.location,_that.category,_that.imageUrl);case _:
   return orElse();
 
 }
@@ -178,10 +181,10 @@ return $default(_that.title,_that.subtitle,_that.price,_that.rating,_that.locati
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String subtitle,  double price,  double rating,  String location)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String title,  String subtitle,  double price,  double rating,  String location,  String category,  String? imageUrl)  $default,) {final _that = this;
 switch (_that) {
 case _MarketplaceProduct():
-return $default(_that.title,_that.subtitle,_that.price,_that.rating,_that.location);case _:
+return $default(_that.id,_that.title,_that.subtitle,_that.price,_that.rating,_that.location,_that.category,_that.imageUrl);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +201,10 @@ return $default(_that.title,_that.subtitle,_that.price,_that.rating,_that.locati
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String subtitle,  double price,  double rating,  String location)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String title,  String subtitle,  double price,  double rating,  String location,  String category,  String? imageUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _MarketplaceProduct() when $default != null:
-return $default(_that.title,_that.subtitle,_that.price,_that.rating,_that.location);case _:
+return $default(_that.id,_that.title,_that.subtitle,_that.price,_that.rating,_that.location,_that.category,_that.imageUrl);case _:
   return null;
 
 }
@@ -213,14 +216,17 @@ return $default(_that.title,_that.subtitle,_that.price,_that.rating,_that.locati
 @JsonSerializable()
 
 class _MarketplaceProduct implements MarketplaceProduct {
-  const _MarketplaceProduct({required this.title, this.subtitle = '', this.price = 0.0, this.rating = 0.0, this.location = ''});
+  const _MarketplaceProduct({this.id, required this.title, this.subtitle = '', this.price = 0.0, this.rating = 0.0, this.location = '', this.category = '', this.imageUrl});
   factory _MarketplaceProduct.fromJson(Map<String, dynamic> json) => _$MarketplaceProductFromJson(json);
 
+@override final  String? id;
 @override final  String title;
 @override@JsonKey() final  String subtitle;
 @override@JsonKey() final  double price;
 @override@JsonKey() final  double rating;
 @override@JsonKey() final  String location;
+@override@JsonKey() final  String category;
+@override final  String? imageUrl;
 
 /// Create a copy of MarketplaceProduct
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MarketplaceProduct&&(identical(other.title, title) || other.title == title)&&(identical(other.subtitle, subtitle) || other.subtitle == subtitle)&&(identical(other.price, price) || other.price == price)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.location, location) || other.location == location));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MarketplaceProduct&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.subtitle, subtitle) || other.subtitle == subtitle)&&(identical(other.price, price) || other.price == price)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.location, location) || other.location == location)&&(identical(other.category, category) || other.category == category)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,subtitle,price,rating,location);
+int get hashCode => Object.hash(runtimeType,id,title,subtitle,price,rating,location,category,imageUrl);
 
 @override
 String toString() {
-  return 'MarketplaceProduct(title: $title, subtitle: $subtitle, price: $price, rating: $rating, location: $location)';
+  return 'MarketplaceProduct(id: $id, title: $title, subtitle: $subtitle, price: $price, rating: $rating, location: $location, category: $category, imageUrl: $imageUrl)';
 }
 
 
@@ -255,7 +261,7 @@ abstract mixin class _$MarketplaceProductCopyWith<$Res> implements $MarketplaceP
   factory _$MarketplaceProductCopyWith(_MarketplaceProduct value, $Res Function(_MarketplaceProduct) _then) = __$MarketplaceProductCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String subtitle, double price, double rating, String location
+ String? id, String title, String subtitle, double price, double rating, String location, String category, String? imageUrl
 });
 
 
@@ -272,14 +278,17 @@ class __$MarketplaceProductCopyWithImpl<$Res>
 
 /// Create a copy of MarketplaceProduct
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? subtitle = null,Object? price = null,Object? rating = null,Object? location = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? title = null,Object? subtitle = null,Object? price = null,Object? rating = null,Object? location = null,Object? category = null,Object? imageUrl = freezed,}) {
   return _then(_MarketplaceProduct(
-title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,subtitle: null == subtitle ? _self.subtitle : subtitle // ignore: cast_nullable_to_non_nullable
 as String,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as double,rating: null == rating ? _self.rating : rating // ignore: cast_nullable_to_non_nullable
 as double,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
-as String,
+as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as String,imageUrl: freezed == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

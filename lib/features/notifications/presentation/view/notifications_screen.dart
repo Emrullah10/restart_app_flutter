@@ -1,139 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/core/theme/app_spacing.dart';
+import 'package:mobile_flutter/core/theme/app_typography.dart';
+import 'package:mobile_flutter/core/utils/format.dart';
 import 'package:mobile_flutter/features/notifications/data/models/app_notification.dart';
 import 'package:mobile_flutter/features/notifications/presentation/viewmodel/notifications_view_model.dart';
-import 'package:mobile_flutter/features/notifications/presentation/widgets/notification_item_card.dart';
-import 'package:mobile_flutter/features/notifications/presentation/widgets/notification_tabs.dart';
-import 'package:mobile_flutter/features/notifications/presentation/widgets/weekly_event_card.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/shared/design_system/rs_bars.dart';
+import 'package:mobile_flutter/shared/design_system/rs_core.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class NotificationsScreen extends ConsumerWidget {
   const NotificationsScreen({super.key});
 
-  IconData _iconForType(String type) {
-    switch (type) {
-      case 'reward':
-        return LucideIcons.gift;
-      case 'community':
-        return LucideIcons.users;
-      default:
-        return LucideIcons.bell;
-    }
-  }
-
-  Color _colorForType(String type) {
-    switch (type) {
-      case 'reward':
-        return const Color(0xFF3B82F6);
-      case 'community':
-        return const Color(0xFFF97316);
-      default:
-        return const Color(0xFF6B7280);
-    }
-  }
-
-  String _formatTimeAgo(DateTime dateTime) {
-    final difference = DateTime.now().difference(dateTime);
-    if (difference.inHours < 24) return '${difference.inHours} saat önce';
-    return '${difference.inDays} gün önce';
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notificationsAsync = ref.watch(notificationsViewModelProvider);
-    final notifications = notificationsAsync.valueOrNull ?? const [];
+    final t = context.tokens;
+    final l = context.l10n;
+    final fmt = Fmt(Localizations.localeOf(context).languageCode);
+    final async = ref.watch(notificationsViewModelProvider);
+    final all = async.valueOrNull ?? const <AppNotification>[];
+    final now = DateTime.now();
+    int dayDiff(DateTime d) => DateTime(now.year, now.month, now.day).difference(DateTime(d.year, d.month, d.day)).inDays;
+    final groups = [
+      (l.notifToday, all.where((n) => dayDiff(n.createdAt) <= 0).toList()),
+      (l.notifYesterday, all.where((n) => dayDiff(n.createdAt) == 1).toList()),
+      (l.notifOlder, all.where((n) => dayDiff(n.createdAt) > 1).toList()),
+    ].where((g) => g.$2.isNotEmpty).toList();
+
+    (IconData, Color, Color) style(AppNotification n) => switch (n.type) {
+          'recycle' => (Symbols.recycling, t.accentSubtle, t.accent),
+          'sell' => (Symbols.sell, t.sellTint, AppColors.sell),
+          'repair' => (Symbols.build, t.repairTint, AppColors.repair),
+          'reward' => (Symbols.redeem, t.strong, t.fg2),
+          _ => (Symbols.notifications, t.strong, t.fg2),
+        };
 
     return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          context.l10n.notificationsTitle,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: [
-          PopupMenuButton<String>(
-            icon: const Icon(LucideIcons.moreVertical, color: Colors.white),
-            onSelected: (value) async {
-              if (value == 'mark_all_read') {
-                await ref
-                    .read(notificationsViewModelProvider.notifier)
-                    .markAllAsRead();
-                if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(context.l10n.allMarkedAsRead)),
-                );
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'mark_all_read',
-                child: Text(context.l10n.markAllAsRead),
-              ),
-            ],
-          ),
-        ],
+      backgroundColor: t.canvas,
+      appBar: RsAppBar(
+        bg: t.canvas.withValues(alpha: 0.9),
+        bordered: false,
+        leading: Padding(padding: const EdgeInsets.only(right: 8), child: rsBack(context, color: t.fg2)),
+        startTitle: l.notifTitle,
+        titleStyle: AppType.headingLg.copyWith(color: t.fg, letterSpacing: -0.3),
+        trailing: GestureDetector(onTap: () => ref.read(notificationsViewModelProvider.notifier).markAllAsRead(), child: Text(l.notifMarkAll, style: AppType.sized(AppType.label, 10).copyWith(color: t.accent, letterSpacing: 1.2))),
       ),
-      body: Column(
-        children: [
-          const NotificationTabs(),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const WeeklyEventCard(),
-                  if (notificationsAsync.isLoading)
-                    const Padding(
-                      padding: EdgeInsets.all(24),
-                      child: Center(child: CircularProgressIndicator()),
-                    )
-                  else if (notifications.isEmpty)
-                    Padding(
-                      padding: EdgeInsets.all(24.w),
-                      child: Text(context.l10n.noResults),
-                    )
-                  else
-                    ...notifications.map(
-                      (notification) => _buildNotificationCard(
-                        context,
-                        notification,
+      body: all.isEmpty && !async.isLoading
+          ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [RsIcon(Symbols.notifications, size: 40, color: t.fg3), const SizedBox(height: 12), Text(l.notifEmpty, style: AppType.headingMd.copyWith(color: t.fg)), const SizedBox(height: 4), Text(l.notifEmptySub, style: AppType.caption.copyWith(color: t.fg2))]))
+          : Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: ListView(padding: const EdgeInsets.fromLTRB(16, 24, 16, 24), children: [
+                  for (final g in groups) ...[
+                    Padding(padding: const EdgeInsets.only(left: 4, bottom: 16), child: Text(g.$1, style: AppType.label.copyWith(color: t.fgOutline, letterSpacing: 1.2))),
+                    for (final n in g.$2)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: RsCard(
+                          tone: n.isRead ? RsTone.surface : RsTone.muted,
+                          stripe: n.isRead ? RsStripe.none : RsStripe.accent,
+                          padding: const EdgeInsets.all(16),
+                          child: Stack(children: [
+                            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              RsIconBox(style(n).$1, size: 40, bg: n.isRead ? t.strong : style(n).$2, color: n.isRead ? t.fg2 : style(n).$3, radius: Rad.b12),
+                              const SizedBox(width: 16),
+                              Expanded(child: Padding(padding: const EdgeInsets.only(right: 24), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                Text(n.title, style: AppType.bodyMd.copyWith(color: t.fg, fontWeight: FontWeight.w600)),
+                                const SizedBox(height: 4),
+                                Text(n.body, style: AppType.caption.copyWith(color: t.fg2)),
+                                const SizedBox(height: 4),
+                                Text(fmt.time(n.createdAt), style: AppType.label.copyWith(color: t.fgOutline)),
+                              ]))),
+                            ]),
+                            if (!n.isRead) Positioned(right: 0, top: 0, child: Container(width: 8, height: 8, decoration: BoxDecoration(color: t.accent, shape: BoxShape.circle))),
+                          ]),
+                        ),
                       ),
-                    ),
-                  SizedBox(height: 24.h),
-                ],
+                    const SizedBox(height: 16),
+                  ],
+                ]),
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNotificationCard(
-    BuildContext context,
-    AppNotification notification,
-  ) {
-    final color = _colorForType(notification.type);
-    return NotificationItemCard(
-      icon: _iconForType(notification.type),
-      iconColor: color,
-      iconBgColor: color.withValues(alpha: 0.1),
-      title: notification.title,
-      description: notification.body,
-      time: _formatTimeAgo(notification.createdAt),
     );
   }
 }

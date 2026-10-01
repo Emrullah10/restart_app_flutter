@@ -131,7 +131,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deviceOtherSub => 'Elektronik aksesuar';
 
   @override
-  String get discoverTitle => 'Keşfet Sayfası (Yakında)';
+  String get discoverTitle => 'Keşfet';
 
   @override
   String get notificationsTitle => 'Bildirimler';
@@ -201,7 +201,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get messageSentSuccess => 'Mesajınız başarıyla gönderildi!';
 
   @override
-  String get repairTitle => 'Onar';
+  String get repairTitle => 'Tamir Servisi';
 
   @override
   String get whatDeviceToRepair => 'Hangi cihazını onarmak istiyorsun?';
@@ -290,13 +290,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get mapFilterAll => 'Tümü';
 
   @override
-  String get mapFilterRepair => 'Onarım';
+  String get mapFilterRepair => 'Tamir';
 
   @override
   String get mapFilterSell => 'Satış';
 
   @override
-  String get mapFilterRecycle => 'Dönüştür';
+  String get mapFilterRecycle => 'Geri Dönüşüm';
 
   @override
   String get sustainabilityLevelTitle => 'Sürdürülebilirlik Seviyem';
@@ -644,4 +644,825 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get createListingButton => 'İlan Oluştur';
+
+  @override
+  String get brandName => 'ReStart';
+
+  @override
+  String get navHomeLabel => 'Ana Sayfa';
+
+  @override
+  String get navMapLabel => 'Harita';
+
+  @override
+  String get navRecycleLabel => 'Dönüştür';
+
+  @override
+  String get navSellLabel => 'Sat';
+
+  @override
+  String get navRewardsLabel => 'Ödüller';
+
+  @override
+  String get commonLoading => 'Yükleniyor…';
+
+  @override
+  String get commonRetry => 'Tekrar dene';
+
+  @override
+  String get commonError => 'Bir şeyler ters gitti.';
+
+  @override
+  String get commonComingSoon => 'Yakında';
+
+  @override
+  String get commonAll => 'Tümünü Gör';
+
+  @override
+  String get commonUnitKg => 'kg';
+
+  @override
+  String get commonUnitKm => 'km';
+
+  @override
+  String get commonPoints => 'Puan';
+
+  @override
+  String get commonPointsLower => 'puan';
+
+  @override
+  String get commonPieces => 'adet';
+
+  @override
+  String get passwordStrengthIdle => 'Şifre gücü';
+
+  @override
+  String get passwordWeak => 'Zayıf';
+
+  @override
+  String get passwordFair => 'Orta';
+
+  @override
+  String get passwordGood => 'İyi';
+
+  @override
+  String get passwordStrong => 'Güçlü';
+
+  @override
+  String get levelNew => 'Yeni';
+
+  @override
+  String get levelCurious => 'Meraklı';
+
+  @override
+  String get levelAware => 'Duyarlı';
+
+  @override
+  String get levelConscious => 'Bilinçli';
+
+  @override
+  String get levelPioneer => 'Öncü';
+
+  @override
+  String get levelChampion => 'Şampiyon';
+
+  @override
+  String get tierBronze => 'Bronz';
+
+  @override
+  String get tierSilver => 'Gümüş';
+
+  @override
+  String get tierGold => 'Altın';
+
+  @override
+  String get loginTitle => 'Tekrar hoş geldiniz';
+
+  @override
+  String get loginSub => 'Devam etmek için lütfen giriş yapın.';
+
+  @override
+  String get loginEmailLabel => 'E-POSTA';
+
+  @override
+  String get loginPasswordLabel => 'ŞİFRE';
+
+  @override
+  String get loginEmailPh => 'ornek@email.com';
+
+  @override
+  String get loginForgot => 'Şifremi unuttum';
+
+  @override
+  String get loginAction => 'GİRİŞ YAP';
+
+  @override
+  String get loginNoAccount => 'Hesabınız yok mu?';
+
+  @override
+  String get loginRegister => 'Kayıt Ol';
+
+  @override
+  String get authFillAll => 'Lütfen tüm alanları doldurun.';
+
+  @override
+  String get authMismatch => 'Şifreler eşleşmiyor.';
+
+  @override
+  String get authTermsRequired =>
+      'Devam etmek için şartları kabul etmelisiniz.';
+
+  @override
+  String get regTitle => 'Hesap oluşturun';
+
+  @override
+  String get regSub => 'ReStart topluluğuna katılın.';
+
+  @override
+  String get regName => 'AD SOYAD';
+
+  @override
+  String get regNamePh => 'Örn: Ahmet Yılmaz';
+
+  @override
+  String get regEmail => 'E-POSTA';
+
+  @override
+  String get regPassword => 'ŞİFRE';
+
+  @override
+  String get regPasswordPh => 'En az 8 karakter';
+
+  @override
+  String get regConfirm => 'ŞİFRE TEKRAR';
+
+  @override
+  String get regConfirmPh => 'Şifrenizi onaylayın';
+
+  @override
+  String get regTermsPre => 'Kullanım Koşulları';
+
+  @override
+  String get regTermsMid => ' ve ';
+
+  @override
+  String get regTermsPost => '\'nı kabul ediyorum.';
+
+  @override
+  String get regPrivacy => 'Gizlilik Politikası';
+
+  @override
+  String get regAction => 'Kayıt Ol';
+
+  @override
+  String get regHave => 'Zaten hesabınız var mı?';
+
+  @override
+  String get regLogin => 'Giriş yapın';
+
+  @override
+  String homeGreeting(String name) {
+    return 'Merhaba $name';
+  }
+
+  @override
+  String get homeSub => 'Güncel çevresel etkin ve aktivitelerin.';
+
+  @override
+  String get homeImpact => 'ÇEVRESEL ETKİ';
+
+  @override
+  String get homeCo2 => 'CO₂ Tasarrufu Sağlandı';
+
+  @override
+  String get homeRepair => 'Tamir Et';
+
+  @override
+  String get homeSell => 'Sat';
+
+  @override
+  String get homeRecycle => 'Geri Dönüştür';
+
+  @override
+  String get homePoints => 'Kazanılan Puan';
+
+  @override
+  String get homeListings => 'Aktif İlanlar';
+
+  @override
+  String get homeRecent => 'Son Aktiviteler';
+
+  @override
+  String get homeNoActivity => 'Henüz aktivite yok.';
+
+  @override
+  String get menuTitle => 'Menü';
+
+  @override
+  String get menuProfile => 'Profil';
+
+  @override
+  String get menuDiscover => 'Keşfet';
+
+  @override
+  String get menuRepair => 'Tamir';
+
+  @override
+  String get menuNotifications => 'Bildirimler';
+
+  @override
+  String get menuSettings => 'Ayarlar';
+
+  @override
+  String get menuContact => 'İletişim';
+
+  @override
+  String get discoverSearch => 'Cihaz, kategori veya nokta ara...';
+
+  @override
+  String get discoverCategories => 'KATEGORİLER';
+
+  @override
+  String get discoverPhone => 'Telefon';
+
+  @override
+  String get discoverLaptop => 'Bilgisayar';
+
+  @override
+  String get discoverTablet => 'Tablet';
+
+  @override
+  String get discoverOther => 'Diğer';
+
+  @override
+  String get discoverFeatured => 'ÖNE ÇIKANLAR';
+
+  @override
+  String get discoverNearby => 'YAKINDAKİ NOKTALAR';
+
+  @override
+  String get discoverPromo1Tag => 'Onarım Kampanyası';
+
+  @override
+  String get discoverPromo1Title => 'Ekran Değişimi';
+
+  @override
+  String get discoverPromo1Sub => '%20\'ye varan geri dönüşüm indirimi';
+
+  @override
+  String get discoverPromo2Tag => 'Satış Fırsatı';
+
+  @override
+  String get discoverPromo2Title => 'Eski Cihazını Sat';
+
+  @override
+  String get discoverPromo2Sub => 'Anında değerleme ve nakit ödeme';
+
+  @override
+  String get discoverPromo3Title => 'Dönüşüm Raporu';
+
+  @override
+  String get discoverPromo3Sub => 'Aylık çevresel etkinizi görün';
+
+  @override
+  String get mapOpen => 'Açık';
+
+  @override
+  String get mapClosed => 'Kapalı';
+
+  @override
+  String get mapLocate => 'Konumum';
+
+  @override
+  String get mapNoPermission => 'Konum izni verilmedi.';
+
+  @override
+  String get marketTitle => 'Pazaryeri';
+
+  @override
+  String get marketSafeTitle => 'Güvenli Satış Sistemi';
+
+  @override
+  String get marketSafeBody =>
+      'ReStart üzerinden yapılan tüm satışlar %100 alıcı koruması altındadır. Ödemeniz, ürün alıcıya ulaştıktan sonra hesabınıza aktarılır.';
+
+  @override
+  String get marketMore => 'DAHA FAZLA BİLGİ EDİN';
+
+  @override
+  String get marketSearch => 'İkinci el ürün ara...';
+
+  @override
+  String get marketActive => 'AKTİF İLANLAR';
+
+  @override
+  String get marketPending => 'BEKLEYEN SATIŞ';
+
+  @override
+  String get marketOps => 'işlem';
+
+  @override
+  String get marketForYou => 'Sana Özel Öneriler';
+
+  @override
+  String get marketEmpty => 'Bu kategoride ürün bulunamadı';
+
+  @override
+  String get catAll => 'Tümü';
+
+  @override
+  String get catLaptop => 'Bilgisayar';
+
+  @override
+  String get catAccessory => 'Aksesuar';
+
+  @override
+  String get listingTitle => 'İlan Oluştur';
+
+  @override
+  String listingPhotos(String count) {
+    return 'FOTOĞRAFLAR ($count/5)';
+  }
+
+  @override
+  String get listingCover => 'Kapak';
+
+  @override
+  String get listingPhotoHint =>
+      'Net ve aydınlık fotoğraflar satışı hızlandırır.';
+
+  @override
+  String get listingTitleLabel => 'İLAN BAŞLIĞI';
+
+  @override
+  String get listingTitlePh => 'Örn: Sorunsuz 2. El Çamaşır Makinesi';
+
+  @override
+  String get listingCategory => 'KATEGORİ';
+
+  @override
+  String get listingCategoryPh => 'Kategori Seçin';
+
+  @override
+  String get listingDescription => 'AÇIKLAMA';
+
+  @override
+  String get listingDescriptionPh =>
+      'Ürünün durumu, kusurları ve teknik özellikleri hakkında bilgi verin.';
+
+  @override
+  String get listingPrice => 'FİYAT (TL)';
+
+  @override
+  String get listingLocation => 'KONUM';
+
+  @override
+  String get listingLocationPh => 'Şehir, İlçe';
+
+  @override
+  String get listingTipsTitle => 'Güvenli Satış İpuçları';
+
+  @override
+  String get listingTipsBody =>
+      'Kişisel bilgilerinizi açıklamaktan kaçının ve teslimatları güvenli, halka açık alanlarda yapmayı tercih edin.';
+
+  @override
+  String get listingPublish => 'İlanı Yayınla';
+
+  @override
+  String get listingSuccess => 'İlanınız yayınlandı!';
+
+  @override
+  String get listingFailed => 'İlan yayınlanamadı. Lütfen tekrar deneyin.';
+
+  @override
+  String get listingCamera => 'Kamera';
+
+  @override
+  String get listingGallery => 'Galeri';
+
+  @override
+  String get listingPhotoTitle => 'Fotoğraf ekle';
+
+  @override
+  String get repairSub =>
+      'Cihazınızı hayata döndürerek karbon ayak izinizi azaltın.';
+
+  @override
+  String get repairEcoTitle => 'Tamir en çevreci seçenek';
+
+  @override
+  String get repairEcoBody =>
+      'Yeni bir cihaz üretimi yerine mevcut cihazı onarmak, ortalama bir akıllı telefon için doğaya salınan e-atık miktarını ve karbon emisyonunu %80 oranında engeller.';
+
+  @override
+  String get repairServices => 'HİZMET SEÇİMİ';
+
+  @override
+  String get repairScreen => 'Ekran & Cam';
+
+  @override
+  String get repairScreenSub => 'Orijinal veya A Kalite';
+
+  @override
+  String get repairBattery => 'Batarya';
+
+  @override
+  String get repairBatterySub => 'Garantili Değişim';
+
+  @override
+  String get repairBoard => 'Anakart Onarımı';
+
+  @override
+  String get repairBoardSub => 'Mikro lehimleme ve çip değişimi işlemleri.';
+
+  @override
+  String get repairNearby => 'YAKINDAKİ SERVİSLER';
+
+  @override
+  String recStep(String n) {
+    return 'ADIM $n / 3';
+  }
+
+  @override
+  String get recStepDevice => 'Cihaz Seçimi';
+
+  @override
+  String get recQuestion => 'Hangi cihazı geri dönüştürüyorsunuz?';
+
+  @override
+  String get recQuestionSub =>
+      'Seçtiğiniz cihaz türü, uygun geri dönüşüm tesislerini bulmamıza yardımcı olacaktır.';
+
+  @override
+  String get recPhone => 'Telefon';
+
+  @override
+  String get recPhoneSub => 'Akıllı telefonlar, tuşlu telefonlar';
+
+  @override
+  String get recLaptop => 'Dizüstü';
+
+  @override
+  String get recLaptopSub => 'Laptoplar, netbooklar';
+
+  @override
+  String get recTablet => 'Tablet';
+
+  @override
+  String get recTabletSub => 'Tablet bilgisayarlar, e-okuyucular';
+
+  @override
+  String get recOther => 'Diğer';
+
+  @override
+  String get recOtherSub => 'Aksesuarlar, küçük ev aletleri';
+
+  @override
+  String get recContinue => 'Devam Et';
+
+  @override
+  String get recDetailsTitle => 'Cihaz Detayları';
+
+  @override
+  String get recDetailsSub => 'Değerleme için lütfen doğru bilgileri girin.';
+
+  @override
+  String get recStepCategory => 'Kategori';
+
+  @override
+  String get recStepDetails => 'Detaylar';
+
+  @override
+  String get recStepConfirm => 'Onay';
+
+  @override
+  String get recBrand => 'Marka';
+
+  @override
+  String get recBrandPh => 'Örn: Apple, Samsung...';
+
+  @override
+  String get recModel => 'Model / Yıl';
+
+  @override
+  String get recModelPh => 'Örn: iPhone 12, 2021';
+
+  @override
+  String get recCondition => 'Cihaz Durumu';
+
+  @override
+  String get recWorking => 'Çalışıyor';
+
+  @override
+  String get recWorkingSub => 'Tüm fonksiyonları aktif.';
+
+  @override
+  String get recDamaged => 'Hafif Hasarlı';
+
+  @override
+  String get recDamagedSub => 'Çizik veya ufak kusurlar.';
+
+  @override
+  String get recBroken => 'Çalışmıyor';
+
+  @override
+  String get recBrokenSub => 'Açılmıyor veya ağır hasarlı.';
+
+  @override
+  String get recWeight => 'Tahmini Ağırlık (kg)';
+
+  @override
+  String get recDelivery => 'Teslimat Yöntemi';
+
+  @override
+  String get recDropoff => 'Noktaya Bırak';
+
+  @override
+  String get recCourier => 'Kurye Çağır';
+
+  @override
+  String get recCenter => 'En Yakın Merkez';
+
+  @override
+  String get recCenterPh => 'Merkez seçin';
+
+  @override
+  String get recEstimate => 'TAHMİNİ KAZANÇ';
+
+  @override
+  String recCourierBonus(String bonus) {
+    return 'Elektrikli kuryeyle +$bonus';
+  }
+
+  @override
+  String get recSubmit => 'Talebi Oluştur';
+
+  @override
+  String get recFailed => 'Talep gönderilemedi. Lütfen tekrar deneyin.';
+
+  @override
+  String get recPickCenter => 'Lütfen bir geri dönüşüm merkezi seçin.';
+
+  @override
+  String get courierTitle => 'Kurye Seç';
+
+  @override
+  String get courierSub =>
+      'Dönüştürülecek eşyalarınız için uygun aracı belirleyin.';
+
+  @override
+  String get courierElectric => 'ELEKTRİK';
+
+  @override
+  String get courierZero => 'Sıfır Emisyon Teslimatı';
+
+  @override
+  String get courierSelect => 'Seç';
+
+  @override
+  String get courierCargo => 'Kargo Aracı';
+
+  @override
+  String get courierHeavy => 'Ağır Yük';
+
+  @override
+  String courierEta(String min) {
+    return '~$min dk';
+  }
+
+  @override
+  String get doneTitle => 'Talebiniz alındı';
+
+  @override
+  String get doneEarned => 'KAZANILAN ÖDÜL';
+
+  @override
+  String doneCo2(String kg) {
+    return '$kg kg CO₂ tasarrufu sağladınız';
+  }
+
+  @override
+  String get doneCert => 'Sıfır Atık Sertifikalı';
+
+  @override
+  String get doneHome => 'ANA SAYFAYA DÖN';
+
+  @override
+  String get rewTitle => 'Etkiniz';
+
+  @override
+  String get rewSub => 'Çevresel katkınızı takip edin ve ödüllerinizi alın.';
+
+  @override
+  String get rewHistory => 'Kullanım Geçmişi';
+
+  @override
+  String get rewBalance => 'KULLANILABİLİR EKO-PUAN';
+
+  @override
+  String get rewRecycled => 'Geri Dönüşüm';
+
+  @override
+  String get rewRepaired => 'Onarım';
+
+  @override
+  String get rewSold => 'Satış';
+
+  @override
+  String get rewTier => 'Seviye';
+
+  @override
+  String get rewTop => 'EN ÇOK KATKI SAĞLAYANLAR';
+
+  @override
+  String get rewYou => 'Siz';
+
+  @override
+  String get rewAchievements => 'Başarımlar';
+
+  @override
+  String get rewCatalog => 'Ödül Kataloğu';
+
+  @override
+  String get rewUse => 'Kullan';
+
+  @override
+  String get rewNone => 'Şu anda kullanılabilir ödül yok';
+
+  @override
+  String get rewDigital => 'Dijital';
+
+  @override
+  String get rewTransit => 'Ulaşım';
+
+  @override
+  String get rewService => 'Hizmet';
+
+  @override
+  String get rewEco => 'Doğa';
+
+  @override
+  String get rewRedeemed => 'Ödül kullanıldı';
+
+  @override
+  String get rewFailed => 'Ödül kullanılamadı';
+
+  @override
+  String get profVerified => 'Doğrulanmış Üye';
+
+  @override
+  String get profTotal => 'TOPLAM İŞLEM';
+
+  @override
+  String get profCo2 => 'CO₂ TASARRUFU (KG)';
+
+  @override
+  String get profSold => 'SATILAN ÜRÜN';
+
+  @override
+  String get profRepaired => 'ONARILAN ÜRÜN';
+
+  @override
+  String get profImpact => 'Etki Karnesi';
+
+  @override
+  String profOps(String n) {
+    return '$n İşlem';
+  }
+
+  @override
+  String get profRecent => 'Son İşlemler';
+
+  @override
+  String profPointsGain(String n) {
+    return '+$n Puan';
+  }
+
+  @override
+  String get notifTitle => 'Bildirimler';
+
+  @override
+  String get notifMarkAll => 'TÜMÜNÜ OKUNDU İŞARETLE';
+
+  @override
+  String get notifToday => 'BUGÜN';
+
+  @override
+  String get notifYesterday => 'DÜN';
+
+  @override
+  String get notifOlder => 'DAHA ESKİ';
+
+  @override
+  String get notifEmpty => 'Henüz bildiriminiz yok';
+
+  @override
+  String get notifEmptySub => 'Yeni etkinlikler burada görünecek.';
+
+  @override
+  String get setTitle => 'Ayarlar';
+
+  @override
+  String get setAppearance => 'GÖRÜNÜM';
+
+  @override
+  String get setTheme => 'Tema';
+
+  @override
+  String get setLight => 'Açık';
+
+  @override
+  String get setDark => 'Koyu';
+
+  @override
+  String get setSystem => 'Sistem';
+
+  @override
+  String get setLanguage => 'Dil';
+
+  @override
+  String get setAccount => 'HESAP';
+
+  @override
+  String get setProfile => 'Profil';
+
+  @override
+  String get setPassword => 'Şifre';
+
+  @override
+  String get setNotifs => 'Bildirimler';
+
+  @override
+  String get setSecurity => 'GÜVENLİK';
+
+  @override
+  String get setSession => 'Oturum Güvenliği';
+
+  @override
+  String get setActive => 'Aktif';
+
+  @override
+  String get setAbout => 'HAKKINDA';
+
+  @override
+  String get setTerms => 'Koşullar';
+
+  @override
+  String get setPrivacy => 'Gizlilik';
+
+  @override
+  String get setVersion => 'Sürüm';
+
+  @override
+  String get setLogout => 'Çıkış Yap';
+
+  @override
+  String get contactHeadline => 'Size nasıl yardımcı olabiliriz?';
+
+  @override
+  String get contactBody =>
+      'Geri dönüşüm, onarım veya ödül programı hakkında sorularınız için formu doldurun veya doğrudan bizimle iletişime geçin.';
+
+  @override
+  String get contactSend => 'Mesaj Gönder';
+
+  @override
+  String get contactName => 'Ad Soyad';
+
+  @override
+  String get contactNamePh => 'Adınız Soyadınız';
+
+  @override
+  String get contactEmail => 'E-posta';
+
+  @override
+  String get contactEmailPh => 'ornek@eposta.com';
+
+  @override
+  String get contactMessage => 'Mesajınız';
+
+  @override
+  String get contactMax => 'Max 1000 karakter';
+
+  @override
+  String get contactMessagePh => 'Size nasıl yardımcı olabiliriz?';
+
+  @override
+  String get contactSubmit => 'GÖNDER';
+
+  @override
+  String get contactChannels => 'ALTERNATİF KANALLAR';
+
+  @override
+  String get contactEmailChannel => 'E-POSTA';
+
+  @override
+  String get contactPhoneChannel => 'TELEFON (7/24)';
+
+  @override
+  String get contactSent => 'Mesajınız iletildi.';
+
+  @override
+  String get contactFailed => 'Mesaj gönderilemedi.';
 }

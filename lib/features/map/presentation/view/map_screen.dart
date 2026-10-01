@@ -1,334 +1,192 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/core/theme/app_spacing.dart';
+import 'package:mobile_flutter/core/theme/app_typography.dart';
+import 'package:mobile_flutter/core/utils/format.dart';
+import 'package:mobile_flutter/core/utils/geo.dart';
+import 'package:mobile_flutter/core/utils/modules.dart';
 import 'package:mobile_flutter/features/home/data/models/nearby_service.dart';
 import 'package:mobile_flutter/features/home/presentation/viewmodel/services_view_model.dart';
-import 'package:mobile_flutter/features/map/presentation/widgets/map_filter_bar.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/shared/design_system/rs_core.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
-const LatLng _kIstanbulCenter = LatLng(41.0082, 28.9784);
+const LatLng _kIstanbul = LatLng(41.0082, 28.9784);
+
+const _darkMap = ColorFilter.matrix(<double>[
+  -0.19, -0.64, -0.065, 0, 190,
+  -0.19, -0.64, -0.065, 0, 200,
+  -0.19, -0.64, -0.065, 0, 195,
+  0, 0, 0, 1, 0,
+]);
 
 class MapScreen extends ConsumerStatefulWidget {
   final String? filter;
   const MapScreen({super.key, this.filter});
-
   @override
   ConsumerState<MapScreen> createState() => _MapScreenState();
 }
 
 class _MapScreenState extends ConsumerState<MapScreen> {
-  final MapController _mapController = MapController();
-  final TextEditingController _searchController = TextEditingController();
-
-  // 0: All, 1: Repair, 2: Sell, 3: Recycle
-  late int _selectedFilterIndex;
-  bool _isSearching = false;
-  String _query = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedFilterIndex = _getFilterIndexFromParam(widget.filter);
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  int _getFilterIndexFromParam(String? filter) {
-    if (filter == 'repair') return 1;
-    if (filter == 'sell') return 2;
-    if (filter == 'recycle') return 3;
-    return 0;
-  }
-
-  String? _typeForFilterIndex(int index) {
-    switch (index) {
-      case 1:
-        return 'repair';
-      case 2:
-        return 'sell';
-      case 3:
-        return 'recycle';
-      default:
-        return null;
-    }
-  }
-
-  IconData _iconForType(String? type) {
-    switch (type) {
-      case 'repair':
-        return LucideIcons.wrench;
-      case 'recycle':
-        return LucideIcons.recycle;
-      case 'sell':
-        return LucideIcons.store;
-      default:
-        return LucideIcons.mapPin;
-    }
-  }
-
-  Color _colorForType(String? type) {
-    switch (type) {
-      case 'repair':
-        return const Color(0xFF3B82F6);
-      case 'recycle':
-        return const Color(0xFF22C55E);
-      case 'sell':
-        return const Color(0xFFF97316);
-      default:
-        return const Color(0xFF6B7280);
-    }
-  }
-
-  List<NearbyService> _filterServices(List<NearbyService> services) {
-    final type = _typeForFilterIndex(_selectedFilterIndex);
-    final query = _query.trim().toLowerCase();
-    return services.where((s) {
-      final matchesType = type == null || s.type == type;
-      final matchesQuery =
-          query.isEmpty || s.name.toLowerCase().contains(query);
-      return matchesType && matchesQuery;
-    }).toList();
-  }
-
-  List<Marker> _buildMarkers(List<NearbyService> services) => services
-      .where((s) => s.latitude != null && s.longitude != null)
-      .map(
-        (s) => Marker(
-          point: LatLng(s.latitude!, s.longitude!),
-          width: 40.w,
-          height: 40.w,
-          child: Container(
-            decoration: BoxDecoration(
-              color: _colorForType(s.type),
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 2.w),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Icon(_iconForType(s.type), color: Colors.white, size: 20.sp),
-          ),
-        ),
-      )
-      .toList();
-
-  void _recenterOnIstanbul() {
-    _mapController.move(_kIstanbulCenter, 13.0);
-  }
-
-  void _showPointsList(List<NearbyService> services) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return SafeArea(
-          child: services.isEmpty
-              ? Padding(
-                  padding: EdgeInsets.all(24.w),
-                  child: Text(context.l10n.noResults),
-                )
-              : ListView(
-                  shrinkWrap: true,
-                  children: services
-                      .map(
-                        (s) => ListTile(
-                          leading: Icon(
-                            _iconForType(s.type),
-                            color: _colorForType(s.type),
-                          ),
-                          title: Text(s.name),
-                          subtitle: Text(s.address),
-                          onTap: () {
-                            Navigator.pop(context);
-                            if (s.latitude != null && s.longitude != null) {
-                              _mapController.move(
-                                LatLng(s.latitude!, s.longitude!),
-                                15.0,
-                              );
-                            }
-                          },
-                        ),
-                      )
-                      .toList(),
-                ),
-        );
-      },
-    );
-  }
+  final _controller = MapController();
+  late String _filter = const {'repair', 'recycle', 'sell'}.contains(widget.filter) ? widget.filter! : 'all';
+  NearbyService? _selected;
 
   @override
   Widget build(BuildContext context) {
-    final servicesAsync = ref.watch(servicesByTypeProvider(null));
-    final services = _filterServices(servicesAsync.valueOrNull ?? const []);
+    final t = context.tokens;
+    final l = context.l10n;
+    final dark = context.isDarkMode;
+    final fmt = Fmt(Localizations.localeOf(context).languageCode);
+    final here = ref.watch(userLocationProvider).valueOrNull;
+    final all = ref.watch(servicesByTypeProvider(null)).valueOrNull ?? const <NearbyService>[];
+    final services = _filter == 'all' ? all : all.where((s) => s.type == _filter).toList();
+    final filters = [('all', l.mapFilterAll, null), ('repair', l.mapFilterRepair, Symbols.build), ('recycle', l.mapFilterRecycle, Symbols.recycling), ('sell', l.mapFilterSell, Symbols.sell)];
+    final safeTop = MediaQuery.of(context).padding.top;
+    final navPad = MediaQuery.of(context).padding.bottom;
+
+    Color pin(String? type) => switch (type) {
+          'repair' => AppColors.repair,
+          'sell' => dark ? AppColors.copper300 : AppColors.sell,
+          _ => t.accent,
+        };
 
     return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
-      body: Stack(
-        children: [
-          // 1. Map Layer
-          FlutterMap(
-            mapController: _mapController,
-            options: const MapOptions(
-              initialCenter: _kIstanbulCenter,
-              initialZoom: 13.0,
+      backgroundColor: t.canvas,
+      body: Stack(children: [
+        Positioned.fill(
+          child: DecoratedBox(
+            decoration: BoxDecoration(color: dark ? const Color(0xFF141C1A) : const Color(0xFFF0F0F0)),
+            child: FlutterMap(
+              mapController: _controller,
+              options: MapOptions(initialCenter: _kIstanbul, initialZoom: 13, onTap: (_, __) => setState(() => _selected = null)),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.example.mobile_flutter',
+                  tileBuilder: (context, tile, _) => Opacity(opacity: 0.8, child: dark ? ColorFiltered(colorFilter: _darkMap, child: tile) : tile),
+                ),
+                MarkerLayer(markers: [
+                  for (final s in services.where((e) => e.latitude != null && e.longitude != null))
+                    Marker(
+                      point: LatLng(s.latitude!, s.longitude!),
+                      width: 32,
+                      height: 40,
+                      alignment: Alignment.topCenter,
+                      child: GestureDetector(
+                        onTap: () => setState(() => _selected = s),
+                        child: Stack(alignment: Alignment.topCenter, children: [
+                          Icon(Symbols.location_on, size: 32, color: pin(s.type), fill: 1, weight: 400),
+                          Positioned(top: 7, child: RsIcon(moduleOf(s.type).icon, size: 14, color: AppColors.onBrand)),
+                        ]),
+                      ),
+                    ),
+                ]),
+              ],
             ),
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.mobile_flutter',
-                // Always use standard OSM tiles (not affected by dark mode)
-              ),
-              MarkerLayer(markers: _buildMarkers(services)),
-            ],
           ),
-
-          // 2. Header and Filter Overlay
+        ),
+        Positioned(
+          top: safeTop + 24,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Container(
+              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 32),
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(color: t.raised, borderRadius: Rad.b12, border: Border.all(color: t.line), boxShadow: Shadows.sm),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  for (final f in filters) ...[
+                    _FilterPill(label: f.$2, icon: f.$3, active: _filter == f.$1, onTap: () => setState(() { _filter = f.$1; _selected = null; })),
+                    const SizedBox(width: 4),
+                  ],
+                ]),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          right: 24,
+          bottom: 24 + navPad,
+          child: RsPressable(
+            onTap: () {
+              if (here == null) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.mapNoPermission)));
+                return;
+              }
+              _controller.move(LatLng(here.latitude, here.longitude), 15);
+            },
+            child: Container(width: 56, height: 56, decoration: BoxDecoration(color: t.raised, borderRadius: Rad.b12, border: Border.all(color: t.line), boxShadow: Shadows.sm), alignment: Alignment.center, child: RsIcon(Symbols.my_location, color: t.fg)),
+          ),
+        ),
+        if (_selected != null)
           Positioned(
-            top: 0,
             left: 0,
             right: 0,
-            child: Container(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + 16.h,
-                bottom: 16.h,
-              ),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    context.theme.scaffoldBackgroundColor.withOpacity(0.9),
-                    context.theme.scaffoldBackgroundColor.withOpacity(0.0),
-                  ],
+            bottom: 24 + navPad,
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 448, minWidth: 0),
+                child: FractionallySizedBox(
+                  widthFactor: 0.92,
+                  child: RsCard(
+                    tone: RsTone.raised,
+                    radius: Rad.b8,
+                    stripe: switch (_selected!.type) { 'repair' => RsStripe.repair, 'sell' => RsStripe.sell, _ => RsStripe.accent },
+                    shadow: Shadows.sm,
+                    padding: const EdgeInsets.all(16),
+                    child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      RsIconBox(moduleOf(_selected!.type).icon, size: 48, color: moduleOf(_selected!.type).color(t)),
+                      const SizedBox(width: 16),
+                      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Text(_selected!.name, style: AppType.headingMd.copyWith(color: t.fg)),
+                        const SizedBox(height: 4),
+                        Text(_selected!.tags.isNotEmpty ? _selected!.tags : _selected!.address, style: AppType.bodyMd.copyWith(color: t.fg2)),
+                        const SizedBox(height: 8),
+                        Row(children: [
+                          Text(l.mapOpen, style: AppType.label.copyWith(color: t.accent)),
+                          () {
+                            final km = distanceKm(here, _selected!.latitude, _selected!.longitude);
+                            return km == null ? const SizedBox.shrink() : Text('  •  ${fmt.number(km, digits: 1)} ${l.commonUnitKm}', style: AppType.caption.copyWith(color: t.fg2));
+                          }(),
+                        ]),
+                      ])),
+                      GestureDetector(onTap: () => setState(() => _selected = null), child: Padding(padding: const EdgeInsets.all(8), child: RsIcon(Symbols.close, color: t.fgOutline))),
+                    ]),
+                  ),
                 ),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(width: 48.w),
-                      Expanded(
-                        child: _isSearching
-                            ? TextField(
-                                controller: _searchController,
-                                autofocus: true,
-                                textAlign: TextAlign.center,
-                                style: context.textTheme.titleMedium?.copyWith(
-                                  color: context.theme.colorScheme.onSurface,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: context.l10n.searchHint,
-                                  border: InputBorder.none,
-                                ),
-                                onChanged: (value) =>
-                                    setState(() => _query = value),
-                              )
-                            : Text(
-                                context.l10n.mapTitle,
-                                textAlign: TextAlign.center,
-                                style: context.textTheme.titleLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: context.theme.colorScheme.onSurface,
-                                ),
-                              ),
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          _isSearching ? LucideIcons.x : LucideIcons.search,
-                          color: context.theme.iconTheme.color,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            if (_isSearching) {
-                              _searchController.clear();
-                              _query = '';
-                            }
-                            _isSearching = !_isSearching;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16.h),
-                  MapFilterBar(
-                    initialIndex: _selectedFilterIndex,
-                    onFilterChanged: (index) =>
-                        setState(() => _selectedFilterIndex = index),
-                  ),
-                ],
               ),
             ),
           ),
+      ]),
+    );
+  }
+}
 
-          // 3. Floating "List" Button at Bottom Left
-          Positioned(
-            bottom: 32.h,
-            left: 24.w,
-            child: GestureDetector(
-              onTap: () => _showPointsList(services),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-                decoration: BoxDecoration(
-                  color: context.theme.colorScheme.surface,
-                  borderRadius: BorderRadius.circular(30.r),
-                  border: Border.all(
-                    color: context.theme.dividerColor.withOpacity(0.1),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      LucideIcons.list,
-                      color: context.theme.iconTheme.color,
-                      size: 20.sp,
-                    ),
-                    SizedBox(width: 8.w),
-                    Text(
-                      context.l10n.listButton,
-                      style: TextStyle(
-                        color: context.theme.colorScheme.onSurface,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          // 4. Floating Location Button at Bottom Right
-          Positioned(
-            bottom: 32.h,
-            right: 24.w,
-            child: FloatingActionButton(
-              onPressed: _recenterOnIstanbul,
-              backgroundColor: context.theme.colorScheme.surface,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-              child: Icon(LucideIcons.compass, color: AppColors.primary),
-            ),
-          ),
-        ],
+class _FilterPill extends StatelessWidget {
+  final String label;
+  final IconData? icon;
+  final bool active;
+  final VoidCallback onTap;
+  const _FilterPill({required this.label, this.icon, required this.active, required this.onTap});
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    return RsPressable(
+      scale: 0.97,
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(color: active ? t.accent : Colors.transparent, borderRadius: Rad.b12),
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+          if (icon != null) ...[RsIcon(icon!, size: 16, color: active ? t.onAccent : t.fg2), const SizedBox(width: 4)],
+          Text(label, style: AppType.label.copyWith(color: active ? t.onAccent : t.fg2)),
+        ]),
       ),
     );
   }

@@ -1,287 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mobile_flutter/app/router/app_routes.dart';
 import 'package:mobile_flutter/core/localization/localization_provider.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/core/platform/adaptive.dart';
+import 'package:mobile_flutter/core/theme/app_spacing.dart';
+import 'package:mobile_flutter/core/theme/app_typography.dart';
 import 'package:mobile_flutter/core/theme/theme_provider.dart';
 import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
+import 'package:mobile_flutter/shared/design_system/rs_bars.dart';
+import 'package:mobile_flutter/shared/design_system/rs_core.dart';
+import 'package:mobile_flutter/shared/design_system/rs_parts.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
-import 'package:mobile_flutter/shared/extensions/padding_extensions.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
+final _versionProvider = FutureProvider<String>((ref) async => 'v${(await PackageInfo.fromPlatform()).version}');
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeProvider);
+    final t = context.tokens;
+    final l = context.l10n;
+    final mode = ref.watch(themeProvider);
     final locale = ref.watch(localeProvider);
+    final version = ref.watch(_versionProvider).valueOrNull ?? '';
+    final soon = SnackBar(content: Text(l.commonComingSoon));
+
+    Widget section(String title, Widget group) => Padding(
+          padding: const EdgeInsets.only(bottom: 32),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Padding(padding: const EdgeInsets.only(left: 8, bottom: 12), child: Text(title, style: AppType.label.copyWith(color: t.fg3))),
+            group,
+          ]),
+        );
 
     return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: Text(
-          context.l10n.settingsTitle,
-          style: context.textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+      backgroundColor: t.canvas,
+      appBar: const RsBrandBar(),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 448),
+          child: ListView(padding: const EdgeInsets.fromLTRB(24, 24, 24, 24), children: [
+            Padding(padding: const EdgeInsets.only(bottom: 24), child: Text(l.setTitle, style: AppType.displayLgMobile.copyWith(color: t.fg))),
+            section(l.setAppearance, RsGroup(children: [
+              RsRow(icon: Symbols.palette, title: l.setTheme, chevron: false, trailing: RsSegmented(
+                labels: [l.setLight, l.setDark, l.setSystem],
+                selected: mode == ThemeMode.light ? 0 : (mode == ThemeMode.dark ? 1 : 2),
+                onChanged: (i) => ref.read(themeProvider.notifier).setTheme([ThemeMode.light, ThemeMode.dark, ThemeMode.system][i]),
+              )),
+              RsRow(icon: Symbols.language, title: l.setLanguage, trailing: Text(locale.languageCode == 'tr' ? 'Türkçe' : 'English', style: AppType.bodyMd.copyWith(color: t.fg2)), onTap: () async {
+                final i = await Adaptive.showActionSheet(context: context, title: l.setLanguage, actions: const ['Türkçe', 'English'], cancelLabel: l.commonRetry);
+                if (i != null) await ref.read(localeProvider.notifier).setLocale(Locale(i == 0 ? 'tr' : 'en'));
+              }),
+            ])),
+            section(l.setAccount, RsGroup(children: [
+              RsRow(icon: Symbols.person, title: l.setProfile, onTap: () => context.go(Routes.profile)),
+              RsRow(icon: Symbols.key, title: l.setPassword, onTap: () => ScaffoldMessenger.of(context).showSnackBar(soon)),
+              RsRow(icon: Symbols.notifications_active, title: l.setNotifs, onTap: () => context.go(Routes.notifications)),
+            ])),
+            section(l.setSecurity, RsGroup(children: [
+              RsRow(icon: Symbols.shield_lock, title: l.setSession, chevron: false, trailing: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(color: t.accentStrong.withValues(alpha: 0.1), borderRadius: Rad.b6, border: Border.all(color: t.accentStrong.withValues(alpha: 0.2))),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [RsIcon(Symbols.check_circle, size: 14, color: t.accent, filled: true), const SizedBox(width: 4), Text(l.setActive, style: AppType.label.copyWith(color: t.accent))]),
+              )),
+            ])),
+            section(l.setAbout, RsGroup(children: [
+              RsRow(icon: Symbols.description, title: l.setTerms, onTap: () => ScaffoldMessenger.of(context).showSnackBar(soon)),
+              RsRow(icon: Symbols.policy, title: l.setPrivacy, onTap: () => ScaffoldMessenger.of(context).showSnackBar(soon)),
+              RsRow(icon: Symbols.info, title: l.setVersion, chevron: false, trailing: Text(version, style: AppType.label.copyWith(color: t.fg2))),
+            ])),
+            RsButton(l.setLogout, icon: Symbols.logout, variant: RsButtonVariant.dangerOutline, textStyle: AppType.headingMd, padding: const EdgeInsets.symmetric(vertical: 16), onPressed: () => ref.read(authViewModelProvider.notifier).logout()),
+            const SizedBox(height: 32),
+          ]),
         ),
-        leading: IconButton(
-          icon: Icon(
-            LucideIcons.arrowLeft,
-            color: context.theme.iconTheme.color,
-          ),
-          onPressed: () => context.pop(),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: 24.allP,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSectionHeader(
-              context,
-              context.l10n.settingsAppearanceLanguage,
-            ),
-            SizedBox(height: 16.h),
-
-            // Theme Setting
-            _buildThemeTile(context, ref, themeMode),
-
-            SizedBox(height: 16.h),
-
-            // Language Setting
-            _buildSettingsTile(
-              context,
-              icon: LucideIcons.languages,
-              title: context.l10n.languageTitle,
-              subtitle: locale.languageCode == 'tr' ? 'Türkçe' : 'English',
-              trailing: Switch(
-                value: locale.languageCode == 'en',
-                activeThumbColor: context.colorScheme.primary,
-                onChanged: (value) {
-                  ref.read(localeProvider.notifier).toggleLocale();
-                },
-              ),
-            ),
-
-            SizedBox(height: 24.h),
-            _buildSectionHeader(context, context.l10n.settingsAccount),
-            SizedBox(height: 16.h),
-
-            GestureDetector(
-              onTap: () => context.push(Routes.contact),
-              child: _buildSettingsTile(
-                context,
-                icon: LucideIcons.mail,
-                title: context.l10n.contactTitle,
-                subtitle: '',
-                trailing: Icon(
-                  LucideIcons.chevronRight,
-                  color: context.isDarkMode
-                      ? AppColors.textSecondaryDark
-                      : AppColors.textSecondaryLight,
-                  size: 18.sp,
-                ),
-              ),
-            ),
-            SizedBox(height: 16.h),
-
-            GestureDetector(
-              onTap: () => _confirmLogout(context, ref),
-              child: _buildSettingsTile(
-                context,
-                icon: LucideIcons.logOut,
-                title: context.l10n.logout,
-                subtitle: '',
-                trailing: Icon(
-                  LucideIcons.chevronRight,
-                  color: context.isDarkMode
-                      ? AppColors.textSecondaryDark
-                      : AppColors.textSecondaryLight,
-                  size: 18.sp,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _confirmLogout(BuildContext context, WidgetRef ref) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(context.l10n.logoutConfirmTitle),
-        content: Text(context.l10n.logoutConfirmMessage),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: Text(context.l10n.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text(context.l10n.logout),
-          ),
-        ],
-      ),
-    );
-    if (confirmed == true) {
-      await ref.read(authViewModelProvider.notifier).logout();
-    }
-  }
-
-  Widget _buildThemeTile(
-    BuildContext context,
-    WidgetRef ref,
-    ThemeMode themeMode,
-  ) {
-    return Container(
-      padding: 16.allP,
-      decoration: BoxDecoration(
-        color: context.theme.cardColor,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: context.theme.dividerColor.withOpacity(0.1)),
-        boxShadow: context.isDarkMode
-            ? []
-            : [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: 10.allP,
-                decoration: BoxDecoration(
-                  color: context.colorScheme.primary.withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  LucideIcons.moon,
-                  color: context.colorScheme.primary,
-                  size: 20.sp,
-                ),
-              ),
-              SizedBox(width: 16.w),
-              Text(
-                context.l10n.themeTitle,
-                style: context.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 12.h),
-          SizedBox(
-            width: double.infinity,
-            child: SegmentedButton<ThemeMode>(
-              segments: [
-                ButtonSegment(
-                  value: ThemeMode.light,
-                  icon: Icon(LucideIcons.sun, size: 16.sp),
-                  label: Text(context.l10n.themeLight),
-                ),
-                ButtonSegment(
-                  value: ThemeMode.dark,
-                  icon: Icon(LucideIcons.moon, size: 16.sp),
-                  label: Text(context.l10n.themeDark),
-                ),
-                ButtonSegment(
-                  value: ThemeMode.system,
-                  icon: Icon(LucideIcons.smartphone, size: 16.sp),
-                  label: Text(context.l10n.themeSystem),
-                ),
-              ],
-              selected: {themeMode},
-              showSelectedIcon: false,
-              onSelectionChanged: (Set<ThemeMode> selection) {
-                ref.read(themeProvider.notifier).setTheme(selection.first);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader(BuildContext context, String title) {
-    return Text(
-      title,
-      style: context.textTheme.titleMedium?.copyWith(
-        color: context.colorScheme.primary,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  }
-
-  Widget _buildSettingsTile(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required Widget trailing,
-  }) {
-    return Container(
-      padding: 16.allP,
-      decoration: BoxDecoration(
-        color: context.theme.cardColor, // Uses correct surface color from theme
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: context.theme.dividerColor.withOpacity(0.1)),
-        boxShadow: context.isDarkMode
-            ? []
-            : [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: 10.allP,
-            decoration: BoxDecoration(
-              color: context.colorScheme.primary.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: context.colorScheme.primary, size: 20.sp),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: context.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  subtitle,
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    color: context.isDarkMode
-                        ? AppColors.textSecondaryDark
-                        : AppColors.textSecondaryLight,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          trailing,
-        ],
       ),
     );
   }

@@ -6,6 +6,7 @@ part 'listing.g.dart';
 @freezed
 abstract class Listing with _$Listing {
   const factory Listing({
+    String? id,
     required String title,
     @Default('') String subtitle,
     @Default(0.0) double price,

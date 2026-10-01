@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:go_router/go_router.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:mobile_flutter/app/router/app_routes.dart';
+import 'package:mobile_flutter/core/theme/app_spacing.dart';
+import 'package:mobile_flutter/core/theme/app_typography.dart';
+import 'package:mobile_flutter/core/utils/format.dart';
+import 'package:mobile_flutter/core/utils/recycle_points.dart';
+import 'package:mobile_flutter/features/recycle/presentation/viewmodel/recycle_state.dart';
 import 'package:mobile_flutter/features/recycle/presentation/viewmodel/recycle_view_model.dart';
+import 'package:mobile_flutter/shared/design_system/rs_core.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
 
 class RecycleSuccessScreen extends ConsumerWidget {
@@ -11,151 +17,57 @@ class RecycleSuccessScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final recycleState = ref.watch(recycleViewModelProvider);
-    final points = recycleState.resultTotalPoints ?? 0;
-    final commission = recycleState.resultCommissionTl ?? 0.0;
+    final t = context.tokens;
+    final l = context.l10n;
+    final fmt = Fmt(Localizations.localeOf(context).languageCode);
+    final s = ref.watch(recycleViewModelProvider);
+    final points = s.resultTotalPoints ?? estimateRecyclePoints(weightKg: s.weightKg, isElectric: s.selectedMode == TransportMode.electric).total;
+    final co2 = co2ForWeight(s.weightKg);
 
     return Scaffold(
-      backgroundColor: context.isDarkMode
-          ? AppColors.backgroundDark
-          : AppColors.backgroundLight,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            LucideIcons.arrowLeft,
-            color: context.isDarkMode
-                ? AppColors.textSecondaryDark
-                : AppColors.textSecondaryLight,
-          ),
-          onPressed: () =>
-              Navigator.popUntil(context, (route) => route.isFirst),
-        ),
-        title: Text(
-          'Dönüştür',
-          style: TextStyle(
-            color: context.isDarkMode
-                ? AppColors.textPrimaryDark
-                : AppColors.textPrimaryLight,
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(24.w),
-        child: Column(
-          children: [
-            SizedBox(height: 40.h),
-            Container(
-              padding: EdgeInsets.all(32.w),
-              decoration: BoxDecoration(
-                color: const Color(0xFF10B981).withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                LucideIcons.check,
-                color: const Color(0xFF10B981),
-                size: 48.sp,
-              ),
-            ),
-            SizedBox(height: 24.h),
-            Text(
-              'Tebrikler!',
-              style: TextStyle(
-                color: context.isDarkMode
-                    ? AppColors.textPrimaryDark
-                    : AppColors.textPrimaryLight,
-                fontSize: 24.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 12.h),
-            Text(
-              '$points puan kazandın ve çevreye\nkatkıda bulundun.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: context.isDarkMode
-                    ? AppColors.textSecondaryDark
-                    : AppColors.textSecondaryLight,
-                fontSize: 16.sp,
-                height: 1.5,
-              ),
-            ),
-            SizedBox(height: 32.h),
-
-            // Impact Card
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(24.w),
-              decoration: BoxDecoration(
-                color: const Color(0xFF064E3B), // Dark Green
-                borderRadius: BorderRadius.circular(16.r),
-                border: Border.all(
-                  color: const Color(0xFF10B981).withOpacity(0.3),
+      backgroundColor: t.canvas,
+      body: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 512),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 48, 24, 24),
+              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(width: 96, height: 96, decoration: BoxDecoration(color: t.accentContainer, borderRadius: Rad.b12, border: Border.all(color: t.accent)), alignment: Alignment.center, child: RsIcon(Symbols.check_circle, size: 48, color: t.accent, filled: true)),
+                const SizedBox(height: 32),
+                Text(l.doneTitle, textAlign: TextAlign.center, style: AppType.displayLgMobile.copyWith(color: t.fg)),
+                const SizedBox(height: 32),
+                RsCard(
+                  tone: RsTone.raised,
+                  stripe: RsStripe.accent,
+                  padding: const EdgeInsets.all(24),
+                  child: SizedBox(width: double.infinity, child: Column(children: [
+                    Text(l.doneEarned, style: AppType.label.copyWith(color: t.fg2, letterSpacing: 1.2)),
+                    const SizedBox(height: 12),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic, children: [
+                      Text('+${fmt.number(points)}', style: AppType.dataXl.copyWith(color: t.accent)),
+                      const SizedBox(width: 8),
+                      Text(l.commonPoints.toUpperCase(), style: AppType.label.copyWith(color: t.accent)),
+                    ]),
+                    const SizedBox(height: 12),
+                    Divider(height: 24, color: t.line),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [RsIcon(Symbols.co2, size: 20, color: t.fg2), const SizedBox(width: 8), Flexible(child: Text(l.doneCo2(fmt.number(co2, digits: 2)), style: AppType.bodyMd.copyWith(color: t.fg2)))]),
+                  ])),
                 ),
-              ),
-              child: Column(
-                children: [
-                  Icon(
-                    LucideIcons.droplets,
-                    color: const Color(0xFF34D399),
-                    size: 32.sp,
-                  ),
-                  SizedBox(height: 12.h),
-                  Text(
-                    '$points Puan',
-                    style: TextStyle(
-                      color: Colors.white, // On dark-green impact card fill
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Text(
-                    commission > 0
-                        ? '₺${commission.toStringAsFixed(2)} komisyon kazandın!'
-                        : 'Çevreye katkınız için teşekkürler!',
-                    style: TextStyle(
-                      color: const Color(0xFF34D399),
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const Spacer(),
-
-            // Buttons
-            SizedBox(
-              width: double.infinity,
-              child: TextButton(
-                onPressed: () {
+                const SizedBox(height: 32),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(color: t.strong, borderRadius: Rad.b12, border: Border.all(color: t.lineStrong)),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [RsIcon(Symbols.workspace_premium, size: 16, color: t.accentStrong), const SizedBox(width: 8), Text(l.doneCert, style: AppType.label.copyWith(color: t.fg))]),
+                ),
+                const Spacer(),
+                RsButton(l.doneHome, height: 48, padding: EdgeInsets.zero, textStyle: AppType.label.copyWith(letterSpacing: 2), onPressed: () {
                   ref.read(recycleViewModelProvider.notifier).reset();
-                  Navigator.popUntil(context, (route) => route.isFirst);
-                },
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16.h),
-                  backgroundColor: const Color(0xFF1F2937),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                ),
-                child: Text(
-                  'Ana Sayfaya Dön',
-                  style: TextStyle(
-                    color: Colors.white, // On solid dark surface button fill
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+                  context.go(Routes.home);
+                }),
+              ]),
             ),
-            SizedBox(height: 24.h),
-          ],
+          ),
         ),
       ),
     );

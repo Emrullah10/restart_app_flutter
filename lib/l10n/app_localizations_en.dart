@@ -131,7 +131,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deviceOtherSub => 'Printer, Monitor, etc.';
 
   @override
-  String get discoverTitle => 'Discover Page (Coming Soon)';
+  String get discoverTitle => 'Discover';
 
   @override
   String get notificationsTitle => 'Notifications';
@@ -201,7 +201,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get messageSentSuccess => 'Your message has been sent successfully!';
 
   @override
-  String get repairTitle => 'Repair';
+  String get repairTitle => 'Repair Service';
 
   @override
   String get whatDeviceToRepair => 'Which device do you want to repair?';
@@ -293,10 +293,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapFilterRepair => 'Repair';
 
   @override
-  String get mapFilterSell => 'Sell';
+  String get mapFilterSell => 'Sales';
 
   @override
-  String get mapFilterRecycle => 'Recycle';
+  String get mapFilterRecycle => 'Recycling';
 
   @override
   String get sustainabilityLevelTitle => 'My Sustainability Level';
@@ -643,4 +643,825 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get createListingButton => 'Create Listing';
+
+  @override
+  String get brandName => 'ReStart';
+
+  @override
+  String get navHomeLabel => 'Home';
+
+  @override
+  String get navMapLabel => 'Map';
+
+  @override
+  String get navRecycleLabel => 'Recycle';
+
+  @override
+  String get navSellLabel => 'Sell';
+
+  @override
+  String get navRewardsLabel => 'Rewards';
+
+  @override
+  String get commonLoading => 'Loading…';
+
+  @override
+  String get commonRetry => 'Try again';
+
+  @override
+  String get commonError => 'Something went wrong.';
+
+  @override
+  String get commonComingSoon => 'Coming soon';
+
+  @override
+  String get commonAll => 'See all';
+
+  @override
+  String get commonUnitKg => 'kg';
+
+  @override
+  String get commonUnitKm => 'km';
+
+  @override
+  String get commonPoints => 'Points';
+
+  @override
+  String get commonPointsLower => 'points';
+
+  @override
+  String get commonPieces => 'pcs';
+
+  @override
+  String get passwordStrengthIdle => 'Password strength';
+
+  @override
+  String get passwordWeak => 'Weak';
+
+  @override
+  String get passwordFair => 'Fair';
+
+  @override
+  String get passwordGood => 'Good';
+
+  @override
+  String get passwordStrong => 'Strong';
+
+  @override
+  String get levelNew => 'New';
+
+  @override
+  String get levelCurious => 'Curious';
+
+  @override
+  String get levelAware => 'Aware';
+
+  @override
+  String get levelConscious => 'Conscious';
+
+  @override
+  String get levelPioneer => 'Pioneer';
+
+  @override
+  String get levelChampion => 'Champion';
+
+  @override
+  String get tierBronze => 'Bronze';
+
+  @override
+  String get tierSilver => 'Silver';
+
+  @override
+  String get tierGold => 'Gold';
+
+  @override
+  String get loginTitle => 'Welcome back';
+
+  @override
+  String get loginSub => 'Please sign in to continue.';
+
+  @override
+  String get loginEmailLabel => 'EMAIL';
+
+  @override
+  String get loginPasswordLabel => 'PASSWORD';
+
+  @override
+  String get loginEmailPh => 'name@email.com';
+
+  @override
+  String get loginForgot => 'Forgot password';
+
+  @override
+  String get loginAction => 'SIGN IN';
+
+  @override
+  String get loginNoAccount => 'Don\'t have an account?';
+
+  @override
+  String get loginRegister => 'Sign Up';
+
+  @override
+  String get authFillAll => 'Please fill in all fields.';
+
+  @override
+  String get authMismatch => 'Passwords do not match.';
+
+  @override
+  String get authTermsRequired => 'You must accept the terms to continue.';
+
+  @override
+  String get regTitle => 'Create an account';
+
+  @override
+  String get regSub => 'Join the ReStart community.';
+
+  @override
+  String get regName => 'FULL NAME';
+
+  @override
+  String get regNamePh => 'e.g. Jane Smith';
+
+  @override
+  String get regEmail => 'EMAIL';
+
+  @override
+  String get regPassword => 'PASSWORD';
+
+  @override
+  String get regPasswordPh => 'At least 8 characters';
+
+  @override
+  String get regConfirm => 'CONFIRM PASSWORD';
+
+  @override
+  String get regConfirmPh => 'Repeat your password';
+
+  @override
+  String get regTermsPre => 'Terms of Use';
+
+  @override
+  String get regTermsMid => ' and ';
+
+  @override
+  String get regTermsPost => ' — I accept them.';
+
+  @override
+  String get regPrivacy => 'Privacy Policy';
+
+  @override
+  String get regAction => 'Sign Up';
+
+  @override
+  String get regHave => 'Already have an account?';
+
+  @override
+  String get regLogin => 'Sign in';
+
+  @override
+  String homeGreeting(String name) {
+    return 'Hello $name';
+  }
+
+  @override
+  String get homeSub => 'Your current environmental impact and activity.';
+
+  @override
+  String get homeImpact => 'ENVIRONMENTAL IMPACT';
+
+  @override
+  String get homeCo2 => 'CO₂ Saved';
+
+  @override
+  String get homeRepair => 'Repair';
+
+  @override
+  String get homeSell => 'Sell';
+
+  @override
+  String get homeRecycle => 'Recycle';
+
+  @override
+  String get homePoints => 'Points Earned';
+
+  @override
+  String get homeListings => 'Active Listings';
+
+  @override
+  String get homeRecent => 'Recent Activity';
+
+  @override
+  String get homeNoActivity => 'No activity yet.';
+
+  @override
+  String get menuTitle => 'Menu';
+
+  @override
+  String get menuProfile => 'Profile';
+
+  @override
+  String get menuDiscover => 'Discover';
+
+  @override
+  String get menuRepair => 'Repair';
+
+  @override
+  String get menuNotifications => 'Notifications';
+
+  @override
+  String get menuSettings => 'Settings';
+
+  @override
+  String get menuContact => 'Contact';
+
+  @override
+  String get discoverSearch => 'Search devices, categories or spots...';
+
+  @override
+  String get discoverCategories => 'CATEGORIES';
+
+  @override
+  String get discoverPhone => 'Phone';
+
+  @override
+  String get discoverLaptop => 'Computer';
+
+  @override
+  String get discoverTablet => 'Tablet';
+
+  @override
+  String get discoverOther => 'Other';
+
+  @override
+  String get discoverFeatured => 'FEATURED';
+
+  @override
+  String get discoverNearby => 'NEARBY SPOTS';
+
+  @override
+  String get discoverPromo1Tag => 'Repair Campaign';
+
+  @override
+  String get discoverPromo1Title => 'Screen Replacement';
+
+  @override
+  String get discoverPromo1Sub => 'Up to 20% recycling discount';
+
+  @override
+  String get discoverPromo2Tag => 'Sales Opportunity';
+
+  @override
+  String get discoverPromo2Title => 'Sell Your Old Device';
+
+  @override
+  String get discoverPromo2Sub => 'Instant valuation and cash payment';
+
+  @override
+  String get discoverPromo3Title => 'Recycling Report';
+
+  @override
+  String get discoverPromo3Sub => 'See your monthly environmental impact';
+
+  @override
+  String get mapOpen => 'Open';
+
+  @override
+  String get mapClosed => 'Closed';
+
+  @override
+  String get mapLocate => 'My location';
+
+  @override
+  String get mapNoPermission => 'Location permission not granted.';
+
+  @override
+  String get marketTitle => 'Marketplace';
+
+  @override
+  String get marketSafeTitle => 'Safe Selling System';
+
+  @override
+  String get marketSafeBody =>
+      'Every sale made through ReStart is covered by 100% buyer protection. Your payment is released once the item reaches the buyer.';
+
+  @override
+  String get marketMore => 'LEARN MORE';
+
+  @override
+  String get marketSearch => 'Search second-hand items...';
+
+  @override
+  String get marketActive => 'ACTIVE LISTINGS';
+
+  @override
+  String get marketPending => 'PENDING SALES';
+
+  @override
+  String get marketOps => 'orders';
+
+  @override
+  String get marketForYou => 'Picked for you';
+
+  @override
+  String get marketEmpty => 'No products found in this category';
+
+  @override
+  String get catAll => 'All';
+
+  @override
+  String get catLaptop => 'Computer';
+
+  @override
+  String get catAccessory => 'Accessory';
+
+  @override
+  String get listingTitle => 'Create Listing';
+
+  @override
+  String listingPhotos(String count) {
+    return 'PHOTOS ($count/5)';
+  }
+
+  @override
+  String get listingCover => 'Cover';
+
+  @override
+  String get listingPhotoHint => 'Clear, bright photos help it sell faster.';
+
+  @override
+  String get listingTitleLabel => 'LISTING TITLE';
+
+  @override
+  String get listingTitlePh => 'e.g. Working second-hand washing machine';
+
+  @override
+  String get listingCategory => 'CATEGORY';
+
+  @override
+  String get listingCategoryPh => 'Select a category';
+
+  @override
+  String get listingDescription => 'DESCRIPTION';
+
+  @override
+  String get listingDescriptionPh =>
+      'Describe the condition, defects and technical specs.';
+
+  @override
+  String get listingPrice => 'PRICE (TRY)';
+
+  @override
+  String get listingLocation => 'LOCATION';
+
+  @override
+  String get listingLocationPh => 'City, District';
+
+  @override
+  String get listingTipsTitle => 'Safe Selling Tips';
+
+  @override
+  String get listingTipsBody =>
+      'Avoid sharing personal information and prefer to hand over items in safe, public places.';
+
+  @override
+  String get listingPublish => 'Publish Listing';
+
+  @override
+  String get listingSuccess => 'Your listing is live!';
+
+  @override
+  String get listingFailed =>
+      'Could not publish the listing. Please try again.';
+
+  @override
+  String get listingCamera => 'Camera';
+
+  @override
+  String get listingGallery => 'Gallery';
+
+  @override
+  String get listingPhotoTitle => 'Add photo';
+
+  @override
+  String get repairSub =>
+      'Bring your device back to life and cut your carbon footprint.';
+
+  @override
+  String get repairEcoTitle => 'Repair is the greenest option';
+
+  @override
+  String get repairEcoBody =>
+      'Repairing an existing device instead of manufacturing a new one prevents about 80% of the e-waste and carbon emissions of an average smartphone.';
+
+  @override
+  String get repairServices => 'SELECT A SERVICE';
+
+  @override
+  String get repairScreen => 'Screen & Glass';
+
+  @override
+  String get repairScreenSub => 'Original or A-grade';
+
+  @override
+  String get repairBattery => 'Battery';
+
+  @override
+  String get repairBatterySub => 'Warranted replacement';
+
+  @override
+  String get repairBoard => 'Motherboard Repair';
+
+  @override
+  String get repairBoardSub => 'Micro-soldering and chip replacement.';
+
+  @override
+  String get repairNearby => 'NEARBY SERVICES';
+
+  @override
+  String recStep(String n) {
+    return 'STEP $n OF 3';
+  }
+
+  @override
+  String get recStepDevice => 'Device Selection';
+
+  @override
+  String get recQuestion => 'Which device are you recycling?';
+
+  @override
+  String get recQuestionSub =>
+      'The device type you choose helps us find suitable recycling facilities.';
+
+  @override
+  String get recPhone => 'Phone';
+
+  @override
+  String get recPhoneSub => 'Smartphones, feature phones';
+
+  @override
+  String get recLaptop => 'Laptop';
+
+  @override
+  String get recLaptopSub => 'Laptops, netbooks';
+
+  @override
+  String get recTablet => 'Tablet';
+
+  @override
+  String get recTabletSub => 'Tablet computers, e-readers';
+
+  @override
+  String get recOther => 'Other';
+
+  @override
+  String get recOtherSub => 'Accessories, small appliances';
+
+  @override
+  String get recContinue => 'Continue';
+
+  @override
+  String get recDetailsTitle => 'Device Details';
+
+  @override
+  String get recDetailsSub =>
+      'Please enter accurate information for the valuation.';
+
+  @override
+  String get recStepCategory => 'Category';
+
+  @override
+  String get recStepDetails => 'Details';
+
+  @override
+  String get recStepConfirm => 'Confirm';
+
+  @override
+  String get recBrand => 'Brand';
+
+  @override
+  String get recBrandPh => 'e.g. Apple, Samsung...';
+
+  @override
+  String get recModel => 'Model / Year';
+
+  @override
+  String get recModelPh => 'e.g. iPhone 12, 2021';
+
+  @override
+  String get recCondition => 'Device Condition';
+
+  @override
+  String get recWorking => 'Working';
+
+  @override
+  String get recWorkingSub => 'All functions active.';
+
+  @override
+  String get recDamaged => 'Slightly Damaged';
+
+  @override
+  String get recDamagedSub => 'Scratches or minor defects.';
+
+  @override
+  String get recBroken => 'Not Working';
+
+  @override
+  String get recBrokenSub => 'Won\'t turn on or badly damaged.';
+
+  @override
+  String get recWeight => 'Estimated Weight (kg)';
+
+  @override
+  String get recDelivery => 'Delivery Method';
+
+  @override
+  String get recDropoff => 'Drop Off';
+
+  @override
+  String get recCourier => 'Call Courier';
+
+  @override
+  String get recCenter => 'Nearest Facility';
+
+  @override
+  String get recCenterPh => 'Select a facility';
+
+  @override
+  String get recEstimate => 'ESTIMATED GAIN';
+
+  @override
+  String recCourierBonus(String bonus) {
+    return 'With electric courier +$bonus';
+  }
+
+  @override
+  String get recSubmit => 'Create Request';
+
+  @override
+  String get recFailed => 'Could not send the request. Please try again.';
+
+  @override
+  String get recPickCenter => 'Please choose a recycling facility.';
+
+  @override
+  String get courierTitle => 'Choose a Courier';
+
+  @override
+  String get courierSub => 'Pick the right vehicle for your items.';
+
+  @override
+  String get courierElectric => 'ELECTRIC';
+
+  @override
+  String get courierZero => 'Zero-Emission Delivery';
+
+  @override
+  String get courierSelect => 'Select';
+
+  @override
+  String get courierCargo => 'Cargo Vehicle';
+
+  @override
+  String get courierHeavy => 'Heavy Load';
+
+  @override
+  String courierEta(String min) {
+    return '~$min min';
+  }
+
+  @override
+  String get doneTitle => 'Request received';
+
+  @override
+  String get doneEarned => 'REWARD EARNED';
+
+  @override
+  String doneCo2(String kg) {
+    return 'You saved $kg kg of CO₂';
+  }
+
+  @override
+  String get doneCert => 'Zero Waste Certified';
+
+  @override
+  String get doneHome => 'BACK TO HOME';
+
+  @override
+  String get rewTitle => 'Your Impact';
+
+  @override
+  String get rewSub =>
+      'Track your environmental contribution and claim rewards.';
+
+  @override
+  String get rewHistory => 'Claim History';
+
+  @override
+  String get rewBalance => 'AVAILABLE ECO-POINTS';
+
+  @override
+  String get rewRecycled => 'Recycled';
+
+  @override
+  String get rewRepaired => 'Repaired';
+
+  @override
+  String get rewSold => 'Sold';
+
+  @override
+  String get rewTier => 'Tier';
+
+  @override
+  String get rewTop => 'TOP CONTRIBUTORS';
+
+  @override
+  String get rewYou => 'You';
+
+  @override
+  String get rewAchievements => 'Achievements';
+
+  @override
+  String get rewCatalog => 'Reward Catalog';
+
+  @override
+  String get rewUse => 'Redeem';
+
+  @override
+  String get rewNone => 'No rewards available right now';
+
+  @override
+  String get rewDigital => 'Digital';
+
+  @override
+  String get rewTransit => 'Transit';
+
+  @override
+  String get rewService => 'Service';
+
+  @override
+  String get rewEco => 'Nature';
+
+  @override
+  String get rewRedeemed => 'Reward redeemed';
+
+  @override
+  String get rewFailed => 'Could not redeem the reward';
+
+  @override
+  String get profVerified => 'Verified Member';
+
+  @override
+  String get profTotal => 'TOTAL ACTIONS';
+
+  @override
+  String get profCo2 => 'CO₂ SAVED (KG)';
+
+  @override
+  String get profSold => 'ITEMS SOLD';
+
+  @override
+  String get profRepaired => 'ITEMS REPAIRED';
+
+  @override
+  String get profImpact => 'Impact Report';
+
+  @override
+  String profOps(String n) {
+    return '$n actions';
+  }
+
+  @override
+  String get profRecent => 'Recent Transactions';
+
+  @override
+  String profPointsGain(String n) {
+    return '+$n Points';
+  }
+
+  @override
+  String get notifTitle => 'Notifications';
+
+  @override
+  String get notifMarkAll => 'MARK ALL AS READ';
+
+  @override
+  String get notifToday => 'TODAY';
+
+  @override
+  String get notifYesterday => 'YESTERDAY';
+
+  @override
+  String get notifOlder => 'EARLIER';
+
+  @override
+  String get notifEmpty => 'No notifications yet';
+
+  @override
+  String get notifEmptySub => 'New activity will show up here.';
+
+  @override
+  String get setTitle => 'Settings';
+
+  @override
+  String get setAppearance => 'APPEARANCE';
+
+  @override
+  String get setTheme => 'Theme';
+
+  @override
+  String get setLight => 'Light';
+
+  @override
+  String get setDark => 'Dark';
+
+  @override
+  String get setSystem => 'System';
+
+  @override
+  String get setLanguage => 'Language';
+
+  @override
+  String get setAccount => 'ACCOUNT';
+
+  @override
+  String get setProfile => 'Profile';
+
+  @override
+  String get setPassword => 'Password';
+
+  @override
+  String get setNotifs => 'Notifications';
+
+  @override
+  String get setSecurity => 'SECURITY';
+
+  @override
+  String get setSession => 'Session Security';
+
+  @override
+  String get setActive => 'Active';
+
+  @override
+  String get setAbout => 'ABOUT';
+
+  @override
+  String get setTerms => 'Terms';
+
+  @override
+  String get setPrivacy => 'Privacy';
+
+  @override
+  String get setVersion => 'Version';
+
+  @override
+  String get setLogout => 'Sign Out';
+
+  @override
+  String get contactHeadline => 'How can we help you?';
+
+  @override
+  String get contactBody =>
+      'Fill in the form for questions about recycling, repair or the rewards program, or contact us directly.';
+
+  @override
+  String get contactSend => 'Send a Message';
+
+  @override
+  String get contactName => 'Full Name';
+
+  @override
+  String get contactNamePh => 'Your full name';
+
+  @override
+  String get contactEmail => 'Email';
+
+  @override
+  String get contactEmailPh => 'name@email.com';
+
+  @override
+  String get contactMessage => 'Your message';
+
+  @override
+  String get contactMax => 'Max 1000 characters';
+
+  @override
+  String get contactMessagePh => 'How can we help you?';
+
+  @override
+  String get contactSubmit => 'SEND';
+
+  @override
+  String get contactChannels => 'ALTERNATIVE CHANNELS';
+
+  @override
+  String get contactEmailChannel => 'EMAIL';
+
+  @override
+  String get contactPhoneChannel => 'PHONE (24/7)';
+
+  @override
+  String get contactSent => 'Your message was sent.';
+
+  @override
+  String get contactFailed => 'Could not send the message.';
 }

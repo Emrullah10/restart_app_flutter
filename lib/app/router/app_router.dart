@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_flutter/app/navigation/nav_bar.dart';
+import 'package:mobile_flutter/app/router/app_routes.dart';
 import 'package:mobile_flutter/features/auth/presentation/view/login_screen.dart';
 import 'package:mobile_flutter/features/auth/presentation/view/register_screen.dart';
 import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
@@ -8,12 +10,10 @@ import 'package:mobile_flutter/features/contact/presentation/view/contact_screen
 import 'package:mobile_flutter/features/discover/presentation/view/discover_screen.dart';
 import 'package:mobile_flutter/features/home/presentation/view/home_content.dart';
 import 'package:mobile_flutter/features/map/presentation/view/map_screen.dart';
-import 'package:mobile_flutter/app/navigation/nav_bar.dart';
 import 'package:mobile_flutter/features/notifications/presentation/view/notifications_screen.dart';
 import 'package:mobile_flutter/features/profile/presentation/view/profile_screen.dart';
 import 'package:mobile_flutter/features/recycle/presentation/view/recycle_action_screen.dart';
 import 'package:mobile_flutter/features/recycle/presentation/view/recycle_cargo_screen.dart';
-import 'package:mobile_flutter/features/recycle/presentation/view/recycle_map_screen.dart';
 import 'package:mobile_flutter/features/recycle/presentation/view/recycle_screen.dart';
 import 'package:mobile_flutter/features/recycle/presentation/view/recycle_success_screen.dart';
 import 'package:mobile_flutter/features/repair/presentation/view/repair_screen.dart';
@@ -21,167 +21,61 @@ import 'package:mobile_flutter/features/rewards/presentation/view/rewards_screen
 import 'package:mobile_flutter/features/sell/presentation/view/create_listing/create_listing_screen.dart';
 import 'package:mobile_flutter/features/sell/presentation/view/sell_screen.dart';
 import 'package:mobile_flutter/features/settings/presentation/view/settings_screen.dart';
-import 'package:mobile_flutter/app/router/app_routes.dart';
+
+Page<void> _tab(Widget child) => NoTransitionPage(child: child);
 
 final goRouterProvider = Provider<GoRouter>((ref) {
-  final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
   final authAsync = ref.watch(authViewModelProvider);
 
   return GoRouter(
-    navigatorKey: rootNavigatorKey,
     initialLocation: Routes.login,
     redirect: (context, state) {
-      // Session is still being restored (checking the persisted cookie) —
-      // don't redirect yet, avoids a flash to login before /me resolves.
+      // Session restore in progress — don't flash the login screen.
       if (authAsync.isLoading) return null;
-
-      final isLoggedIn = authAsync.valueOrNull != null;
-      final isAuthRoute =
-          state.matchedLocation == Routes.login ||
-          state.matchedLocation == Routes.register;
-
-      if (!isLoggedIn && !isAuthRoute) return Routes.login;
-      if (isLoggedIn && isAuthRoute) return Routes.home;
+      final loggedIn = authAsync.valueOrNull != null;
+      final loc = state.matchedLocation;
+      final authRoute = loc == Routes.login || loc == Routes.register;
+      if (!loggedIn && !authRoute) return Routes.login;
+      if (loggedIn && authRoute) return Routes.home;
+      if (loc == '/create-listing') return Routes.createListing;
       return null;
     },
     routes: [
-      // Shell Route for Bottom Navigation Persistence
-      // Stateful Shell Route for Persistent Bottom Navigation
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) {
-          return NavBar(navigationShell: navigationShell);
-        },
+        builder: (context, state, shell) => NavBar(navigationShell: shell),
         branches: [
-          // Branch 0: Map
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: Routes.map,
-                pageBuilder: (context, state) {
-                  final filter = state.uri.queryParameters['filter'];
-                  return NoTransitionPage(child: MapScreen(filter: filter));
-                },
-              ),
-            ],
-          ),
-
-          // Branch 1: Recycle
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: Routes.recycle,
-                pageBuilder: (context, state) =>
-                    const NoTransitionPage(child: RecycleScreen()),
-                routes: [
-                  GoRoute(
-                    path: Routes.recycleAction,
-                    parentNavigatorKey: rootNavigatorKey,
-                    builder: (context, state) => const RecycleActionScreen(),
-                  ),
-                  GoRoute(
-                    path: Routes.recycleMap,
-                    parentNavigatorKey: rootNavigatorKey,
-                    builder: (context, state) => const RecycleMapScreen(),
-                  ),
-                  GoRoute(
-                    path: Routes.recycleCargo,
-                    parentNavigatorKey: rootNavigatorKey,
-                    builder: (context, state) => const RecycleCargoScreen(),
-                  ),
-                  GoRoute(
-                    path: Routes.recycleSuccess,
-                    parentNavigatorKey: rootNavigatorKey,
-                    builder: (context, state) => const RecycleSuccessScreen(),
-                  ),
-                ],
-              ),
-            ],
-          ),
-
-          // Branch 2: Home (Initial)
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: Routes.home,
-                pageBuilder: (context, state) =>
-                    const NoTransitionPage(child: HomeContent()),
-              ),
-            ],
-          ),
-
-          // Branch 3: Sell
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: Routes.sell,
-                pageBuilder: (context, state) =>
-                    const NoTransitionPage(child: SellScreen()),
-                routes: [],
-              ),
-            ],
-          ),
-
-          // Branch 4: Rewards
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: Routes.rewards,
-                pageBuilder: (context, state) =>
-                    const NoTransitionPage(child: RewardsScreen()),
-              ),
-            ],
-          ),
+          StatefulShellBranch(routes: [
+            GoRoute(path: Routes.map, pageBuilder: (c, s) => _tab(MapScreen(filter: s.uri.queryParameters['filter']))),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(path: Routes.recycle, pageBuilder: (c, s) => _tab(const RecycleScreen()), routes: [
+              GoRoute(path: 'details', pageBuilder: (c, s) => _tab(const RecycleActionScreen())),
+              GoRoute(path: 'courier', pageBuilder: (c, s) => _tab(const RecycleCargoScreen())),
+              GoRoute(path: 'success', pageBuilder: (c, s) => _tab(const RecycleSuccessScreen())),
+            ]),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(path: Routes.home, pageBuilder: (c, s) => _tab(const HomeContent()), routes: [
+              GoRoute(path: 'discover', pageBuilder: (c, s) => _tab(const DiscoverScreen())),
+              GoRoute(path: 'repair', pageBuilder: (c, s) => _tab(const RepairScreen())),
+              GoRoute(path: 'profile', pageBuilder: (c, s) => _tab(const ProfileScreen())),
+              GoRoute(path: 'notifications', pageBuilder: (c, s) => _tab(const NotificationsScreen())),
+              GoRoute(path: 'settings', pageBuilder: (c, s) => _tab(const SettingsScreen())),
+              GoRoute(path: 'contact', pageBuilder: (c, s) => _tab(const ContactScreen())),
+            ]),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(path: Routes.sell, pageBuilder: (c, s) => _tab(const SellScreen()), routes: [
+              GoRoute(path: 'create', pageBuilder: (c, s) => _tab(const CreateListingScreen())),
+            ]),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(path: Routes.rewards, pageBuilder: (c, s) => _tab(const RewardsScreen())),
+          ]),
         ],
       ),
-
-      // Standalone Routes (Outside Shell/BottomBar)
-      GoRoute(
-        parentNavigatorKey: rootNavigatorKey,
-        path: Routes.profile,
-        builder: (context, state) => const ProfileScreen(),
-      ),
-      GoRoute(
-        parentNavigatorKey: rootNavigatorKey,
-        path: Routes.notifications,
-        builder: (context, state) => const NotificationsScreen(),
-      ),
-
-      // Auth Routes
-      GoRoute(
-        parentNavigatorKey: rootNavigatorKey,
-        path: Routes.login,
-        builder: (context, state) => const LoginScreen(),
-      ),
-      GoRoute(
-        parentNavigatorKey: rootNavigatorKey,
-        path: Routes.register,
-        builder: (context, state) => const RegisterScreen(),
-      ),
-      GoRoute(
-        parentNavigatorKey: rootNavigatorKey,
-        path: Routes.settings,
-        builder: (context, state) => const SettingsScreen(),
-      ),
-      GoRoute(
-        parentNavigatorKey: rootNavigatorKey, // Overlay on top of bottom nav
-        path: Routes.repair,
-        builder: (context, state) => const RepairScreen(),
-      ),
-      GoRoute(
-        parentNavigatorKey: rootNavigatorKey,
-        path: Routes.createListing,
-        builder: (context, state) => const CreateListingScreen(),
-      ),
-      GoRoute(
-        parentNavigatorKey: rootNavigatorKey,
-        path: Routes.contact,
-        builder: (context, state) => const ContactScreen(),
-      ),
-      GoRoute(
-        parentNavigatorKey: rootNavigatorKey,
-        path: Routes.discover,
-        builder: (context, state) => const DiscoverScreen(),
-      ),
+      GoRoute(path: Routes.login, builder: (c, s) => const LoginScreen()),
+      GoRoute(path: Routes.register, builder: (c, s) => const RegisterScreen()),
     ],
   );
 });

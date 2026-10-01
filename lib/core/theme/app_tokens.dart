@@ -1,242 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
 
-/// Semantic design tokens, theme-resolved (DESIGN_SYSTEM.md §1.2).
-/// Access via `context.tokens` (see context_extensions.dart) instead of
-/// branching on `context.isDarkMode` in widgets.
+/// Semantic design tokens (plan §3.2), theme-resolved. Access via `context.tokens`.
+/// Same names as the web CSS variables (--c-*).
 class AppTokens extends ThemeExtension<AppTokens> {
-  final Color bgCanvas;
-  final Color bgSurface;
-  final Color bgSurfaceRaised;
-  final Color bgSurfaceSunken;
-  final Color bgAccentSubtle;
-  final Color fgPrimary;
-  final Color fgBody;
-  final Color fgSecondary;
-  final Color fgOnAccent;
-  final Color iconDefault;
-  final Color iconAccent;
-  final Color borderDefault;
-  final Color borderStrong;
-  final Color borderAccent;
+  final Color canvas;
+  final Color surface;
+  final Color raised;
+  final Color subtle;
+  final Color muted;
+  final Color strong;
+  final Color field;
+  final Color fieldCanvas;
+  final Color hover;
+  final Color bar;
+  final Color line;
+  final Color lineStrong;
+  final Color fg;
+  final Color fg2;
+  final Color fg3;
+  final Color fgOutline;
+  final Color fgFaint;
   final Color accent;
+  final Color accentStrong;
   final Color accentHover;
-  final Color accentPressed;
-  final Color accent2;
-  final Color success;
-  final Color warning;
+  final Color onAccent;
+  final Color accentSubtle;
+  final Color onAccentSubtle;
+  final Color accentContainer;
+  final Color accentContainerDim;
+  final Color onAccentContainer;
   final Color danger;
-  final Color info;
-  final Color moduleRepair;
-  final Color moduleSell;
-  final Color moduleRecycle;
-  final Color moduleReward;
-  final Color devicePhone;
-  final Color deviceLaptop;
-  final Color deviceTablet;
-  final Color deviceOther;
+  final Color dangerSubtle;
+  final Color sellTint;
+  final Color repairTint;
 
-  const AppTokens({
-    required this.bgCanvas,
-    required this.bgSurface,
-    required this.bgSurfaceRaised,
-    required this.bgSurfaceSunken,
-    required this.bgAccentSubtle,
-    required this.fgPrimary,
-    required this.fgBody,
-    required this.fgSecondary,
-    required this.fgOnAccent,
-    required this.iconDefault,
-    required this.iconAccent,
-    required this.borderDefault,
-    required this.borderStrong,
-    required this.borderAccent,
-    required this.accent,
-    required this.accentHover,
-    required this.accentPressed,
-    required this.accent2,
-    required this.success,
-    required this.warning,
-    required this.danger,
-    required this.info,
-    required this.moduleRepair,
-    required this.moduleSell,
-    required this.moduleRecycle,
-    required this.moduleReward,
-    required this.devicePhone,
-    required this.deviceLaptop,
-    required this.deviceTablet,
-    required this.deviceOther,
-  });
+  const AppTokens({required this.canvas, required this.surface, required this.raised, required this.subtle, required this.muted, required this.strong, required this.field, required this.fieldCanvas, required this.hover, required this.bar, required this.line, required this.lineStrong, required this.fg, required this.fg2, required this.fg3, required this.fgOutline, required this.fgFaint, required this.accent, required this.accentStrong, required this.accentHover, required this.onAccent, required this.accentSubtle, required this.onAccentSubtle, required this.accentContainer, required this.accentContainerDim, required this.onAccentContainer, required this.danger, required this.dangerSubtle, required this.sellTint, required this.repairTint});
 
-  static const light = AppTokens(
-    bgCanvas: AppColors.paper50,
-    bgSurface: AppColors.paper0,
-    bgSurfaceRaised: AppColors.paper0,
-    bgSurfaceSunken: AppColors.paper100,
-    bgAccentSubtle: AppColors.patina50,
-    fgPrimary: AppColors.ink800,
-    fgBody: AppColors.ink700,
-    fgSecondary: AppColors.ink400,
-    fgOnAccent: Colors.white,
-    iconDefault: AppColors.ink600,
-    iconAccent: AppColors.patina600,
-    borderDefault: AppColors.paper200,
-    borderStrong: AppColors.paper300,
-    borderAccent: AppColors.patina600,
-    accent: AppColors.patina600,
-    accentHover: AppColors.patina700,
-    accentPressed: AppColors.patina800,
-    accent2: AppColors.copper500,
-    success: AppColors.successLight,
-    warning: AppColors.warningLight,
-    danger: AppColors.dangerLight,
-    info: AppColors.infoLight,
-    moduleRepair: AppColors.moduleRepairLight,
-    moduleSell: AppColors.moduleSellLight,
-    moduleRecycle: AppColors.moduleRecycleLight,
-    moduleReward: AppColors.moduleRewardLight,
-    devicePhone: AppColors.devicePhoneLight,
-    deviceLaptop: AppColors.deviceLaptopLight,
-    deviceTablet: AppColors.deviceTabletLight,
-    deviceOther: AppColors.deviceOtherLight,
-  );
-
-  static const dark = AppTokens(
-    bgCanvas: AppColors.ink900,
-    bgSurface: AppColors.darkSurface1,
-    bgSurfaceRaised: AppColors.darkSurface2,
-    bgSurfaceSunken: AppColors.darkSurface3,
-    bgAccentSubtle: AppColors.patina900,
-    fgPrimary: AppColors.darkText1,
-    fgBody: AppColors.darkText2,
-    fgSecondary: AppColors.darkText3,
-    fgOnAccent: AppColors.ink950,
-    iconDefault: AppColors.darkText2,
-    iconAccent: AppColors.patina400,
-    borderDefault: AppColors.darkBorder,
-    borderStrong: Color(0xFF3E4C47),
-    borderAccent: AppColors.patina400,
-    accent: AppColors.patina400,
-    accentHover: AppColors.patina300,
-    accentPressed: AppColors.patina500,
-    accent2: AppColors.copper300,
-    success: AppColors.successDark,
-    warning: AppColors.warningDark,
-    danger: AppColors.dangerDark,
-    info: AppColors.infoDark,
-    moduleRepair: AppColors.moduleRepairDark,
-    moduleSell: AppColors.moduleSellDark,
-    moduleRecycle: AppColors.moduleRecycleDark,
-    moduleReward: AppColors.moduleRewardDark,
-    devicePhone: AppColors.devicePhoneDark,
-    deviceLaptop: AppColors.deviceLaptopDark,
-    deviceTablet: AppColors.deviceTabletDark,
-    deviceOther: AppColors.deviceOtherDark,
-  );
+  static const light = AppTokens(canvas: Color(0xFFF9F9F7), surface: Color(0xFFF9F9F7), raised: Color(0xFFFDFDFB), subtle: Color(0xFFF4F4F2), muted: Color(0xFFEEEEEC), strong: Color(0xFFE2E3E1), field: Color(0xFFF7F7F3), fieldCanvas: Color(0xFFF7F7F3), hover: Color(0xFFF4F4F2), bar: Color(0xF2F7F7F3), line: Color(0xFFE2E3DC), lineStrong: Color(0xFFBFC9C2), fg: Color(0xFF1A1C1B), fg2: Color(0xFF404944), fg3: Color(0xFF8A9490), fgOutline: Color(0xFF707973), fgFaint: Color(0xFFBFC9C2), accent: Color(0xFF2E6952), accentStrong: Color(0xFF11513B), accentHover: Color(0xFF132E25), onAccent: Color(0xFFFFFFFF), accentSubtle: Color(0xFFF0F5F2), onAccentSubtle: Color(0xFF132E25), accentContainer: Color(0xFFB2F0D2), accentContainerDim: Color(0xFF97D3B7), onAccentContainer: Color(0xFF11503B), danger: Color(0xFFA63A32), dangerSubtle: Color(0xFFFFDAD6), sellTint: Color(0xFFFFF8E7), repairTint: Color(0xFFE8F1F5));
+  static const dark = AppTokens(canvas: Color(0xFF141C1A), surface: Color(0xFF1E2724), raised: Color(0xFF1E2724), subtle: Color(0xFF1E2724), muted: Color(0xFF2F3936), strong: Color(0xFF2F3936), field: Color(0xFF141C1A), fieldCanvas: Color(0xFF1E2724), hover: Color(0xFF2F3936), bar: Color(0xF2141C1A), line: Color(0xFF2F3936), lineStrong: Color(0xFF2F3936), fg: Color(0xFFFDFDFB), fg2: Color(0xFFE2E3DC), fg3: Color(0xFF8A9490), fgOutline: Color(0xFF8A9490), fgFaint: Color(0xFF8A9490), accent: Color(0xFF5F9A83), accentStrong: Color(0xFF5F9A83), accentHover: Color(0xFF2E6952), onAccent: Color(0xFF141C1A), accentSubtle: Color(0xFF132E25), onAccentSubtle: Color(0xFFFDFDFB), accentContainer: Color(0xFF132E25), accentContainerDim: Color(0xFF2E6952), onAccentContainer: Color(0xFFB2F0D2), danger: Color(0xFFA63A32), dangerSubtle: Color(0x1AA63A32), sellTint: Color(0xFF2A1D08), repairTint: Color(0xFF0C1F2B));
 
   @override
-  AppTokens copyWith({
-    Color? bgCanvas,
-    Color? bgSurface,
-    Color? bgSurfaceRaised,
-    Color? bgSurfaceSunken,
-    Color? bgAccentSubtle,
-    Color? fgPrimary,
-    Color? fgBody,
-    Color? fgSecondary,
-    Color? fgOnAccent,
-    Color? iconDefault,
-    Color? iconAccent,
-    Color? borderDefault,
-    Color? borderStrong,
-    Color? borderAccent,
-    Color? accent,
-    Color? accentHover,
-    Color? accentPressed,
-    Color? accent2,
-    Color? success,
-    Color? warning,
-    Color? danger,
-    Color? info,
-    Color? moduleRepair,
-    Color? moduleSell,
-    Color? moduleRecycle,
-    Color? moduleReward,
-    Color? devicePhone,
-    Color? deviceLaptop,
-    Color? deviceTablet,
-    Color? deviceOther,
-  }) {
-    return AppTokens(
-      bgCanvas: bgCanvas ?? this.bgCanvas,
-      bgSurface: bgSurface ?? this.bgSurface,
-      bgSurfaceRaised: bgSurfaceRaised ?? this.bgSurfaceRaised,
-      bgSurfaceSunken: bgSurfaceSunken ?? this.bgSurfaceSunken,
-      bgAccentSubtle: bgAccentSubtle ?? this.bgAccentSubtle,
-      fgPrimary: fgPrimary ?? this.fgPrimary,
-      fgBody: fgBody ?? this.fgBody,
-      fgSecondary: fgSecondary ?? this.fgSecondary,
-      fgOnAccent: fgOnAccent ?? this.fgOnAccent,
-      iconDefault: iconDefault ?? this.iconDefault,
-      iconAccent: iconAccent ?? this.iconAccent,
-      borderDefault: borderDefault ?? this.borderDefault,
-      borderStrong: borderStrong ?? this.borderStrong,
-      borderAccent: borderAccent ?? this.borderAccent,
-      accent: accent ?? this.accent,
-      accentHover: accentHover ?? this.accentHover,
-      accentPressed: accentPressed ?? this.accentPressed,
-      accent2: accent2 ?? this.accent2,
-      success: success ?? this.success,
-      warning: warning ?? this.warning,
-      danger: danger ?? this.danger,
-      info: info ?? this.info,
-      moduleRepair: moduleRepair ?? this.moduleRepair,
-      moduleSell: moduleSell ?? this.moduleSell,
-      moduleRecycle: moduleRecycle ?? this.moduleRecycle,
-      moduleReward: moduleReward ?? this.moduleReward,
-      devicePhone: devicePhone ?? this.devicePhone,
-      deviceLaptop: deviceLaptop ?? this.deviceLaptop,
-      deviceTablet: deviceTablet ?? this.deviceTablet,
-      deviceOther: deviceOther ?? this.deviceOther,
-    );
-  }
+  AppTokens copyWith({Color? canvas, Color? surface, Color? raised, Color? subtle, Color? muted, Color? strong, Color? field, Color? fieldCanvas, Color? hover, Color? bar, Color? line, Color? lineStrong, Color? fg, Color? fg2, Color? fg3, Color? fgOutline, Color? fgFaint, Color? accent, Color? accentStrong, Color? accentHover, Color? onAccent, Color? accentSubtle, Color? onAccentSubtle, Color? accentContainer, Color? accentContainerDim, Color? onAccentContainer, Color? danger, Color? dangerSubtle, Color? sellTint, Color? repairTint}) => AppTokens(canvas: canvas ?? this.canvas, surface: surface ?? this.surface, raised: raised ?? this.raised, subtle: subtle ?? this.subtle, muted: muted ?? this.muted, strong: strong ?? this.strong, field: field ?? this.field, fieldCanvas: fieldCanvas ?? this.fieldCanvas, hover: hover ?? this.hover, bar: bar ?? this.bar, line: line ?? this.line, lineStrong: lineStrong ?? this.lineStrong, fg: fg ?? this.fg, fg2: fg2 ?? this.fg2, fg3: fg3 ?? this.fg3, fgOutline: fgOutline ?? this.fgOutline, fgFaint: fgFaint ?? this.fgFaint, accent: accent ?? this.accent, accentStrong: accentStrong ?? this.accentStrong, accentHover: accentHover ?? this.accentHover, onAccent: onAccent ?? this.onAccent, accentSubtle: accentSubtle ?? this.accentSubtle, onAccentSubtle: onAccentSubtle ?? this.onAccentSubtle, accentContainer: accentContainer ?? this.accentContainer, accentContainerDim: accentContainerDim ?? this.accentContainerDim, onAccentContainer: onAccentContainer ?? this.onAccentContainer, danger: danger ?? this.danger, dangerSubtle: dangerSubtle ?? this.dangerSubtle, sellTint: sellTint ?? this.sellTint, repairTint: repairTint ?? this.repairTint);
 
   @override
   AppTokens lerp(ThemeExtension<AppTokens>? other, double t) {
     if (other is! AppTokens) return this;
-    Color c(Color a, Color b) => Color.lerp(a, b, t)!;
-    return AppTokens(
-      bgCanvas: c(bgCanvas, other.bgCanvas),
-      bgSurface: c(bgSurface, other.bgSurface),
-      bgSurfaceRaised: c(bgSurfaceRaised, other.bgSurfaceRaised),
-      bgSurfaceSunken: c(bgSurfaceSunken, other.bgSurfaceSunken),
-      bgAccentSubtle: c(bgAccentSubtle, other.bgAccentSubtle),
-      fgPrimary: c(fgPrimary, other.fgPrimary),
-      fgBody: c(fgBody, other.fgBody),
-      fgSecondary: c(fgSecondary, other.fgSecondary),
-      fgOnAccent: c(fgOnAccent, other.fgOnAccent),
-      iconDefault: c(iconDefault, other.iconDefault),
-      iconAccent: c(iconAccent, other.iconAccent),
-      borderDefault: c(borderDefault, other.borderDefault),
-      borderStrong: c(borderStrong, other.borderStrong),
-      borderAccent: c(borderAccent, other.borderAccent),
-      accent: c(accent, other.accent),
-      accentHover: c(accentHover, other.accentHover),
-      accentPressed: c(accentPressed, other.accentPressed),
-      accent2: c(accent2, other.accent2),
-      success: c(success, other.success),
-      warning: c(warning, other.warning),
-      danger: c(danger, other.danger),
-      info: c(info, other.info),
-      moduleRepair: c(moduleRepair, other.moduleRepair),
-      moduleSell: c(moduleSell, other.moduleSell),
-      moduleRecycle: c(moduleRecycle, other.moduleRecycle),
-      moduleReward: c(moduleReward, other.moduleReward),
-      devicePhone: c(devicePhone, other.devicePhone),
-      deviceLaptop: c(deviceLaptop, other.deviceLaptop),
-      deviceTablet: c(deviceTablet, other.deviceTablet),
-      deviceOther: c(deviceOther, other.deviceOther),
-    );
+    Color l(Color a, Color b) => Color.lerp(a, b, t)!;
+    return AppTokens(canvas: l(canvas, other.canvas), surface: l(surface, other.surface), raised: l(raised, other.raised), subtle: l(subtle, other.subtle), muted: l(muted, other.muted), strong: l(strong, other.strong), field: l(field, other.field), fieldCanvas: l(fieldCanvas, other.fieldCanvas), hover: l(hover, other.hover), bar: l(bar, other.bar), line: l(line, other.line), lineStrong: l(lineStrong, other.lineStrong), fg: l(fg, other.fg), fg2: l(fg2, other.fg2), fg3: l(fg3, other.fg3), fgOutline: l(fgOutline, other.fgOutline), fgFaint: l(fgFaint, other.fgFaint), accent: l(accent, other.accent), accentStrong: l(accentStrong, other.accentStrong), accentHover: l(accentHover, other.accentHover), onAccent: l(onAccent, other.onAccent), accentSubtle: l(accentSubtle, other.accentSubtle), onAccentSubtle: l(onAccentSubtle, other.onAccentSubtle), accentContainer: l(accentContainer, other.accentContainer), accentContainerDim: l(accentContainerDim, other.accentContainerDim), onAccentContainer: l(onAccentContainer, other.onAccentContainer), danger: l(danger, other.danger), dangerSubtle: l(dangerSubtle, other.dangerSubtle), sellTint: l(sellTint, other.sellTint), repairTint: l(repairTint, other.repairTint));
   }
 }

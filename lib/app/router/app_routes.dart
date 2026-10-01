@@ -1,4 +1,4 @@
-/// Route names and paths
+/// Route paths. Everything except auth lives inside the bottom-nav shell.
 class Routes {
   static const String home = '/';
   static const String discover = '/discover';
@@ -11,19 +11,13 @@ class Routes {
   static const String settings = '/settings';
   static const String contact = '/contact';
 
-  // Auth routes
   static const String login = '/login';
   static const String register = '/register';
 
-  // Recycle flow routes
   static const String recycle = '/recycle';
-  static const String recycleAction = 'action'; // Sub-route
-  static const String recycleMap = 'map'; // Sub-route
-  static const String recycleCargo = 'cargo'; // Sub-route
-  static const String recycleSuccess = 'success'; // Sub-route
+  static const String recycleDetails = '/recycle/details';
+  static const String recycleCourier = '/recycle/courier';
+  static const String recycleSuccess = '/recycle/success';
 
-  // Sell flow routes
-  static const String createListing = '/create-listing'; // Absolute path
+  static const String createListing = '/sell/create';
 }
-
-enum AppRoute { home, map, rewards, sell, profile, notifications, recycle }

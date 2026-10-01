@@ -66,5 +66,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ReStart, size en yakın tamir, geri dönüşüm ve satış noktalarını gösterebilmek için konumunuzu kullanır.</string>
 </dict>
 </plist>

@@ -1,174 +1,104 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:mobile_flutter/core/theme/app_spacing.dart';
+import 'package:mobile_flutter/core/theme/app_typography.dart';
 import 'package:mobile_flutter/features/contact/presentation/viewmodel/contact_view_model.dart';
-import 'package:mobile_flutter/shared/widgets/glass_text_field.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/shared/design_system/rs_bars.dart';
+import 'package:mobile_flutter/shared/design_system/rs_core.dart';
+import 'package:mobile_flutter/shared/design_system/rs_parts.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+const _supportEmail = 'destek@restart.co';
+const _supportPhone = '0850 000 00 00';
 
 class ContactScreen extends ConsumerStatefulWidget {
   const ContactScreen({super.key});
-
   @override
   ConsumerState<ContactScreen> createState() => _ContactScreenState();
 }
 
 class _ContactScreenState extends ConsumerState<ContactScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _messageController = TextEditingController();
+  final _name = TextEditingController(), _email = TextEditingController(), _message = TextEditingController();
 
-  Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      await ref
-          .read(contactViewModelProvider.notifier)
-          .submitForm(
-            _nameController.text,
-            _emailController.text,
-            _messageController.text,
-          );
-    }
+  @override
+  void dispose() {
+    for (final c in [_name, _email, _message]) { c.dispose(); }
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Listen to provider state
-    final contactState = ref.watch(contactViewModelProvider);
-
-    // Show success snackbar if successful
-    ref.listen(contactViewModelProvider, (previous, next) {
-      if (next.isSuccess && !next.isLoading) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(context.l10n.messageSentSuccess),
-            backgroundColor: AppColors.success,
-          ),
-        );
-        ref.read(contactViewModelProvider.notifier).resetSuccess(); // Reset state
-        Navigator.pop(context);
+    final t = context.tokens;
+    final l = context.l10n;
+    final state = ref.watch(contactViewModelProvider);
+    ref.listen(contactViewModelProvider, (prev, next) {
+      if (next.isSuccess && !(prev?.isSuccess ?? false)) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.contactSent)));
+        _name.clear(); _email.clear(); _message.clear();
+        ref.read(contactViewModelProvider.notifier).resetSuccess();
       }
     });
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: Text(context.l10n.contactTitle),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            LucideIcons.arrowLeft,
-            color: context.isDarkMode
-                ? AppColors.iconDark
-                : AppColors.iconLight,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Background
-          Image.network(
-            'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80',
-            fit: BoxFit.cover,
-          ),
-          Container(
-            color: context.theme.scaffoldBackgroundColor.withOpacity(0.9),
-          ),
-
-          SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(24.w, 100.h, 24.w, 24.h),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    context.l10n.contactUsHeader,
-                    style: TextStyle(
-                      fontSize: 32.sp,
-                      fontWeight: FontWeight.bold,
-                      color: context.theme.colorScheme.onBackground,
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Text(
-                    context.l10n.contactUsSub,
-                    style: TextStyle(
-                      color: context.theme.colorScheme.onBackground.withOpacity(
-                        0.7,
-                      ),
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                  SizedBox(height: 32.h),
-
-                  GlassTextField(
-                    controller: _nameController,
-                    label: context.l10n.nameLabel,
-                    icon: LucideIcons.user,
-                  ),
-                  SizedBox(height: 16.h),
-                  GlassTextField(
-                    controller: _emailController,
-                    label: context.l10n.emailLabel,
-                    icon: LucideIcons.mail,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  SizedBox(height: 16.h),
-                  GlassTextField(
-                    controller: _messageController,
-                    label: context.l10n.messageLabel,
-                    icon: LucideIcons.messageSquare,
-                    maxLines: 4,
-                  ),
-
-                  SizedBox(height: 32.h),
-
-                  GestureDetector(
-                    onTap: contactState.isLoading ? null : _submitForm,
-                    child: Container(
-                      height: 56.h,
-                      decoration: BoxDecoration(
-                        gradient: AppColors.primaryGradient,
-                        borderRadius: BorderRadius.circular(12.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.primary.withOpacity(0.3),
-                            blurRadius: 12.r,
-                            offset: Offset(0, 4.h),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: contactState.isLoading
-                            ? SizedBox(
-                                width: 24.w,
-                                height: 24.w,
-                                child: const CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : Text(
-                                context.l10n.sendButton,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.sp,
-                                ),
-                              ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+    Widget channel(IconData icon, String label, String value, Uri uri) => Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: RsPressable(
+            scale: 0.99,
+            onTap: () => launchUrl(uri),
+            child: RsCard(
+              tone: RsTone.subtle,
+              padding: const EdgeInsets.all(16),
+              child: Row(children: [
+                Container(width: 40, height: 40, decoration: BoxDecoration(color: t.accentSubtle, borderRadius: Rad.b12), alignment: Alignment.center, child: RsIcon(icon, color: t.accent)),
+                const SizedBox(width: 16),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(label, style: AppType.label.copyWith(color: t.fg2)),
+                  Text(value, style: AppType.headingMd.copyWith(color: t.fg)),
+                ]),
+              ]),
             ),
           ),
-        ],
+        );
+
+    return Scaffold(
+      backgroundColor: t.canvas,
+      appBar: RsBrandBar(title: l.contactTitle, iconColor: t.accent),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 512),
+          child: ListView(padding: const EdgeInsets.fromLTRB(24, 24, 24, 24), children: [
+            Text(l.contactHeadline, style: AppType.headingLg.copyWith(color: t.fg)),
+            const SizedBox(height: 8),
+            Text(l.contactBody, style: AppType.bodyMd.copyWith(color: t.fg2)),
+            const SizedBox(height: 32),
+            RsCard(
+              tone: RsTone.raised,
+              padding: const EdgeInsets.all(20),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                Container(padding: const EdgeInsets.only(left: 12), margin: const EdgeInsets.only(bottom: 8), decoration: BoxDecoration(border: Border(left: BorderSide(color: t.accent, width: 3))), child: Text(l.contactSend, style: AppType.headingMd.copyWith(color: t.accentStrong))),
+                const SizedBox(height: 8),
+                RsTextField(label: l.contactName, upperLabel: true, hint: l.contactNamePh, controller: _name, fill: t.field),
+                const SizedBox(height: 16),
+                RsTextField(label: l.contactEmail, upperLabel: true, hint: l.contactEmailPh, controller: _email, keyboardType: TextInputType.emailAddress, fill: t.field),
+                const SizedBox(height: 16),
+                RsTextField(label: l.contactMessage, upperLabel: true, labelTrailing: Text(l.contactMax.toUpperCase(), style: AppType.label.copyWith(color: t.fg3, fontWeight: FontWeight.w400)), hint: l.contactMessagePh, controller: _message, maxLines: 5, maxLength: 1000, fill: t.field),
+                const SizedBox(height: 16),
+                RsButton(l.contactSubmit, iconRight: Symbols.send, iconRightFilled: true, loading: state.isLoading, onPressed: () {
+                  if (_name.text.trim().isEmpty || _email.text.trim().isEmpty || _message.text.trim().isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.authFillAll)));
+                    return;
+                  }
+                  ref.read(contactViewModelProvider.notifier).submitForm(_name.text.trim(), _email.text.trim(), _message.text.trim());
+                }),
+              ]),
+            ),
+            const SizedBox(height: 32),
+            Container(padding: const EdgeInsets.only(bottom: 8), margin: const EdgeInsets.only(bottom: 16), decoration: BoxDecoration(border: Border(bottom: BorderSide(color: t.line))), child: RsSectionLabel(l.contactChannels, letterSpacing: 1.2)),
+            channel(Symbols.mail, l.contactEmailChannel, _supportEmail, Uri(scheme: 'mailto', path: _supportEmail)),
+            channel(Symbols.call, l.contactPhoneChannel, _supportPhone, Uri(scheme: 'tel', path: '08500000000')),
+          ]),
+        ),
       ),
     );
   }

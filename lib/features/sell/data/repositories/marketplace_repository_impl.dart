@@ -22,6 +22,7 @@ class MarketplaceRepositoryImpl implements MarketplaceRepository {
     return data.map((raw) {
       final json = raw as Map<String, dynamic>;
       return Listing(
+        id: json['id']?.toString(),
         title: json['title']?.toString() ?? '',
         // Backend field is "description" (listing.entity.js), no "subtitle".
         subtitle: json['description']?.toString() ?? '',
@@ -82,7 +83,12 @@ class MarketplaceRepositoryImpl implements MarketplaceRepository {
     final data = await _api.getProducts(category: category, limit: limit);
     return data.map((raw) {
       final json = raw as Map<String, dynamic>;
+      final imgs = _resolveImageUrls(json['images']);
+      final single = json['imageUrl']?.toString();
       return MarketplaceProduct(
+        id: json['id']?.toString(),
+        category: json['category']?.toString() ?? '',
+        imageUrl: imgs.isNotEmpty ? imgs.first : (single == null || single.isEmpty ? null : _absoluteUrl(single)),
         title: json['title']?.toString() ?? '',
         // Backend field is "description" (product.entity.js), no "subtitle".
         subtitle: json['description']?.toString() ?? '',

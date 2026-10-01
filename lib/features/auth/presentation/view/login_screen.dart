@@ -1,233 +1,102 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mobile_flutter/app/router/app_routes.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
+import 'package:mobile_flutter/core/theme/app_spacing.dart';
+import 'package:mobile_flutter/core/theme/app_typography.dart';
 import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
-import 'package:mobile_flutter/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:mobile_flutter/shared/design_system/rs_core.dart';
 import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
-import 'package:mobile_flutter/shared/extensions/padding_extensions.dart';
-import 'package:mobile_flutter/shared/widgets/gradient_button.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
-
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.isDarkMode
-          ? AppColors.backgroundDark
-          : AppColors.backgroundLight,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: 24.horizontalP,
-          child: _LoginForm(), // Extracted to keep cleaner
-        ),
-      ),
-    );
-  }
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginForm extends ConsumerStatefulWidget {
-  @override
-  ConsumerState<_LoginForm> createState() => _LoginFormState();
-}
-
-class _LoginFormState extends ConsumerState<_LoginForm> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  String? _error;
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    _email.dispose();
+    _password.dispose();
     super.dispose();
   }
 
-  Future<void> _handleLogin() async {
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
-
-    if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Lütfen tüm alanları doldurun')),
-      );
+  Future<void> _submit() async {
+    final l = context.l10n;
+    if (_email.text.trim().isEmpty || _password.text.isEmpty) {
+      setState(() => _error = l.authFillAll);
       return;
     }
-
-    final success = await ref
-        .read(authViewModelProvider.notifier)
-        .login(email, password);
-
-    if (!mounted) return;
-
-    if (success) {
-      context.go(Routes.home);
-    } else {
-      final error = ref.read(authViewModelProvider).error;
-      if (error != null) {
-        final cleanError = error.toString().replaceAll('Exception: ', '');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(cleanError), backgroundColor: Colors.red),
-        );
-      }
+    setState(() => _error = null);
+    final ok = await ref.read(authViewModelProvider.notifier).login(_email.text.trim(), _password.text);
+    if (!ok && mounted) {
+      final err = ref.read(authViewModelProvider).error;
+      setState(() => _error = err?.toString().replaceFirst('Exception: ', '') ?? l.commonError);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final authAsync = ref.watch(authViewModelProvider);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 40.h),
-        // Branding / Header
-        Center(
-          child: Container(
-            width: 80.w,
-            height: 80.w,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [Color(0xFF10B981), Color(0xFF059669)],
-              ),
-            ),
-            child: Icon(LucideIcons.zap, color: Colors.white, size: 40.sp),
-          ),
-        ),
-        SizedBox(height: 24.h),
-        Text(
-          context.l10n.loginWelcome,
-          style: context.textTheme.headlineLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: context.isDarkMode
-                ? AppColors.textPrimaryDark
-                : AppColors.textPrimaryLight,
-          ),
-        ),
-        SizedBox(height: 8.h),
-        Text(
-          context.l10n.loginSubtitle,
-          style: context.textTheme.bodyMedium?.copyWith(
-            color: context.isDarkMode
-                ? AppColors.textSecondaryDark
-                : AppColors.textSecondaryLight,
-          ),
-        ),
-        SizedBox(height: 40.h),
-
-        // Form
-        AuthTextField(
-          controller: _emailController,
-          hintText: context.l10n.emailHint,
-          prefixIcon: LucideIcons.mail,
-          keyboardType: TextInputType.emailAddress,
-        ),
-        SizedBox(height: 16.h),
-        AuthTextField(
-          controller: _passwordController,
-          hintText: context.l10n.passwordHint,
-          prefixIcon: LucideIcons.lock,
-          isPassword: true,
-        ),
-
-        SizedBox(height: 32.h),
-
-        // Login Button
-        authAsync.isLoading
-            ? const Center(
-                child: CircularProgressIndicator(color: Color(0xFF10B981)),
-              )
-            : GradientButton(
-                text: context.l10n.loginButton,
-                onPressed: _handleLogin,
-              ),
-
-        SizedBox(height: 32.h),
-
-        // Social Login Divider
-        Row(
-          children: [
-            Expanded(child: Divider(color: context.theme.dividerColor)),
-            Padding(
-              padding: 16.horizontalP,
-              child: Text(
-                context.l10n.orDivider,
-                style: TextStyle(
-                  color: context.isDarkMode
-                      ? AppColors.textSecondaryDark
-                      : AppColors.textSecondaryLight,
+    final t = context.tokens;
+    final l = context.l10n;
+    final loading = ref.watch(authViewModelProvider).isLoading;
+    return Scaffold(
+      backgroundColor: t.canvas,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 400),
+              child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                SizedBox(
+                  height: 140,
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    RsIcon(Symbols.recycling, size: 48, color: t.accent, filled: true),
+                    const SizedBox(height: 12),
+                    Text(l.brandName, style: AppType.displayLgMobile.copyWith(color: t.accent)),
+                  ]),
                 ),
-              ),
-            ),
-            Expanded(child: Divider(color: context.theme.dividerColor)),
-          ],
-        ),
-        SizedBox(height: 24.h),
-
-        // Social Buttons (Placeholder)
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildSocialButton(context, LucideIcons.chrome), // Google
-            SizedBox(width: 16.w),
-            _buildSocialButton(context, LucideIcons.apple), // Apple
-          ],
-        ),
-
-        SizedBox(height: 40.h),
-
-        // Register Link
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              context.l10n.noAccount,
-              style: TextStyle(
-                color: context.isDarkMode
-                    ? AppColors.textSecondaryDark
-                    : AppColors.textSecondaryLight,
-                fontSize: 14.sp,
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                context.push(Routes.register);
-              },
-              child: Text(
-                context.l10n.registerButton,
-                style: TextStyle(
-                  color: const Color(0xFF10B981),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14.sp,
+                const SizedBox(height: 16),
+                Text(l.loginTitle, textAlign: TextAlign.center, style: AppType.headingLg.copyWith(color: t.fg)),
+                const SizedBox(height: 16),
+                Text(l.loginSub, textAlign: TextAlign.center, style: AppType.bodyMd.copyWith(color: t.fg3)),
+                const SizedBox(height: 32),
+                RsCard(
+                  radius: Rad.b8,
+                  padding: const EdgeInsets.all(24),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                    RsTextField(label: l.loginEmailLabel, hint: l.loginEmailPh, controller: _email, icon: Symbols.mail, keyboardType: TextInputType.emailAddress, fill: t.field, contentPadding: const EdgeInsets.fromLTRB(40, 12, 16, 12)),
+                    const SizedBox(height: 20),
+                    RsPasswordField(
+                      label: l.loginPasswordLabel,
+                      hint: '••••••••',
+                      controller: _password,
+                      fill: t.field,
+                      toggle: false,
+                      labelTrailing: GestureDetector(onTap: () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.commonComingSoon))), child: Text(l.loginForgot, style: AppType.caption.copyWith(color: t.accent))),
+                    ),
+                    if (_error != null) Padding(padding: const EdgeInsets.only(top: 8), child: Text(_error!, style: AppType.caption.copyWith(color: t.danger))),
+                    const SizedBox(height: 12),
+                    RsButton(l.loginAction, iconRight: Symbols.arrow_forward, loading: loading, onPressed: _submit, padding: const EdgeInsets.symmetric(vertical: 16)),
+                  ]),
                 ),
-              ),
+                const SizedBox(height: 32),
+                Center(
+                  child: Text.rich(TextSpan(style: AppType.bodyMd.copyWith(color: t.fg3), children: [
+                    TextSpan(text: '${l.loginNoAccount} '),
+                    WidgetSpan(alignment: PlaceholderAlignment.baseline, baseline: TextBaseline.alphabetic, child: GestureDetector(onTap: () => context.go(Routes.register), child: Text(l.loginRegister, style: AppType.bodyMd.copyWith(color: t.accent, fontWeight: FontWeight.w600)))),
+                  ])),
+                ),
+              ]),
             ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSocialButton(BuildContext context, IconData icon) {
-    return Container(
-      width: 56.w,
-      height: 56.w,
-      decoration: BoxDecoration(
-        color: context.isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: context.theme.dividerColor.withOpacity(0.1)),
-      ),
-      child: Center(
-        child: Icon(
-          icon,
-          color: context.isDarkMode
-              ? AppColors.iconDark
-              : AppColors.iconLight,
-          size: 24.sp,
+          ),
         ),
       ),
     );
