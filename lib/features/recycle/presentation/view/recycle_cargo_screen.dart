@@ -4,20 +4,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mobile_flutter/app/router/app_routes.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
-import 'package:mobile_flutter/core/theme/app_spacing.dart';
-import 'package:mobile_flutter/core/theme/app_typography.dart';
-import 'package:mobile_flutter/core/utils/format.dart';
-import 'package:mobile_flutter/core/utils/geo.dart';
-import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
-import 'package:mobile_flutter/features/recycle/presentation/viewmodel/couriers_provider.dart';
-import 'package:mobile_flutter/features/recycle/presentation/viewmodel/recycle_state.dart';
-import 'package:mobile_flutter/features/recycle/presentation/viewmodel/recycle_view_model.dart';
-import 'package:mobile_flutter/shared/design_system/rs_bars.dart';
-import 'package:mobile_flutter/shared/design_system/rs_core.dart';
-import 'package:mobile_flutter/shared/design_system/rs_parts.dart';
-import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
+import 'package:teknolup/app/router/app_routes.dart';
+import 'package:teknolup/core/theme/app_colors.dart';
+import 'package:teknolup/core/theme/app_spacing.dart';
+import 'package:teknolup/core/theme/app_typography.dart';
+import 'package:teknolup/core/utils/format.dart';
+import 'package:teknolup/core/utils/geo.dart';
+import 'package:teknolup/features/auth/presentation/viewmodel/auth_view_model.dart';
+import 'package:teknolup/features/recycle/presentation/viewmodel/couriers_provider.dart';
+import 'package:teknolup/features/recycle/presentation/viewmodel/recycle_state.dart';
+import 'package:teknolup/features/recycle/presentation/viewmodel/recycle_view_model.dart';
+import 'package:teknolup/shared/design_system/rs_bars.dart';
+import 'package:teknolup/shared/design_system/rs_core.dart';
+import 'package:teknolup/shared/design_system/rs_parts.dart';
+import 'package:teknolup/shared/extensions/context_extensions.dart';
 
 class RecycleCargoScreen extends ConsumerWidget {
   const RecycleCargoScreen({super.key});
@@ -111,7 +111,7 @@ class RecycleCargoScreen extends ConsumerWidget {
                   child: FlutterMap(
                     options: MapOptions(initialCenter: center, initialZoom: 14),
                     children: [
-                      TileLayer(urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', userAgentPackageName: 'com.example.mobile_flutter', tileBuilder: (c, tile, _) => context.isDarkMode ? ColorFiltered(colorFilter: const ColorFilter.matrix(<double>[-0.19, -0.64, -0.065, 0, 190, -0.19, -0.64, -0.065, 0, 200, -0.19, -0.64, -0.065, 0, 195, 0, 0, 0, 1, 0]), child: tile) : tile),
+                      TileLayer(urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', userAgentPackageName: 'com.teknolup.app', tileBuilder: (c, tile, _) => context.isDarkMode ? ColorFiltered(colorFilter: const ColorFilter.matrix(<double>[-0.19, -0.64, -0.065, 0, 190, -0.19, -0.64, -0.065, 0, 200, -0.19, -0.64, -0.065, 0, 195, 0, 0, 0, 1, 0]), child: tile) : tile),
                       MarkerLayer(markers: [
                         Marker(point: center, width: 36, height: 36, child: Container(decoration: BoxDecoration(color: t.accentStrong, shape: BoxShape.circle, border: Border.all(color: t.raised)), child: RsIcon(Symbols.home, size: 16, color: t.onAccent))),
                       ]),

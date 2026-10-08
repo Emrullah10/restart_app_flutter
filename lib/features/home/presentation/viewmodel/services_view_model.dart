@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/features/home/data/models/nearby_service.dart';
-import 'package:mobile_flutter/features/home/data/repositories/home_repository_impl.dart';
+import 'package:teknolup/features/home/data/models/nearby_service.dart';
+import 'package:teknolup/features/home/data/repositories/home_repository_impl.dart';
 
 class ServicesViewModel extends AutoDisposeAsyncNotifier<List<NearbyService>> {
   @override

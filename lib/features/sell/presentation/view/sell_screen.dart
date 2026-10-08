@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mobile_flutter/app/router/app_routes.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
-import 'package:mobile_flutter/core/theme/app_spacing.dart';
-import 'package:mobile_flutter/core/theme/app_typography.dart';
-import 'package:mobile_flutter/core/utils/format.dart';
-import 'package:mobile_flutter/features/sell/data/models/marketplace_product.dart';
-import 'package:mobile_flutter/features/sell/presentation/viewmodel/marketplace_view_model.dart';
-import 'package:mobile_flutter/shared/design_system/rs_bars.dart';
-import 'package:mobile_flutter/shared/design_system/rs_core.dart';
-import 'package:mobile_flutter/shared/design_system/rs_parts.dart';
-import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
+import 'package:teknolup/app/router/app_routes.dart';
+import 'package:teknolup/core/theme/app_colors.dart';
+import 'package:teknolup/core/theme/app_spacing.dart';
+import 'package:teknolup/core/theme/app_typography.dart';
+import 'package:teknolup/core/utils/format.dart';
+import 'package:teknolup/features/sell/data/models/marketplace_product.dart';
+import 'package:teknolup/features/sell/presentation/viewmodel/marketplace_view_model.dart';
+import 'package:teknolup/shared/design_system/rs_bars.dart';
+import 'package:teknolup/shared/design_system/rs_core.dart';
+import 'package:teknolup/shared/design_system/rs_parts.dart';
+import 'package:teknolup/shared/extensions/context_extensions.dart';
 
 class SellScreen extends ConsumerStatefulWidget {
   const SellScreen({super.key});

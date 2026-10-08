@@ -3,16 +3,16 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
-import 'package:mobile_flutter/core/theme/app_spacing.dart';
-import 'package:mobile_flutter/core/theme/app_typography.dart';
-import 'package:mobile_flutter/core/utils/format.dart';
-import 'package:mobile_flutter/core/utils/geo.dart';
-import 'package:mobile_flutter/core/utils/modules.dart';
-import 'package:mobile_flutter/features/home/data/models/nearby_service.dart';
-import 'package:mobile_flutter/features/home/presentation/viewmodel/services_view_model.dart';
-import 'package:mobile_flutter/shared/design_system/rs_core.dart';
-import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
+import 'package:teknolup/core/theme/app_colors.dart';
+import 'package:teknolup/core/theme/app_spacing.dart';
+import 'package:teknolup/core/theme/app_typography.dart';
+import 'package:teknolup/core/utils/format.dart';
+import 'package:teknolup/core/utils/geo.dart';
+import 'package:teknolup/core/utils/modules.dart';
+import 'package:teknolup/features/home/data/models/nearby_service.dart';
+import 'package:teknolup/features/home/presentation/viewmodel/services_view_model.dart';
+import 'package:teknolup/shared/design_system/rs_core.dart';
+import 'package:teknolup/shared/extensions/context_extensions.dart';
 
 const LatLng _kIstanbul = LatLng(41.0082, 28.9784);
 
@@ -66,7 +66,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               children: [
                 TileLayer(
                   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.mobile_flutter',
+                  userAgentPackageName: 'com.teknolup.app',
                   tileBuilder: (context, tile, _) => Opacity(opacity: 0.8, child: dark ? ColorFiltered(colorFilter: _darkMap, child: tile) : tile),
                 ),
                 MarkerLayer(markers: [

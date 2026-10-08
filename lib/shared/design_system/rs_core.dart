@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
-import 'package:mobile_flutter/core/theme/app_spacing.dart';
-import 'package:mobile_flutter/core/theme/app_tokens.dart';
-import 'package:mobile_flutter/core/theme/app_typography.dart';
-import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
+import 'package:teknolup/core/theme/app_colors.dart';
+import 'package:teknolup/core/theme/app_spacing.dart';
+import 'package:teknolup/core/theme/app_tokens.dart';
+import 'package:teknolup/core/theme/app_typography.dart';
+import 'package:teknolup/shared/extensions/context_extensions.dart';
 
 enum RsTone { canvas, surface, raised, subtle, muted, strong, field, fieldCanvas, accentSubtle }
 

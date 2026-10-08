@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/core/network/api_service.dart';
-import 'package:mobile_flutter/core/network/i_api_service.dart';
-import 'package:mobile_flutter/features/rewards/data/models/reward.dart';
-import 'package:mobile_flutter/features/rewards/domain/repositories/rewards_repository.dart';
+import 'package:teknolup/core/network/api_service.dart';
+import 'package:teknolup/core/network/i_api_service.dart';
+import 'package:teknolup/features/rewards/data/models/reward.dart';
+import 'package:teknolup/features/rewards/domain/repositories/rewards_repository.dart';
 
 class RewardsRepositoryImpl implements RewardsRepository {
   final IApiService _api;

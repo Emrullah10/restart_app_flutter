@@ -3,8 +3,8 @@ import 'dart:io' show Platform;
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/core/network/i_api_service.dart';
-import 'package:mobile_flutter/core/storage/token_storage.dart';
+import 'package:teknolup/core/network/i_api_service.dart';
+import 'package:teknolup/core/storage/token_storage.dart';
 
 final apiServiceProvider = Provider<IApiService>((ref) {
   throw UnimplementedError(

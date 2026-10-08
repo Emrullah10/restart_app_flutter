@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/core/theme/app_tokens.dart';
-import 'package:mobile_flutter/l10n/app_localizations.dart';
+import 'package:teknolup/core/theme/app_tokens.dart';
+import 'package:teknolup/l10n/app_localizations.dart';
 
 extension ContextExtensions on BuildContext {
   ThemeData get theme => Theme.of(this);

@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/core/network/api_service.dart';
-import 'package:mobile_flutter/core/network/i_api_service.dart';
-import 'package:mobile_flutter/features/sell/data/models/listing.dart';
-import 'package:mobile_flutter/features/sell/data/models/marketplace_product.dart';
-import 'package:mobile_flutter/features/sell/domain/repositories/marketplace_repository.dart';
+import 'package:teknolup/core/network/api_service.dart';
+import 'package:teknolup/core/network/i_api_service.dart';
+import 'package:teknolup/features/sell/data/models/listing.dart';
+import 'package:teknolup/features/sell/data/models/marketplace_product.dart';
+import 'package:teknolup/features/sell/domain/repositories/marketplace_repository.dart';
 
 double _parseDouble(dynamic value) {
   if (value == null) return 0.0;

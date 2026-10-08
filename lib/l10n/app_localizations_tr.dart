@@ -646,7 +646,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get createListingButton => 'İlan Oluştur';
 
   @override
-  String get brandName => 'ReStart';
+  String get brandName => 'TeknoLup';
 
   @override
   String get navHomeLabel => 'Ana Sayfa';
@@ -776,7 +776,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get regTitle => 'Hesap oluşturun';
 
   @override
-  String get regSub => 'ReStart topluluğuna katılın.';
+  String get regSub => 'TeknoLup topluluğuna katılın.';
 
   @override
   String get regName => 'AD SOYAD';
@@ -944,7 +944,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get marketSafeBody =>
-      'ReStart üzerinden yapılan tüm satışlar %100 alıcı koruması altındadır. Ödemeniz, ürün alıcıya ulaştıktan sonra hesabınıza aktarılır.';
+      'TeknoLup üzerinden yapılan tüm satışlar %100 alıcı koruması altındadır. Ödemeniz, ürün alıcıya ulaştıktan sonra hesabınıza aktarılır.';
 
   @override
   String get marketMore => 'DAHA FAZLA BİLGİ EDİN';

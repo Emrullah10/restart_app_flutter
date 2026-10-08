@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/features/recycle/data/repositories/recycle_repository_impl.dart';
-import 'package:mobile_flutter/features/recycle/presentation/viewmodel/recycle_state.dart';
+import 'package:teknolup/features/recycle/data/repositories/recycle_repository_impl.dart';
+import 'package:teknolup/features/recycle/presentation/viewmodel/recycle_state.dart';
 
 class RecycleViewModel extends Notifier<RecycleState> {
   @override

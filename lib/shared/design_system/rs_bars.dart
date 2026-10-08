@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mobile_flutter/app/router/app_routes.dart';
-import 'package:mobile_flutter/core/theme/app_spacing.dart';
-import 'package:mobile_flutter/core/theme/app_typography.dart';
-import 'package:mobile_flutter/shared/design_system/rs_core.dart';
-import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
+import 'package:teknolup/app/router/app_routes.dart';
+import 'package:teknolup/core/theme/app_spacing.dart';
+import 'package:teknolup/core/theme/app_typography.dart';
+import 'package:teknolup/shared/design_system/rs_core.dart';
+import 'package:teknolup/shared/extensions/context_extensions.dart';
 
 /// Stitch top bar. Heights: 56 (home) / 64 (everything else). `bg` defaults to the 95% `bar` token.
 class RsAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -66,14 +66,14 @@ Widget rsBack(BuildContext context, {Color? color}) => RsBarButton(Symbols.arrow
 Widget rsBell(BuildContext context, {Color? color}) => RsBarButton(Symbols.notifications, color: color, onTap: () => context.push(Routes.notifications));
 Widget rsMenu(BuildContext context, {Color? color, bool filled = false}) => RsBarButton(Symbols.eco, color: color, filled: filled, onTap: () => showRsMenu(context));
 
-/// "ReStart" brand bar (M08/M10/M11/M16/M17 and — with menu/bell added — M03).
+/// "TeknoLup" brand bar (M08/M10/M11/M16/M17 and — with menu/bell added — M03).
 class RsBrandBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool backLeading;
   final bool large;
   final Color? iconColor;
   final bool menuFilled;
-  const RsBrandBar({super.key, this.title = 'ReStart', this.backLeading = false, this.large = true, this.iconColor, this.menuFilled = false});
+  const RsBrandBar({super.key, this.title = 'TeknoLup', this.backLeading = false, this.large = true, this.iconColor, this.menuFilled = false});
   @override
   Size get preferredSize => Size.fromHeight(large ? 64 : 56);
   @override

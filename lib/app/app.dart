@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/app/router/app_router.dart';
-import 'package:mobile_flutter/core/localization/localization_provider.dart';
-import 'package:mobile_flutter/core/theme/app_theme.dart';
-import 'package:mobile_flutter/core/theme/theme_provider.dart';
-import 'package:mobile_flutter/l10n/app_localizations.dart';
+import 'package:teknolup/app/router/app_router.dart';
+import 'package:teknolup/core/localization/localization_provider.dart';
+import 'package:teknolup/core/theme/app_theme.dart';
+import 'package:teknolup/core/theme/theme_provider.dart';
+import 'package:teknolup/l10n/app_localizations.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
@@ -17,7 +17,7 @@ class MyApp extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
 
     return MaterialApp.router(
-      title: 'ReStart',
+      title: 'TeknoLup',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

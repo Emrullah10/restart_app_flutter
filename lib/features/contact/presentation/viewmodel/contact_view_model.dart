@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/features/contact/data/repositories/contact_repository_impl.dart';
-import 'package:mobile_flutter/features/contact/presentation/viewmodel/contact_state.dart';
+import 'package:teknolup/features/contact/data/repositories/contact_repository_impl.dart';
+import 'package:teknolup/features/contact/presentation/viewmodel/contact_state.dart';
 
 class ContactViewModel extends Notifier<ContactState> {
   @override

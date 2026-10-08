@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
-import 'package:mobile_flutter/features/sell/data/repositories/marketplace_repository_impl.dart';
-import 'package:mobile_flutter/features/sell/presentation/viewmodel/marketplace_view_model.dart';
+import 'package:teknolup/features/auth/presentation/viewmodel/auth_view_model.dart';
+import 'package:teknolup/features/sell/data/repositories/marketplace_repository_impl.dart';
+import 'package:teknolup/features/sell/presentation/viewmodel/marketplace_view_model.dart';
 
 class CreateListingViewModel extends AutoDisposeAsyncNotifier<void> {
   @override

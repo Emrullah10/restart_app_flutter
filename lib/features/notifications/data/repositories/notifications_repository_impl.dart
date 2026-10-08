@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/core/network/api_service.dart';
-import 'package:mobile_flutter/core/network/i_api_service.dart';
-import 'package:mobile_flutter/features/notifications/data/models/app_notification.dart';
-import 'package:mobile_flutter/features/notifications/domain/repositories/notifications_repository.dart';
+import 'package:teknolup/core/network/api_service.dart';
+import 'package:teknolup/core/network/i_api_service.dart';
+import 'package:teknolup/features/notifications/data/models/app_notification.dart';
+import 'package:teknolup/features/notifications/domain/repositories/notifications_repository.dart';
 
 class NotificationsRepositoryImpl implements NotificationsRepository {
   final IApiService _api;

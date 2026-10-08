@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/core/network/api_service.dart';
-import 'package:mobile_flutter/core/network/i_api_service.dart';
-import 'package:mobile_flutter/features/profile/data/models/leaderboard.dart';
-import 'package:mobile_flutter/features/profile/data/models/user_badge.dart';
-import 'package:mobile_flutter/features/profile/data/models/user_profile.dart';
-import 'package:mobile_flutter/features/profile/domain/repositories/profile_repository.dart';
+import 'package:teknolup/core/network/api_service.dart';
+import 'package:teknolup/core/network/i_api_service.dart';
+import 'package:teknolup/features/profile/data/models/leaderboard.dart';
+import 'package:teknolup/features/profile/data/models/user_badge.dart';
+import 'package:teknolup/features/profile/data/models/user_profile.dart';
+import 'package:teknolup/features/profile/domain/repositories/profile_repository.dart';
 
 double _parseDouble(dynamic value) {
   if (value == null) return 0.0;

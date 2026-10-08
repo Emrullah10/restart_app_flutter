@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/features/auth/data/models/auth_user.dart';
-import 'package:mobile_flutter/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:teknolup/features/auth/data/models/auth_user.dart';
+import 'package:teknolup/features/auth/data/repositories/auth_repository_impl.dart';
 
 /// Holds the currently authenticated user, or null when signed out.
 /// On first watch, restores the session using the persisted Bearer token

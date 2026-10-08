@@ -1,54 +1,106 @@
+# ==========================================
+# Dotfiles & Hidden Directories
+# ==========================================
+.*
+!.gitignore
+!.gitkeep
+
+# ==========================================
+# VS Code / Code / OpenCode / Codex
+# ==========================================
+.vscode/
+.vscode*/
+*.code-workspace
+.code/
+.code*
+*.code
+.codex/
+.codex*/
+opencode.json
+*opencode*
+opencode/
+
+# ==========================================
+# Claude / Anthropic
+# ==========================================
+.claude/
+.claude*/
+CLAUDE.md
+claude.md
+*claude*
+*CLAUDE*
+claude/
+claude*/
+
+# ==========================================
+# OpenWolf / Wolf
+# ==========================================
+.wolf/
+.wolf*/
+OPENWOLF.md
+openwolf.md
+*openwolf*
+*OPENWOLF*
+openwolf/
+*wolf*
+*WOLF*
+
+# ==========================================
+# Agents & AI Directives
+# ==========================================
+AGENTS.md
+agents.md
+*AGENTS*
+*agents.md
+.agents/
+.agents*/
+
+# ==========================================
 # Miscellaneous
+# ==========================================
 *.class
 *.log
 *.pyc
 *.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
 migrate_working_dir/
 
+# ==========================================
 # IntelliJ related
+# ==========================================
 *.iml
 *.ipr
 *.iws
-.idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
+# ==========================================
+# Flutter / Dart / Pub related
+# ==========================================
 **/doc/api/
 **/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins-dependencies
-.pub-cache/
-.pub/
 /build/
 /coverage/
 
-# iOS/CocoaPods related
+# ==========================================
+# iOS / CocoaPods related
+# ==========================================
 **/ios/Pods/
 **/ios/.symlinks/
 **/ios/Flutter/Flutter.framework
 **/ios/Flutter/Flutter.podspec
 
-# Symbolication related
+# ==========================================
+# Symbolication & Obfuscation
+# ==========================================
 app.*.symbols
-
-# Obfuscation related
 app.*.map.json
 
-# Android Studio will place build artifacts here
+# ==========================================
+# Android Studio
+# ==========================================
 /android/app/debug
 /android/app/profile
 /android/app/release
 
+# ==========================================
 # Local docs (not tracked)
+# ==========================================
 /docs/

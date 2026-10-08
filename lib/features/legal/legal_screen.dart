@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_flutter/core/theme/app_typography.dart';
-import 'package:mobile_flutter/shared/design_system/rs_bars.dart';
-import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
+import 'package:teknolup/core/theme/app_typography.dart';
+import 'package:teknolup/shared/design_system/rs_bars.dart';
+import 'package:teknolup/shared/extensions/context_extensions.dart';
 
 // DRAFT legal text — must be reviewed/approved by the company's legal counsel before launch.
 const _tr = {
   'terms': ('Hizmet Şartları', [
-    ('Hizmetin kapsamı', 'ReStart; elektronik cihazların onarımı, ikinci el satışı ve geri dönüşümü için kullanıcıları servis noktaları ve diğer kullanıcılarla buluşturan bir platformdur.'),
+    ('Hizmetin kapsamı', 'TeknoLup; elektronik cihazların onarımı, ikinci el satışı ve geri dönüşümü için kullanıcıları servis noktaları ve diğer kullanıcılarla buluşturan bir platformdur.'),
     ('Hesap ve güvenlik', 'Hesap bilgilerinizin doğruluğundan ve şifrenizin gizliliğinden siz sorumlusunuz. Yetkisiz kullanımı fark ettiğinizde bizi bilgilendirmelisiniz.'),
     ('İlanlar ve satışlar', 'İlan içeriklerinin doğruluğu ve yasal olması satıcının sorumluluğundadır. Yasaklı veya yanıltıcı ilanlar kaldırılabilir.'),
     ('Geri dönüşüm ve ödüller', 'Puanlar yalnızca platform içinde geçerlidir; nakde çevrilemez. Kötüye kullanım tespit edilirse puanlar iptal edilebilir.'),
@@ -18,12 +18,12 @@ const _tr = {
     ('Kullanım amaçları', 'Hesabınızı yönetmek, size yakın noktaları göstermek, işlemleri ve ödülleri hesaplamak ve hizmeti geliştirmek.'),
     ('Konum', 'Konum yalnızca yakındaki noktaları göstermek için kullanılır; izin vermezseniz uygulama çalışmaya devam eder.'),
     ('Paylaşım ve saklama', 'Verileriniz yasal zorunluluklar dışında üçüncü kişilerle satılmaz. Hesabınız silindiğinde verileriniz makul sürede silinir.'),
-    ('Haklarınız', 'KVKK kapsamında verilerinize erişme, düzeltme ve silinmesini isteme hakkına sahipsiniz. Başvuru: destek@restart.co'),
+    ('Haklarınız', 'KVKK kapsamında verilerinize erişme, düzeltme ve silinmesini isteme hakkına sahipsiniz. Başvuru: destek@teknolup.com'),
   ]),
 };
 const _en = {
   'terms': ('Terms of Service', [
-    ('Scope of service', 'ReStart connects users with service points and other users for repairing, reselling and recycling electronic devices.'),
+    ('Scope of service', 'TeknoLup connects users with service points and other users for repairing, reselling and recycling electronic devices.'),
     ('Account and security', 'You are responsible for the accuracy of your account details and the confidentiality of your password. Tell us if you notice unauthorised use.'),
     ('Listings and sales', 'Sellers are responsible for the accuracy and legality of their listings. Prohibited or misleading listings may be removed.'),
     ('Recycling and rewards', 'Points are valid only inside the platform and cannot be converted to cash. Points may be cancelled if abuse is detected.'),
@@ -34,7 +34,7 @@ const _en = {
     ('How we use it', 'To manage your account, show nearby points, calculate transactions and rewards, and improve the service.'),
     ('Location', 'Location is used only to show nearby points; the app keeps working if you decline.'),
     ('Sharing and retention', 'We do not sell your data to third parties except where legally required. When your account is deleted your data is removed within a reasonable time.'),
-    ('Your rights', 'You may access, correct or request deletion of your data. Contact: destek@restart.co'),
+    ('Your rights', 'You may access, correct or request deletion of your data. Contact: destek@teknolup.com'),
   ]),
 };
 

@@ -1325,7 +1325,7 @@ abstract class AppLocalizations {
   /// No description provided for @brandName.
   ///
   /// In en, this message translates to:
-  /// **'ReStart'**
+  /// **'TeknoLup'**
   String get brandName;
 
   /// No description provided for @navHomeLabel.
@@ -1583,7 +1583,7 @@ abstract class AppLocalizations {
   /// No description provided for @regSub.
   ///
   /// In en, this message translates to:
-  /// **'Join the ReStart community.'**
+  /// **'Join the TeknoLup community.'**
   String get regSub;
 
   /// No description provided for @regName.
@@ -1913,7 +1913,7 @@ abstract class AppLocalizations {
   /// No description provided for @marketSafeBody.
   ///
   /// In en, this message translates to:
-  /// **'Every sale made through ReStart is covered by 100% buyer protection. Your payment is released once the item reaches the buyer.'**
+  /// **'Every sale made through TeknoLup is covered by 100% buyer protection. Your payment is released once the item reaches the buyer.'**
   String get marketSafeBody;
 
   /// No description provided for @marketMore.

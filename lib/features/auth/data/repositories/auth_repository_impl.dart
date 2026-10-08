@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/core/network/api_service.dart';
-import 'package:mobile_flutter/core/network/i_api_service.dart';
-import 'package:mobile_flutter/features/auth/data/models/auth_user.dart';
-import 'package:mobile_flutter/features/auth/domain/repositories/auth_repository.dart';
+import 'package:teknolup/core/network/api_service.dart';
+import 'package:teknolup/core/network/i_api_service.dart';
+import 'package:teknolup/features/auth/data/models/auth_user.dart';
+import 'package:teknolup/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final IApiService _api;

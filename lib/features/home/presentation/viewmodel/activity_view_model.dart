@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
-import 'package:mobile_flutter/features/home/data/models/activity.dart';
-import 'package:mobile_flutter/features/home/data/repositories/home_repository_impl.dart';
+import 'package:teknolup/features/auth/presentation/viewmodel/auth_view_model.dart';
+import 'package:teknolup/features/home/data/models/activity.dart';
+import 'package:teknolup/features/home/data/repositories/home_repository_impl.dart';
 
 class ActivityViewModel extends AutoDisposeAsyncNotifier<List<Activity>> {
   @override

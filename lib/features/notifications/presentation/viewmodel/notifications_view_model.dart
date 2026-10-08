@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
-import 'package:mobile_flutter/features/notifications/data/models/app_notification.dart';
-import 'package:mobile_flutter/features/notifications/data/repositories/notifications_repository_impl.dart';
+import 'package:teknolup/features/auth/presentation/viewmodel/auth_view_model.dart';
+import 'package:teknolup/features/notifications/data/models/app_notification.dart';
+import 'package:teknolup/features/notifications/data/repositories/notifications_repository_impl.dart';
 
 class NotificationsViewModel
     extends AutoDisposeAsyncNotifier<List<AppNotification>> {

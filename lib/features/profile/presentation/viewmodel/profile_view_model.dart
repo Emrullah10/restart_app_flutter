@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
-import 'package:mobile_flutter/features/profile/data/models/user_profile.dart';
-import 'package:mobile_flutter/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:teknolup/features/auth/presentation/viewmodel/auth_view_model.dart';
+import 'package:teknolup/features/profile/data/models/user_profile.dart';
+import 'package:teknolup/features/profile/data/repositories/profile_repository_impl.dart';
 
 class ProfileViewModel extends AutoDisposeAsyncNotifier<UserProfile?> {
   @override

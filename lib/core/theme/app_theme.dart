@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_flutter/core/theme/app_tokens.dart';
-import 'package:mobile_flutter/core/theme/app_typography.dart';
+import 'package:teknolup/core/theme/app_tokens.dart';
+import 'package:teknolup/core/theme/app_typography.dart';
 
 class AppTheme {
   static ThemeData get lightTheme => _build(AppTokens.light, Brightness.light);

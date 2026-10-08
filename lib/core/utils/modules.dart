@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mobile_flutter/core/theme/app_colors.dart';
-import 'package:mobile_flutter/core/theme/app_tokens.dart';
+import 'package:teknolup/core/theme/app_colors.dart';
+import 'package:teknolup/core/theme/app_tokens.dart';
 
 /// Module identity (icon + colour) shared by activities, services and map pins.
 class ModuleStyle {

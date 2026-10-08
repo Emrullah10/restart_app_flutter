@@ -1,4 +1,4 @@
-import 'package:mobile_flutter/features/rewards/data/models/reward.dart';
+import 'package:teknolup/features/rewards/data/models/reward.dart';
 
 abstract interface class RewardsRepository {
   Future<List<Reward>> getRewards();

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/core/network/api_service.dart';
-import 'package:mobile_flutter/core/utils/geo.dart';
+import 'package:teknolup/core/network/api_service.dart';
+import 'package:teknolup/core/utils/geo.dart';
 
 class CourierOption {
   final String name;

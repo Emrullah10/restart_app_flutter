@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Mobile Flutter</string>
+	<string>TeknoLup</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>mobile_flutter</string>
+	<string>teknolup</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -67,6 +67,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>ReStart, size en yakın tamir, geri dönüşüm ve satış noktalarını gösterebilmek için konumunuzu kullanır.</string>
+	<string>TeknoLup, size en yakın tamir, geri dönüşüm ve satış noktalarını gösterebilmek için konumunuzu kullanır.</string>
 </dict>
 </plist>

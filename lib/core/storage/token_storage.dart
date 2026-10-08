@@ -11,7 +11,7 @@ abstract class ITokenStorage {
 
 /// Backed by the Android Keystore / iOS Keychain via flutter_secure_storage.
 class SecureTokenStorage implements ITokenStorage {
-  static const _key = 'restart_access_token';
+  static const _key = 'teknolup_access_token';
   final FlutterSecureStorage _storage;
 
   SecureTokenStorage({FlutterSecureStorage? storage})

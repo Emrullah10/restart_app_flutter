@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_flutter/shared/design_system/rs_bars.dart';
+import 'package:teknolup/shared/design_system/rs_bars.dart';
 
 /// Persistent shell: tab order is Map | Recycle | Home | Sell | Rewards (branch indices 0..4).
 class NavBar extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:mobile_flutter/features/auth/data/models/auth_user.dart';
+import 'package:teknolup/features/auth/data/models/auth_user.dart';
 
 abstract interface class AuthRepository {
   Future<AuthUser> login(String email, String password);

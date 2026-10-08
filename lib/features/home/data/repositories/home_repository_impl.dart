@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/core/network/api_service.dart';
-import 'package:mobile_flutter/core/network/i_api_service.dart';
-import 'package:mobile_flutter/features/home/data/models/activity.dart';
-import 'package:mobile_flutter/features/home/data/models/nearby_service.dart';
-import 'package:mobile_flutter/features/home/domain/repositories/home_repository.dart';
+import 'package:teknolup/core/network/api_service.dart';
+import 'package:teknolup/core/network/i_api_service.dart';
+import 'package:teknolup/features/home/data/models/activity.dart';
+import 'package:teknolup/features/home/data/models/nearby_service.dart';
+import 'package:teknolup/features/home/domain/repositories/home_repository.dart';
 
 double _parseDouble(dynamic value) {
   if (value == null) return 0.0;

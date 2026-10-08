@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
-import 'package:mobile_flutter/features/profile/data/models/leaderboard.dart';
-import 'package:mobile_flutter/features/profile/data/models/user_badge.dart';
-import 'package:mobile_flutter/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:teknolup/features/auth/presentation/viewmodel/auth_view_model.dart';
+import 'package:teknolup/features/profile/data/models/leaderboard.dart';
+import 'package:teknolup/features/profile/data/models/user_badge.dart';
+import 'package:teknolup/features/profile/data/repositories/profile_repository_impl.dart';
 
 class BadgesViewModel extends AutoDisposeAsyncNotifier<List<UserBadge>> {
   @override

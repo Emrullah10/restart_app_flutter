@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mobile_flutter/core/theme/app_spacing.dart';
-import 'package:mobile_flutter/core/theme/app_typography.dart';
-import 'package:mobile_flutter/features/contact/presentation/viewmodel/contact_view_model.dart';
-import 'package:mobile_flutter/shared/design_system/rs_bars.dart';
-import 'package:mobile_flutter/shared/design_system/rs_core.dart';
-import 'package:mobile_flutter/shared/design_system/rs_parts.dart';
-import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
+import 'package:teknolup/core/theme/app_spacing.dart';
+import 'package:teknolup/core/theme/app_typography.dart';
+import 'package:teknolup/features/contact/presentation/viewmodel/contact_view_model.dart';
+import 'package:teknolup/shared/design_system/rs_bars.dart';
+import 'package:teknolup/shared/design_system/rs_core.dart';
+import 'package:teknolup/shared/design_system/rs_parts.dart';
+import 'package:teknolup/shared/extensions/context_extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-const _supportEmail = 'destek@restart.co';
+const _supportEmail = 'destek@teknolup.com';
 const _supportPhone = '0850 000 00 00';
 
 class ContactScreen extends ConsumerStatefulWidget {

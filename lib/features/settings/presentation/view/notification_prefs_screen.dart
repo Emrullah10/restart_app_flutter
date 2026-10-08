@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:mobile_flutter/core/network/api_service.dart';
-import 'package:mobile_flutter/core/theme/app_typography.dart';
-import 'package:mobile_flutter/features/notifications/presentation/viewmodel/notifications_view_model.dart';
-import 'package:mobile_flutter/shared/design_system/rs_bars.dart';
-import 'package:mobile_flutter/shared/design_system/rs_core.dart';
-import 'package:mobile_flutter/shared/design_system/rs_parts.dart';
-import 'package:mobile_flutter/shared/extensions/context_extensions.dart';
+import 'package:teknolup/core/network/api_service.dart';
+import 'package:teknolup/core/theme/app_typography.dart';
+import 'package:teknolup/features/notifications/presentation/viewmodel/notifications_view_model.dart';
+import 'package:teknolup/shared/design_system/rs_bars.dart';
+import 'package:teknolup/shared/design_system/rs_core.dart';
+import 'package:teknolup/shared/design_system/rs_parts.dart';
+import 'package:teknolup/shared/extensions/context_extensions.dart';
 
 class NotificationPrefsNotifier extends AutoDisposeAsyncNotifier<Map<String, bool>> {
   @override

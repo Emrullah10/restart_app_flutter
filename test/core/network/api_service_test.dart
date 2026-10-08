@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_flutter/core/network/api_service.dart';
-import 'package:mobile_flutter/core/storage/token_storage.dart';
+import 'package:teknolup/core/network/api_service.dart';
+import 'package:teknolup/core/storage/token_storage.dart';
 
 import 'fake_http_client_adapter.dart';
 

@@ -1,21 +1,21 @@
 // Visual preview harness: runs the real app against a fake API and lets a script switch
 // route / theme / language through a command file (used to capture screenshots).
-//   flutter run -d <sim> -t tool/preview_main.dart --dart-define=CMD=/tmp/restart_preview.cmd
+//   flutter run -d <sim> -t tool/preview_main.dart --dart-define=CMD=/tmp/teknolup_preview.cmd
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_flutter/app/app.dart';
-import 'package:mobile_flutter/app/router/app_router.dart';
-import 'package:mobile_flutter/core/localization/localization_provider.dart';
+import 'package:teknolup/app/app.dart';
+import 'package:teknolup/app/router/app_router.dart';
+import 'package:teknolup/core/localization/localization_provider.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:mobile_flutter/core/network/api_service.dart';
-import 'package:mobile_flutter/core/utils/geo.dart';
-import 'package:mobile_flutter/core/network/i_api_service.dart';
-import 'package:mobile_flutter/core/theme/theme_provider.dart';
-import 'package:mobile_flutter/features/auth/presentation/viewmodel/auth_view_model.dart';
+import 'package:teknolup/core/network/api_service.dart';
+import 'package:teknolup/core/utils/geo.dart';
+import 'package:teknolup/core/network/i_api_service.dart';
+import 'package:teknolup/core/theme/theme_provider.dart';
+import 'package:teknolup/features/auth/presentation/viewmodel/auth_view_model.dart';
 
-const _cmdPath = String.fromEnvironment('CMD', defaultValue: '/tmp/restart_preview.cmd');
+const _cmdPath = String.fromEnvironment('CMD', defaultValue: '/tmp/teknolup_preview.cmd');
 
 String _ago(Duration d) => DateTime.now().subtract(d).toUtc().toIso8601String();
 
